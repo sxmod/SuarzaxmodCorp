@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sección Electricidad - Suarzaxmod Corporation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM0EsmgP5Tn4eT3r5yG9D+G1F5W1k+3j0l8Ff" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #ff456f;
+            margin: 0;
+            padding: 20px;
+        }
+        .big-banner {
+            width: 100%;
+            height: 200px;
+            background: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjguqgHtRCzHj-227IPIZorftpybavFzRQXkXHaEW5i7NOAwME7HuLbgpi5gTzK6H1gZTILb1vzjLMu5iWawckV6J8PGCy4f56eHJdM6-tkV5b-bvh7llSNbIMGkiLgd11hFcoXH6E-F5nLdAiGmLWSwXi96Y4jSWuN1tevWvciE4IZmhs8LkLX7wwISkc/s400/MP4_20240901_012253VLOG.gif') no-repeat center center;
+            background-size: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .banner-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .banner {
+            background: #1a1a1a;
+            border: 1px solid #f333;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-align: center;
+            padding: 10px;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+        }
+        .banner:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 20px rgba(255, 55, 255, 0.2);
+        }
+        .banner-title {
+            font-size: 16px;
+            margin: 0 0 5px;
+        }
+        .footer-text {
+            margin-top: 5px;
+            font-size: 10px;
+            color: #ff43bb;
+        }
+        .share-icon {
+            cursor: pointer;
+            margin-left: 5px;
+            color: #e4e0e0;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        .share-icon:hover {
+            color: #28a745;
+        }
+        .copyright {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #bbb;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function shareBook(title, description) {
+            const shareData = {
+                title: title,
+                text: description,
+                url: document.URL
+            };
+            navigator.share(shareData)
+                .then(() => console.log('Contenido compartido exitosamente'))
+                .catch((error) => console.error('Error al compartir:', error));
+        }
+    </script>
+</head>
+<body>
+
+<h1>Sección Electricidad</h1>
+
+<div class="big-banner"></div>
+
+<div class="banner-container">
+
+    <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/electricidad/conceptos.html" class="banner" style="background-image: url('https://i30.servimg.com/u/f30/20/30/93/75/3a2ef510.jpg');">
+        <h3 class="banner-title">Conceptos Básicos</h3>
+        <p class="footer-text">Derechos reservados Dairo Suárez ©™</p>
+        <i class="fas fa-share-alt share-icon" onclick="shareBook('Conceptos Básicos', 'Encuentra conceptos básicos en nuestra sección de electricidad.')"></i>
+    </a>
+
+    <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/electricidad/Conceptos_basicos_electricos.htm" class="banner" style="background-image: url('https://i30.servimg.com/u/f30/20/30/93/75/set-of10.jpg');">
+        <h3 class="banner-title">Leyes Básicas</h3>
+        <p class="footer-text">Derechos reservados Dairo Suárez ©™</p>
+        <i class="fas fa-share-alt share-icon" onclick="shareBook('Leyes Básicas', 'Encuentra leyes básicas en nuestra sección de electricidad.')"></i>
+    </a>
+
+    <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/electricidad/luminarias_y_tecnologias.html" class="banner" style="background-image: url('https://i30.servimg.com/u/f30/20/30/93/75/10263610.jpg');">
+        <h3 class="banner-title">Tipos de Encendido</h3>
+        <p class="footer-text">Derechos reservados Dairo Suárez ©™</p>
+        <i class="fas fa-share-alt share-icon" onclick="shareBook('Tipos de Encendido', 'Encuentra tipos de encendido en nuestra sección de electricidad.')"></i>
+    </a>
+
+    <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/electricidad/tipo_tomas.html" class="banner" style="background-image: url('https://i30.servimg.com/u/f30/20/30/93/75/simbol10.jpg');">
+        <h3 class="banner-title">Tipos de Toma</h3>
+        <p class="footer-text">Derechos reservados Dairo Suárez ©™</p>
+        <i class="fas fa-share-alt share-icon" onclick="shareBook('Tipos de Toma', 'Encuentra tipos de toma en nuestra sección de electricidad.')"></i>
+    </a>
+
+    <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/electricidad/tipos_cables.html" class="banner" style="background-image: url('https://i30.servimg.com/u/f30/20/30/93/75/images11.png');">
+        <h3 class="banner-title">Tipos de Cable</h3>
+        <p class="footer-text">Derechos reservados Dairo Suárez ©™</p>
+        <i class="fas fa-share-alt share-icon" onclick="shareBook('Tipos de Cable', 'Encuentra tipos de cable en nuestra sección de electricidad.')"></i>
+    </a>
+
+    <a href="URL_DE_REDIRECCION_6" class="banner" style="background-image: url('https://i30.servimg.com/u/f30/20/30/93/75/23133210.jpg');">
+        <h3 class="banner-title">Tipos de Seguridad</h3>
+        <p class="footer-text">Derechos reservados Dairo Suárez ©™</p>
+        <i class="fas fa-share-alt share-icon" onclick="shareBook('Tipos de Seguridad', 'Encuentra tipos de seguridad en nuestra sección de electricidad.')"></i>
+    </a>
+
+    <a href="URL_DE_REDIRECCION_7" class="banner" style="background-image: url('https://i30.servimg.com/u/f30/20/30/93/75/8c0cf310.gif');">
+        <h3 class="banner-title">Simuladores Básicos y Avanzados</h3>
+        <p class="footer-text">Derechos reservados Dairo Suárez ©™</p>
+        <i class="fas fa-share-alt share-icon" onclick="shareBook('Simuladores', 'Encuentra simuladores en nuestra sección de electricidad.')"></i>
+    </a>
+
+    <a href="URL_DE_REDIRECCION_8" class="banner" style="background-image: url('https://i30.servimg.com/u/f30/20/30/93/75/27220010.png');">
+        <h3 class="banner-title">Otras Obras</h3>
+        <p class="footer-text">Derechos reservados Dairo Suárez ©™</p>
+        <i class="fas fa-share-alt share-icon" onclick="shareBook('Otras Obras', 'Encuentra otras obras en nuestra sección de electricidad.')"></i>
+    </a>
+
+</div>
+
+<div class="copyright">
+    Todas las aplicaciones premium y funciones aquí proporcionadas están sujetas a derechos de autor y no estamos devaluando a sus creadores principales. Recuerda que siempre puedes ir a agradecer a su creador principal.
+</div>
+
+</body>
+</html>

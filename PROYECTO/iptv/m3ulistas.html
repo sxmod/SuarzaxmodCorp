@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro Suarzaxmod Corporation</title>
+    <style>
+        :root {
+            --color-primary: #009987;
+            --color-secondary: #28a745;
+            --color-dark: #000;
+            --color-light: #fff;
+            --color-accent: #ff9800;
+            --color-danger: #dc3545;
+            --color-warning: #ffc107;
+            --color-info: #17a2b8;
+            
+            /* Colores para roles */
+            --color-colaborador: #ff7f00; /* Naranja brillante */
+            --color-miembro-vip: #ffd700; /* Dorado más intenso */
+            --color-moderador: #ff69b4; /* Rosado */
+            --color-super-moderador: #9c27b0; /* Morado */
+            --color-admin: #ff0000; /* Rojo intenso */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 5px;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--color-primary);
+            font-size: 32px;
+        }
+        
+        /* Foro y publicaciones */
+        .forum-section {
+            background-color: #111;
+            border-radius: 0px;
+            padding: 0px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--color-primary);
+        }
+        
+        .post-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .post {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            will-change: transform, box-shadow;
+        }
+        
+        .post:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--color-light);
+            flex-shrink: 0;
+            text-align: center;
+            line-height: 1.2;
+            padding: 5px;
+        }
+        
+        .post-content {
+            flex-grow: 1;
+        }
+        
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .post-author {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .post-date {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .post-text {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        /* Estilos para los diferentes roles de usuario con efectos animados */
+        .user-name {
+            font-weight: bold;
+            margin-bottom: 2px;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .user-role {
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        /* Colaborador - Efecto de fuego y lava optimizado */
+        .role-colaborador .user-name {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 127, 0, 0.8);
+            position: relative;
+            padding: 0 5px;
+            background: linear-gradient(90deg, #ff8a00, #ff5e00, #ff8a00);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fire-text 3s ease infinite;
+            will-change: background-position;
+        }
+        
+        .role-colaborador .user-name::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 127, 0, 0.5) 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0.7;
+            animation: fire-glow 3s ease infinite alternate;
+            will-change: opacity, transform;
+        }
+        
+        @keyframes fire-text {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes fire-glow {
+            0% { opacity: 0.5; transform: scale(0.95); }
+            100% { opacity: 0.7; transform: scale(1.05); }
+        }
+        
+        .role-colaborador .user-role {
+            background: linear-gradient(45deg, #ff8a00, #ff5e00);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 127, 0, 0.8);
+        }
+        
+        /* Miembro VIP - Efecto dorado premium optimizado */
+        .role-miembro-vip .user-name {
+            color: #fff;
+            position: relative;
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            animation: gold-shine 3s linear infinite;
+            will-change: background-position;
+        }
+        
+        .role-miembro-vip .user-name::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0;
+            animation: gold-glow 4s ease infinite;
+            will-change: opacity, transform;
+        }
+        
+        .role-miembro-vip .user-name::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right, 
+                rgba(255, 255, 255, 0) 0%, 
+                rgba(255, 255, 255, 0.8) 50%, 
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: skewX(-25deg);
+            animation: gold-sweep 3s ease-in-out infinite;
+            will-change: transform;
+        }
+        
+        @keyframes gold-shine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        
+        @keyframes gold-glow {
+            0%, 100% { opacity: 0; transform: scale(0.9); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        
+        @keyframes gold-sweep {
+            0% { transform: translateX(-100%) skewX(-25deg); }
+            100% { transform: translateX(200%) skewX(-25deg); }
+        }
+        
+        .role-miembro-vip .user-role {
+            background: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728);
+            color: #000;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+        
+        /* Moderador - Efecto de neón rosa eléctrico optimizado */
+        .role-moderador .user-name {
+            color: #fff;
+            position: relative;
+            text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4;
+            animation: neon-pulse 1.5s ease-in-out infinite alternate;
+            will-change: text-shadow;
+            z-index: 1;
+        }
+        
+        .role-moderador .user-name::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(255, 105, 180, 0) 0%, 
+                rgba(255, 105, 180, 0.5) 50%, 
+                rgba(255, 105, 180, 0) 100%);
+            z-index: -1;
+            animation: neon-sweep 3s linear infinite;
+            will-change: transform;
+        }
+        
+        @keyframes neon-pulse {
+            0% { text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4; }
+            100% { text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff69b4; }
+        }
+        
+        @keyframes neon-sweep {
+            0% { transform: translateX(-100%) skewX(-15deg); }
+            100% { transform: translateX(100%) skewX(-15deg); }
+        }
+        
+        .role-moderador .user-role {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: #fff;
+            box-shadow: 0 0 5px #ff69b4;
+        }
+        
+        /* Super Moderador - Efecto de energía eléctrica optimizado */
+        .role-super-moderador .user-name {
+            color: #fff;
+            font-weight: bold;
+            position: relative;
+            text-shadow: 0 0 5px #9c27b0;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .role-super-moderador .user-name::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(156, 39, 176, 0.8) 20%, 
+                rgba(156, 39, 176, 0.2) 30%,
+                transparent 40%,
+                transparent 60%,
+                rgba(156, 39, 176, 0.2) 70%,
+                rgba(156, 39, 176, 0.8) 80%,
+                transparent 100%);
+            background-size: 200% 100%;
+            z-index: -1;
+            animation: electric-flow 2s linear infinite;
+            will-change: background-position;
+        }
+        
+        @keyframes electric-flow {
+            0% { background-position: 0% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .role-super-moderador .user-role {
+            background: linear-gradient(45deg, #9c27b0, #d500f9);
+            color: #fff;
+            border: 1px solid #fff;
+            box-shadow: 0 0 5px #9c27b0;
+        }
+        
+        /* Administrador - Efecto de fuego cósmico optimizado */
+        .role-admin .user-name {
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+            padding: 0 5px;
+            overflow: hidden;
+            background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #0000ff, #ff00ff, #ff0000);
+            background-size: 400% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: cosmic-rainbow 6s linear infinite;
+            will-change: background-position;
+        }
+        
+        .role-admin .user-name::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            right: -100%;
+            bottom: -100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.5) 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0.7;
+            animation: cosmic-glow 5s ease infinite alternate;
+            will-change: opacity, transform;
+        }
+        
+        @keyframes cosmic-rainbow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
+        }
+        
+        @keyframes cosmic-glow {
+            0% { opacity: 0.5; transform: scale(0.95); }
+            100% { opacity: 0.7; transform: scale(1.05); }
+        }
+        
+        .role-admin .user-role {
+            background: linear-gradient(45deg, #ff0000, #ff00ff);
+            color: #fff;
+            border: 1px solid #fff;
+            box-shadow: 0 0 5px #ff0000;
+        }
+        
+        /* Modal - Optimizado para rendimiento */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            will-change: opacity;
+        }
+        
+        .modal.show {
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: #111;
+            margin: 0 auto;
+            padding: 0;
+            border: 1px solid var(--color-primary);
+            width: 100%;
+            max-width: 1200px;
+            border-radius: 0;
+            max-height: 100vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(-30px);
+            transition: transform 0.2s ease;
+            will-change: transform;
+        }
+        
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #0a0a0a;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .modal-title {
+            color: var(--color-primary);
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .close {
+            color: var(--color-primary);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            z-index: 20;
+        }
+        
+        .close:hover {
+            color: var(--color-light);
+        }
+        
+        /* Banner de perfil */
+        .profile-banner {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #073086, #0d47a1, #1565c0);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+        }
+        
+        /* Miembro info en modales */
+        .member-info {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            backdrop-filter: blur(5px);
+        }
+        
+        .member-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+            color: var(--color-light);
+            border: 2px solid var(--color-light);
+        }
+        
+        /* Contenido del modal */
+        .modal-body {
+            padding: 15px;
+            margin-top: 0;
+        }
+        
+        /* Publicaciones en modales */
+        .modal-posts {
+            margin-top: 0;
+        }
+        
+        .modal-post {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: transform 0.2s ease;
+            will-change: transform;
+        }
+        
+        .modal-post:hover {
+            transform: translateY(-3px);
+        }
+        
+        .modal-post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .modal-post-title {
+            font-weight: bold;
+            color: var(--color-light);
+            font-size: 16px;
+        }
+        
+        .modal-post-date {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .modal-post-content {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .modal-post-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .coming-soon {
+            text-align: center;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #ccc;
+        }
+        
+        /* Categorías en el perfil */
+        .profile-categories {
+            margin-top: 15px;
+        }
+        
+        .profile-category {
+            margin-bottom: 15px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            will-change: transform;
+        }
+        
+        .profile-category:hover {
+            transform: translateY(-3px);
+        }
+        
+        .profile-category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .profile-category-title {
+            font-size: 18px;
+            color: var(--color-primary);
+            margin-bottom: 0;
+        }
+        
+        .profile-category-content {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+        
+        .profile-category.active .profile-category-content {
+            display: block;
+            animation: fadeDown 0.3s ease;
+        }
+        
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .toggle-btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .toggle-btn:hover {
+            background-color: #007c6d;
+        }
+        
+        .toggle-btn::after {
+            content: "▼";
+            margin-left: 5px;
+            font-size: 10px;
+        }
+        
+        .profile-category.active .toggle-btn::after {
+            content: "▲";
+        }
+        
+        /* Miniaturas de categorías */
+        .category-thumbnail {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+            will-change: transform;
+        }
+        
+        .category-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .category-item {
+            background-color: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            will-change: transform;
+        }
+        
+        .category-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-item-title {
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        /* Estilos para las listas M3U */
+        .copy-button {
+            background-color: var(--color-secondary);
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 0.8em;
+            transition: background-color 0.3s ease;
+        }
+        
+        .copy-button:hover {
+            background-color: #218838;
+        }
+        
+        .m3u-list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .m3u-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #07308654;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .m3u-item:hover {
+            background-color: #073086a1;
+        }
+        
+        .m3u-link {
+            word-break: break-all;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+        
+        /* Estilos para las cuentas IPTV */
+        .iptv-account {
+            background-color: #07308654;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .iptv-account h3 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: var(--color-secondary);
+        }
+        
+        .iptv-account p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        
+        /* Admin Panel Modal */
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .admin-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--color-light);
+        }
+        
+        .admin-form select {
+            width: 100%;
+            padding: 8px;
+            background-color: #333;
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: #fff;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #111;
+            padding: 20px 0;
+            border-top: 2px solid var(--color-primary);
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .footer-copyright {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .modal-content {
+                width: 100%;
+                margin: 0;
+                border-radius: 0;
+                height: 100%;
+            }
+            
+            .profile-banner {
+                height: 100px;
+            }
+            
+            .member-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .post {
+                flex-direction: column;
+            }
+            
+            .post-avatar {
+                align-self: flex-start;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .profile-banner {
+                height: 100px;
+            }
+            
+            .member-info {
+                padding: 10px;
+            }
+            
+            .modal-title {
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .profile-banner {
+                height: 80px;
+            }
+            
+            .member-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+            
+            .modal-post {
+                padding: 10px;
+            }
+            
+            .profile-category {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">Foro y Listas M3U</h1>
+            
+            <!-- Sección de foro con ejemplos de roles -->
+            <section class="forum-section">
+                <h2 class="section-title">Perfiles de Usuarios</h2>
+                
+                <div class="post-list">
+                    <!-- Colaborador -->
+                    <div class="post" onclick="openModal('jorgecrack-modal')">
+                        <div class="post-avatar">Cuentas</div>
+                        <div class="post-content">
+                            <div class="post-header">
+                                <div class="post-author role-colaborador">
+                                    <span class="user-name">Jorgecrack</span>
+                                    <span class="user-role">Colaborador</span>
+                                </div>
+                                <span class="post-date">10/04/2025 10:30</span>
+                            </div>
+                            <div class="post-text">Este es un ejemplo de cómo se ve un usuario con rol de Colaborador. Este rol tiene un efecto de fuego y lava en el nombre.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Miembro VIP -->
+                    <div class="post" onclick="openModal('suarzaxmod-modal')">
+                        <div class="post-avatar">Vip</div>
+                        <div class="post-content">
+                            <div class="post-header">
+                                <div class="post-author role-miembro-vip">
+                                    <span class="user-name">Suarzaxmod</span>
+                                    <span class="user-role">Miembro VIP</span>
+                                </div>
+                                <span class="post-date">10/04/2025 11:45</span>
+                            </div>
+                            <div class="post-text">Este es un ejemplo de cómo se ve un usuario con rol de Miembro VIP. Este rol tiene un efecto dorado premium en el nombre.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Moderador -->
+                    <div class="post" onclick="openModal('anonimus-modal')">
+                        <div class="post-avatar">IPTV</div>
+                        <div class="post-content">
+                            <div class="post-header">
+                                <div class="post-author role-moderador">
+                                    <span class="user-name">Anonimus</span>
+                                    <span class="user-role">Moderador</span>
+                                </div>
+                                <span class="post-date">10/04/2025 12:15</span>
+                            </div>
+                            <div class="post-text">Este es un ejemplo de cómo se ve un usuario con rol de Moderador. Este rol tiene un efecto de neón rosa eléctrico en el nombre.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Super Moderador -->
+                    <div class="post" onclick="openModal('luffy-modal')">
+                        <div class="post-avatar">Tendencias</div>
+                        <div class="post-content">
+                            <div class="post-header">
+                                <div class="post-author role-super-moderador">
+                                    <span class="user-name">Luffy_Monky</span>
+                                    <span class="user-role">Super Moderador</span>
+                                </div>
+                                <span class="post-date">10/04/2025 14:20</span>
+                            </div>
+                            <div class="post-text">Este es un ejemplo de cómo se ve un usuario con rol de Super Moderador. Este rol tiene un efecto de energía eléctrica en el nombre.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Administrador -->
+                    <div class="post" onclick="openModal('admin-modal')">
+                        <div class="post-avatar">Admins</div>
+                        <div class="post-content">
+                            <div class="post-header">
+                                <div class="post-author role-admin">
+                                    <span class="user-name">Suarzaxmod S.A</span>
+                                    <span class="user-role">Administrador</span>
+                                </div>
+                                <span class="post-date">10/04/2025 15:30</span>
+                            </div>
+                            <div class="post-text">Este es un ejemplo de cómo se ve un usuario con rol de Administrador. Este rol tiene un efecto de fuego cósmico en el nombre.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-copyright">
+                &copy; 2025 Suarzaxmod Corporation. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modales de Usuarios -->
+    
+    <!-- Modal para Jorgecrack (Colaborador) -->
+    <div id="jorgecrack-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Perfil de Jorgecrack</h2>
+                <span class="close" onclick="closeModal('jorgecrack-modal')">×</span>
+            </div>
+            <div class="profile-banner">
+                <div class="member-info">
+                    <div class="member-avatar">J</div>
+                    <div class="post-author role-colaborador">
+                        <span class="user-name">Jorgecrack</span>
+                        <span class="user-role">Colaborador</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-posts">
+                    <div class="modal-post">
+                        <div class="modal-post-header">
+                            <div class="modal-post-title">Ejemplo: Próximas listas M3U</div>
+                            <div class="modal-post-date">10/04/2025</div>
+                        </div>
+                        <div class="modal-post-content">
+                            <p>Este es un ejemplo de publicación. Pronto Jorgecrack compartirá sus propias listas M3U en esta sección.</p>
+                        </div>
+                        <div class="modal-post-footer">
+                            <span>Categoría: Listas M3U</span>
+                            <span>Comentarios: 0</span>
+                        </div>
+                    </div>
+                    <div class="coming-soon">
+                        Más publicaciones de Jorgecrack próximamente...
+                    </div>
+                </div>
+                
+                <div class="profile-categories">
+                    <div class="profile-category">
+                        <div class="profile-category-header" onclick="toggleCategory(this.parentNode)">
+                            <h3 class="profile-category-title">Listas M3U Variadas</h3>
+                            <button class="toggle-btn">Ver más</button>
+                        </div>
+                        <div class="profile-category-content">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/listas10.jpg" alt="Listas M3U Variadas" class="category-thumbnail">
+                            <div class="coming-soon">
+                                Próximamente: Listas M3U compartidas por Jorgecrack
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Suarzaxmod (Miembro VIP) -->
+    <div id="suarzaxmod-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Perfil de Suarzaxmod</h2>
+                <span class="close" onclick="closeModal('suarzaxmod-modal')">×</span>
+            </div>
+            <div class="profile-banner">
+                <div class="member-info">
+                    <div class="member-avatar">S</div>
+                    <div class="post-author role-miembro-vip">
+                        <span class="user-name">Suarzaxmod</span>
+                        <span class="user-role">Miembro VIP</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-posts">
+                    <div class="modal-post">
+                        <div class="modal-post-header">
+                            <div class="modal-post-title">Próximamente: Nuevas listas OTTPlayer</div>
+                            <div class="modal-post-date">10/04/2025</div>
+                        </div>
+                        <div class="modal-post-content">
+                            <p>Estamos trabajando en nuevas listas para OTTPlayer que serán compartidas próximamente. Estas listas tendrán mejor calidad y más canales.</p>
+                        </div>
+                        <div class="modal-post-footer">
+                            <span>Categoría: OTTPlayer</span>
+                            <span>Comentarios: 0</span>
+                        </div>
+                    </div>
+                    <div class="coming-soon">
+                        Más publicaciones de Suarzaxmod próximamente...
+                    </div>
+                </div>
+                
+                <div class="profile-categories">
+                    <div class="profile-category">
+                        <div class="profile-category-header" onclick="toggleCategory(this.parentNode)">
+                            <h3 class="profile-category-title">OTTPlayer</h3>
+                            <button class="toggle-btn">Ver más</button>
+                        </div>
+                        <div class="profile-category-content">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/ottpla10.png" alt="OTTPlayer" class="category-thumbnail">
+                            <div class="iptv-account">
+                                <p><strong>Información de Cuenta:</strong></p>
+                                <p><strong>Usuario:</strong> EXMACHIMA</p>
+                                <p><strong>Contraseña:</strong> VOXPLAYER12</p>
+                                <p><strong>Device Activo:</strong> ✅EXMACHIMA✅</p>
+                                <p>🚫 NO CREAR NUEVOS DEVICES, USAR LOS YA CREADOS 🚫</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Anonimus (Moderador) - Contiene todas las listas M3U -->
+    <div id="anonimus-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Perfil de Anonimus</h2>
+                <span class="close" onclick="closeModal('anonimus-modal')">×</span>
+            </div>
+            <div class="profile-banner">
+                <div class="member-info">
+                    <div class="member-avatar">A</div>
+                    <div class="post-author role-moderador">
+                        <span class="user-name">Anonimus</span>
+                        <span class="user-role">Moderador</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- Publicaciones del usuario -->
+                <div class="modal-posts">
+                    <div class="modal-post">
+                        <div class="modal-post-header">
+                            <div class="modal-post-title">Cuentas IPTV Smarters Actualizadas</div>
+                            <div class="modal-post-date">10/04/2025</div>
+                        </div>
+                        <div class="modal-post-content">
+                            <p>Aquí les comparto las cuentas IPTV Smarters actualizadas. Recuerden no cambiar contraseñas ni crear nuevos dispositivos.</p>
+                        </div>
+                        <div class="modal-post-footer">
+                            <span>Categoría: IPTV</span>
+                            <span>Comentarios: 15</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Categorías de listas M3U -->
+                <div class="profile-categories">
+                    <!-- OTTPlayer -->
+                    <div class="profile-category">
+                        <div class="profile-category-header" onclick="toggleCategory(this.parentNode)">
+                            <h3 class="profile-category-title">OTTPlayer</h3>
+                            <button class="toggle-btn">Ver más</button>
+                        </div>
+                        <div class="profile-category-content">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/ottpla10.png" alt="OTTPlayer" class="category-thumbnail">
+                            <div class="iptv-account">
+                                <p><strong>Información de Cuenta:</strong></p>
+                                <p><strong>Usuario:</strong> EXMACHIMA</p>
+                                <p><strong>Contraseña:</strong> VOXPLAYER12</p>
+                                <p><strong>Device Activo:</strong> ✅EXMACHIMA✅</p>
+                                <p>🚫 NO CREAR NUEVOS DEVICES, USAR LOS YA CREADOS 🚫</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- IPTV Smarters -->
+                    <div class="profile-category">
+                        <div class="profile-category-header" onclick="toggleCategory(this.parentNode)">
+                            <h3 class="profile-category-title">IPTV Smarters</h3>
+                            <button class="toggle-btn">Ver más</button>
+                        </div>
+                        <div class="profile-category-content">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/iptv-s10.jpg" alt="IPTV Smarters" class="category-thumbnail">
+                            <div class="iptv-accounts">
+                                <div class="iptv-account">
+                                    <h3>CUENTA IPTV SMARTERS 1</h3>
+                                    <p><strong>Usuario:</strong> rhappy2024</p>
+                                    <p><strong>Contraseña:</strong> newyear</p>
+                                    <p><strong>URL:</strong> http://streamsy.online:2999</p>
+                                </div>
+                                <div class="iptv-account">
+                                    <h3>CUENTA IPTV SMARTERS 2</h3>
+                                    <p><strong>Usuario:</strong> changeESUS@</p>
+                                    <p><strong>Contraseña:</strong> 7QcXgwrCWfYv</p>
+                                    <p><strong>URL:</strong> http://offshore.lat:8080</p>
+                                </div>
+                                <div class="iptv-account">
+                                    <h3>CUENTA IPTV SMARTERS 3</h3>
+                                    <p><strong>Usuario:</strong> 43bwCE8ZXz</p>
+                                    <p><strong>Contraseña:</strong> s8dMgq7bcV</p>
+                                    <p><strong>URL:</strong> http://gzytv.vip:8880</p>
+                                </div>
+                                <div class="iptv-account">
+                                    <h3>CUENTA IPTV SMARTERS 4</h3>
+                                    <p><strong>Usuario:</strong> ULTRATOMAS3521</p>
+                                    <p><strong>Contraseña:</strong> qMaceyZAAf63</p>
+                                    <p><strong>URL:</strong> http://ultrapremium.cloud:8080</p>
+                                </div>
+                                <div class="iptv-account">
+                                    <h3>CUENTA IPTV SMARTERS 5</h3>
+                                    <p><strong>Usuario:</strong> playgt</p>
+                                    <p><strong>Contraseña:</strong> playgt2023</p>
+                                    <p><strong>URL:</strong> http://iptv.streamhispanatv.net:8080</p>
+                                </div>
+                                <div class="iptv-account">
+                                    <h3>CUENTA IPTV SMARTERS 6</h3>
+                                    <p><strong>Usuario:</strong> esteb5982roj</p>
+                                    <p><strong>Contraseña:</strong> CchZQLdGB3</p>
+                                    <p><strong>URL:</strong> https://castlempire.site</p>
+                                </div>
+                                <div class="iptv-account">
+                                    <h3>CUENTA IPTV SMARTERS 7</h3>
+                                    <p><strong>Usuario:</strong> 2zKxRw</p>
+                                    <p><strong>Contraseña:</strong> 2zKxRw</p>
+                                    <p><strong>URL:</strong> http://fortv.cc:8080</p>
+                                </div>
+                                <div class="iptv-account">
+                                    <h3>CUENTA IPTV SMARTERS 8</h3>
+                                    <p><strong>Usuario:</strong> devil40</p>
+                                    <p><strong>Contraseña:</strong> VkCBMYP78uZn</p>
+                                    <p><strong>URL:</strong> http://tvlatino.club:2082</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Listas M3U Variadas -->
+                    <div class="profile-category">
+                        <div class="profile-category-header" onclick="toggleCategory(this.parentNode)">
+                            <h3 class="profile-category-title">Listas M3U Variadas</h3>
+                            <button class="toggle-btn">Ver más</button>
+                        </div>
+                        <div class="profile-category-content">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/listas10.jpg" alt="Listas M3U Variadas" class="category-thumbnail">
+                            <ul class="m3u-list">
+                                <li class="m3u-item">
+                                    <span class="m3u-link">Lista 1: https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv1.m3u</span>
+                                    <button class="copy-button" onclick="copyToClipboard('https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv1.m3u')">Copiar</button>
+                                </li>
+                                <li class="m3u-item">
+                                    <span class="m3u-link">Lista 2: https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv2.m3u</span>
+                                    <button class="copy-button" onclick="copyToClipboard('https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv2.m3u')">Copiar</button>
+                                </li>
+                                <li class="m3u-item">
+                                    <span class="m3u-link">Lista 3: https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv3.m3u</span>
+                                    <button class="copy-button" onclick="copyToClipboard('https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv3.m3u')">Copiar</button>
+                                </li>
+                                <li class="m3u-item">
+                                    <span class="m3u-link">Lista 4: https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv4.m3u</span>
+                                    <button class="copy-button" onclick="copyToClipboard('https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv4.m3u')">Copiar</button>
+                                </li>
+                                <li class="m3u-item">
+                                    <span class="m3u-link">Lista 5: https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv5.m3u</span>
+                                    <button class="copy-button" onclick="copyToClipboard('https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv5.m3u')">Copiar</button>
+                                </li>
+                                <li class="m3u-item">
+                                    <span class="m3u-link">Lista 6: https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv6.m3u</span>
+                                    <button class="copy-button" onclick="copyToClipboard('https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv6.m3u')">Copiar</button>
+                                </li>
+                                <li class="m3u-item">
+                                    <span class="m3u-link">Lista 7: https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv7.m3u</span>
+                                    <button class="copy-button" onclick="copyToClipboard('https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv7.m3u')">Copiar</button>
+                                </li>
+                                <li class="m3u-item">
+                                    <span class="m3u-link">Lista 8: https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv8.m3u</span>
+                                    <button class="copy-button" onclick="copyToClipboard('https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv8.m3u')">Copiar</button>
+                                </li>
+                                <li class="m3u-item">
+                                    <span class="m3u-link">Lista 9: https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv9.m3u</span>
+                                    <button class="copy-button" onclick="copyToClipboard('https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv9.m3u')">Copiar</button>
+                                </li>
+                                <li class="m3u-item">
+                                    <span class="m3u-link">Lista 10: https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv10.m3u</span>
+                                    <button class="copy-button" onclick="copyToClipboard('https://raw.githubusercontent.com/rb1223/masterapp/main/tvmayo24mftv10.m3u')">Copiar</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Películas M3U -->
+                    <div class="profile-category">
+                        <div class="profile-category-header" onclick="toggleCategory(this.parentNode)">
+                            <h3 class="profile-category-title">Películas M3U</h3>
+                            <button class="toggle-btn">Ver más</button>
+                        </div>
+                        <div class="profile-category-content">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/mejor-10.jpg" alt="Películas M3U" class="category-thumbnail">
+                            <p>Estamos trabajando para agregar lo más pronto posible las cuentas para esta sección grupo de administración Suarzaxmod Corporation App Dairo Suarez™</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Luffy_Monky (Super Moderador) -->
+    <div id="luffy-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Perfil de Luffy_Monky</h2>
+                <span class="close" onclick="closeModal('luffy-modal')">×</span>
+            </div>
+            <div class="profile-banner">
+                <div class="member-info">
+                    <div class="member-avatar">L</div>
+                    <div class="post-author role-super-moderador">
+                        <span class="user-name">Luffy_Monky</span>
+                        <span class="user-role">Super Moderador</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-posts">
+                    <div class="modal-post">
+                        <div class="modal-post-header">
+                            <div class="modal-post-title">Ejemplo: Próximas listas de películas</div>
+                            <div class="modal-post-date">10/04/2025</div>
+                        </div>
+                        <div class="modal-post-content">
+                            <p>Este es un ejemplo de publicación. Pronto Luffy_Monky compartirá listas de películas en esta sección.</p>
+                        </div>
+                        <div class="modal-post-footer">
+                            <span>Categoría: Películas</span>
+                            <span>Comentarios: 0</span>
+                        </div>
+                    </div>
+                    <div class="coming-soon">
+                        Más publicaciones de Luffy_Monky próximamente...
+                    </div>
+                </div>
+                
+                <div class="profile-categories">
+                    <div class="profile-category">
+                        <div class="profile-category-header" onclick="toggleCategory(this.parentNode)">
+                            <h3 class="profile-category-title">Películas M3U</h3>
+                            <button class="toggle-btn">Ver más</button>
+                        </div>
+                        <div class="profile-category-content">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/mejor-10.jpg" alt="Películas M3U" class="category-thumbnail">
+                            <div class="coming-soon">
+                                Próximamente: Listas de películas compartidas por Luffy_Monky
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Suarzaxmod S.A (Administrador) -->
+    <div id="admin-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Perfil de Suarzaxmod S.A</h2>
+                <span class="close" onclick="closeModal('admin-modal')">×</span>
+            </div>
+            <div class="profile-banner">
+                <div class="member-info">
+                    <div class="member-avatar">S</div>
+                    <div class="post-author role-admin">
+                        <span class="user-name">Suarzaxmod S.A</span>
+                        <span class="user-role">Administrador</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-posts">
+                    <div class="modal-post">
+                        <div class="modal-post-header">
+                            <div class="modal-post-title">Bienvenidos al Foro Suarzaxmod</div>
+                            <div class="modal-post-date">10/04/2025</div>
+                        </div>
+                        <div class="modal-post-content">
+                            <p>Bienvenidos a todos al foro oficial de Suarzaxmod Corporation. Aquí podrán encontrar listas M3U, cuentas IPTV y mucho más contenido compartido por nuestros miembros.</p>
+                        </div>
+                        <div class="modal-post-footer">
+                            <span>Categoría: Anuncios</span>
+                            <span>Comentarios: 25</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-categories">
+                    <div class="profile-category">
+                        <div class="profile-category-header" onclick="toggleCategory(this.parentNode)">
+                            <h3 class="profile-category-title">Panel de Administrador</h3>
+                            <button class="toggle-btn">Ver más</button>
+                        </div>
+                        <div class="profile-category-content">
+                            <div id="admin-auth">
+                                <p>Para asignar roles a los usuarios, utiliza el código de administrador: <strong>123459876</strong></p>
+                                <p>Puedes asignar los siguientes roles:</p>
+                                <ul style="list-style-type: disc; margin-left: 20px; margin-top: 10px;">
+                                    <li><strong>Colaborador:</strong> Rol básico con efecto de fuego y lava</li>
+                                    <li><strong>Miembro VIP:</strong> Rol medio con efecto dorado premium</li>
+                                    <li><strong>Moderador:</strong> Rol medio-alto con efecto de neón rosa eléctrico</li>
+                                    <li><strong>Super Moderador:</strong> Rol alto con efecto de energía eléctrica</li>
+                                    <li><strong>Administrador:</strong> Rol máximo con efecto de fuego cósmico</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funciones para modales - Optimizadas para rendimiento
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            
+            // Usar setTimeout para permitir que el DOM se actualice antes de agregar la clase
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+            
+            // Prevenir scroll del body
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('show');
+            
+            // Esperar a que termine la animación antes de ocultar
+            setTimeout(() => {
+                modal.style.display = 'none';
+                // Restaurar scroll del body
+                document.body.style.overflow = '';
+            }, 200);
+        }
+        
+        // Función para copiar al portapapeles
+        function copyToClipboard(text) {
+            // Usar el nuevo API de Clipboard para mejor rendimiento
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert("Enlace copiado al portapapeles: " + text);
+                }, (err) => {
+                    console.error("Error al copiar el enlace:", err);
+                    fallbackCopyToClipboard(text);
+                });
+            } else {
+                fallbackCopyToClipboard(text);
+            }
+        }
+        
+        // Método alternativo para navegadores que no soportan Clipboard API
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert("Enlace copiado al portapapeles: " + text);
+            } catch (err) {
+                console.error("Error al copiar el enlace:", err);
+                alert("Error al copiar el enlace: " + err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        // Función para desplegar categorías - Optimizada
+        function toggleCategory(category) {
+            category.classList.toggle('active');
+            const button = category.querySelector('.toggle-btn');
+            button.textContent = category.classList.contains('active') ? 'Ver menos' : 'Ver más';
+        }
+        
+        // Cerrar modales al hacer clic fuera de ellos - Optimizado
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                const modalId = event.target.id;
+                closeModal(modalId);
+            }
+        });
+        
+        // Precarga de imágenes para mejorar rendimiento
+        document.addEventListener('DOMContentLoaded', function() {
+            // Precarga las imágenes de las categorías
+            const preloadImages = [
+                'https://i30.servimg.com/u/f30/20/30/93/75/listas10.jpg',
+                'https://i30.servimg.com/u/f30/20/30/93/75/ottpla10.png',
+                'https://i30.servimg.com/u/f30/20/30/93/75/iptv-s10.jpg',
+                'https://i30.servimg.com/u/f30/20/30/93/75/mejor-10.jpg'
+            ];
+            
+            preloadImages.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        });
+    </script>
+</body>
+</html>

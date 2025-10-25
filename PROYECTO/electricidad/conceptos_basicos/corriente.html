@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corriente - Conceptos Básicos</title>
+    <style>
+        /* Variables globales */
+        :root {
+            --color-primary: #4caf50;
+            --color-secondary: #2e7d32;
+            --color-accent: #ff9800;
+            --color-text: #333;
+            --color-bg: #f8f9fa;
+            --color-card: #fff;
+            --color-border: #ddd;
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --radius: 0.375rem;
+            --transition: all 0.3s ease;
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Encabezado */
+        .header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1473341304170-971dccb5ac1e');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Contenido */
+        .content {
+            background-color: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 2rem;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            border: 1px solid var(--color-border);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Acordeón */
+        .accordion {
+            margin: 20px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid var(--color-border);
+            margin-bottom: 5px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 15px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background-color: #e0e0e0;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+        }
+
+        .accordion-item.active .accordion-header::after {
+            content: '-';
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 15px;
+            max-height: 1000px;
+        }
+
+        /* Elementos comunes */
+        .info-box {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--color-primary);
+            padding: 15px;
+            margin: 20px 0;
+            transition: var(--transition);
+        }
+
+        .info-box:hover {
+            transform: translateX(5px);
+        }
+
+        .formula {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: 1.25rem;
+            margin: 15px 0;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .flex-col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 250px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid var(--color-border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            color: var(--color-secondary);
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Card */
+        .card {
+            background-color: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+        }
+
+        /* Navegación */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .nav-btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background-color: var(--color-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                margin-bottom: 5px;
+                border-radius: 5px;
+                border: 1px solid var(--color-border);
+            }
+
+            .flex-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>Corriente</h1>
+                <p class="subtitle">Flujo de carga eléctrica y sus características</p>
+            </div>
+        </header>
+
+        <div class="nav-buttons">
+            <a href="voltaje.html" class="nav-btn">← Anterior: Voltaje</a>
+            <a href="potencia.html" class="nav-btn">Siguiente: Potencia →</a>
+        </div>
+
+        <div class="content">
+            <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e" alt="Medición de corriente eléctrica" class="banner-image">
+            
+            <p>La corriente eléctrica es el flujo ordenado de cargas eléctricas (generalmente electrones) a través de un conductor. Es una magnitud física fundamental en electricidad y electrónica, y se mide en amperios (A).</p>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="changeTab('corriente-tab1', this)">Definición</div>
+                <div class="tab" onclick="changeTab('corriente-tab2', this)">Tipos</div>
+                <div class="tab" onclick="changeTab('corriente-tab3', this)">Medición</div>
+                <div class="tab" onclick="changeTab('corriente-tab4', this)">Efectos</div>
+            </div>
+            
+            <div id="corriente-tab1" class="tab-content active">
+                <h3>¿Qué es la Corriente Eléctrica?</h3>
+                
+                <p>La corriente eléctrica es el movimiento ordenado de cargas eléctricas a través de un material conductor. En los metales, estas cargas son electrones libres que se desplazan debido a la acción de un campo eléctrico.</p>
+                
+                <div class="info-box">
+                    <p><strong>Definición formal:</strong> La corriente eléctrica es la tasa de flujo de carga eléctrica que pasa por un punto determinado de un circuito eléctrico por unidad de tiempo.</p>
+                </div>
+                
+                <h4>Analogía Hidráulica</h4>
+                <p>Al igual que con el voltaje, podemos entender la corriente eléctrica mediante una analogía con el flujo de agua:</p>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <img src="/placeholder.svg?height=250&width=400&text=Analogía+Hidráulica+de+Corriente" alt="Analogía hidráulica de la corriente" style="max-width:100%;">
+                    </div>
+                    <div class="flex-col">
+                        <ul>
+                            <li>La corriente eléctrica es como el caudal de agua en una tubería</li>
+                            <li>El voltaje es como la presión que impulsa el agua</li>
+                            <li>La resistencia es como el diámetro de la tubería (restricción al flujo)</li>
+                            <li>Mayor corriente = mayor flujo de electrones = mayor capacidad para realizar trabajo</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h4>Fórmula Básica</h4>
+                <div class="formula">
+                    I = Q / t
+                </div>
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>I</strong>: Corriente (amperios, A)</li>
+                    <li><strong>Q</strong>: Carga eléctrica (culombios, C)</li>
+                    <li><strong>t</strong>: Tiempo (segundos, s)</li>
+                </ul>
+                
+                <p>Un amperio (A) equivale al paso de un culombio de carga por segundo.</p>
+                
+                <h4>Ley de Ohm</h4>
+                <p>La relación entre corriente, voltaje y resistencia viene dada por la Ley de Ohm:</p>
+                
+                <div class="formula">
+                    I = V / R
+                </div>
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>I</strong>: Corriente (amperios, A)</li>
+                    <li><strong>V</strong>: Voltaje (voltios, V)</li>
+                    <li><strong>R</strong>: Resistencia (ohmios, Ω)</li>
+                </ul>
+            </div>
+            
+            <div id="corriente-tab2" class="tab-content">
+                <h3>Tipos de Corriente Eléctrica</h3>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Corriente Continua (DC)</div>
+                        <div class="accordion-content">
+                            <div class="flex-row">
+                                <div class="flex-col">
+                                    <img src="/placeholder.svg?height=200&width=200&text=Corriente+DC" alt="Gráfica de corriente DC" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col">
+                                    <p>La corriente continua (DC) fluye en una sola dirección. Los electrones se mueven constantemente del polo negativo al positivo de la fuente de alimentación.</p>
+                                    
+                                    <h5>Características:</h5>
+                                    <ul>
+                                        <li>Dirección constante del flujo de electrones</li>
+                                        <li>Valor constante o con pequeñas variaciones</li>
+                                        <li>No cambia de polaridad con el tiempo</li>
+                                    </ul>
+                                    
+                                    <h5>Fuentes comunes:</h5>
+                                    <ul>
+                                        <li>Baterías y pilas</li>
+                                        <li>Células solares</li>
+                                        <li>Fuentes de alimentación DC</li>
+                                        <li>Generadores DC</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Corriente Alterna (AC)</div>
+                        <div class="accordion-content">
+                            <div class="flex-row">
+                                <div class="flex-col">
+                                    <img src="/placeholder.svg?height=200&width=200&text=Corriente+AC" alt="Gráfica de corriente AC" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col">
+                                    <p>La corriente alterna (AC) cambia periódicamente su dirección y magnitud con el tiempo, generalmente siguiendo una forma de onda senoidal.</p>
+                                    
+                                    <h5>Características:</h5>
+                                    <ul>
+                                        <li>Dirección y magnitud variables en el tiempo</li>
+                                        <li>Frecuencia medida en hercios (Hz)</li>
+                                        <li>Forma de onda típicamente senoidal</li>
+                                    </ul>
+                                    
+                                    <h5>Parámetros importantes:</h5>
+                                    <ul>
+                                        <li><strong>Valor pico (Ip):</strong> Amplitud máxima</li>
+                                        <li><strong>Valor pico a pico (Ipp):</strong> Diferencia entre el valor máximo positivo y negativo</li>
+                                        <li><strong>Valor eficaz o RMS (Irms):</strong> Equivalente DC que produciría el mismo efecto térmico (Irms = Ip/√2 para onda senoidal)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="table">
+                    <tr>
+                        <th>Característica</th>
+                        <th>Corriente Continua (DC)</th>
+                        <th>Corriente Alterna (AC)</th>
+                    </tr>
+                    <tr>
+                        <td>Dirección del flujo</td>
+                        <td>Unidireccional</td>
+                        <td>Bidireccional (cambia periódicamente)</td>
+                    </tr>
+                    <tr>
+                        <td>Forma de onda</td>
+                        <td>Constante o con pequeñas variaciones</td>
+                        <td>Generalmente senoidal</td>
+                    </tr>
+                    <tr>
+                        <td>Frecuencia</td>
+                        <td>0 Hz (no cambia)</td>
+                        <td>50/60 Hz (doméstica), variable en aplicaciones específicas</td>
+                    </tr>
+                    <tr>
+                        <td>Aplicaciones típicas</td>
+                        <td>Electrónica, dispositivos portátiles, vehículos</td>
+                        <td>Distribución eléctrica, electrodomésticos, industria</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div id="corriente-tab3" class="tab-content">
+                <h3>Medición de la Corriente</h3>
+                
+                <p>La medición de corriente eléctrica es fundamental en electricidad y electrónica para verificar el funcionamiento de circuitos, diagnosticar problemas y garantizar la seguridad.</p>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <h4>Instrumentos de Medición</h4>
+                        <ul>
+                            <li><strong>Amperímetro:</strong> Instrumento específico para medir corriente eléctrica.</li>
+                            <li><strong>Multímetro:</strong> Dispositivo versátil que puede medir corriente, voltaje y resistencia.</li>
+                            <li><strong>Pinza Amperimétrica:</strong> Permite medir corriente sin interrumpir el circuito.</li>
+                            <li><strong>Osciloscopio:</strong> Muestra gráficamente la forma de onda de la corriente usando una resistencia shunt.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="flex-col">
+                        <h4>Procedimiento para Medir Corriente</h4>
+                        <ol>
+                            <li><strong>Seleccionar la función:</strong> Gire el selector del multímetro a la posición de corriente (A).</li>
+                            <li><strong>Seleccionar AC o DC:</strong> Elija el tipo de corriente que va a medir (⎓ para DC, ∼ para AC).</li>
+                            <li><strong>Seleccionar el rango:</strong> Si el multímetro no es autorangos, seleccione un rango superior a la corriente esperada.</li>
+                            <li><strong>Interrumpir el circuito:</strong> Apague la alimentación y abra el circuito en el punto donde desea medir.</li>
+                            <li><strong>Conectar en serie:</strong> Conecte el multímetro en serie con el circuito (la corriente debe pasar a través del multímetro).</li>
+                            <li><strong>Alimentar el circuito:</strong> Encienda la alimentación y lea el valor en la pantalla.</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <p><strong>Importante:</strong> A diferencia del voltaje, la corriente se mide siempre en serie con el circuito. Nunca conecte un amperímetro en paralelo, ya que su baja resistencia interna provocaría un cortocircuito que podría dañar el instrumento y el circuito.</p>
+                </div>
+            </div>
+            
+            <div id="corriente-tab4" class="tab-content">
+                <h3>Efectos de la Corriente Eléctrica</h3>
+                
+                <p>La corriente eléctrica produce diversos efectos físicos que son la base de numerosas aplicaciones tecnológicas. Estos efectos dependen principalmente de la intensidad de la corriente, su tipo (AC/DC) y el medio por el que circula.</p>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Efecto Térmico (Joule)</h4>
+                                <p>Cuando una corriente eléctrica circula por un conductor, parte de la energía cinética de los electrones se transforma en calor debido a los choques con los átomos del material.</p>
+                                <div class="formula">
+                                    P = I² × R
+                                </div>
+                                <h5>Aplicaciones:</h5>
+                                <ul>
+                                    <li>Calefactores eléctricos</li>
+                                    <li>Hornos y cocinas eléctricas</li>
+                                    <li>Soldadores eléctricos</li>
+                                    <li>Fusibles</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Efecto Magnético</h4>
+                                <p>Toda corriente eléctrica genera un campo magnético a su alrededor. La intensidad del campo es proporcional a la corriente.</p>
+                                <div class="formula">
+                                    B ∝ I
+                                </div>
+                                <h5>Aplicaciones:</h5>
+                                <ul>
+                                    <li>Electroimanes</li>
+                                    <li>Motores eléctricos</li>
+                                    <li>Relés y contactores</li>
+                                    <li>Transformadores</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Efecto Fisiológico</div>
+                        <div class="accordion-content">
+                            <p>La corriente eléctrica puede afectar al cuerpo humano de diferentes maneras según su intensidad:</p>
+                            <table class="table">
+                                <tr>
+                                    <th>Intensidad (mA)</th>
+                                    <th>Efecto en el cuerpo humano</th>
+                                </tr>
+                                <tr>
+                                    <td>0-1</td>
+                                    <td>Imperceptible</td>
+                                </tr>
+                                <tr>
+                                    <td>1-5</td>
+                                    <td>Sensación leve, cosquilleo</td>
+                                </tr>
+                                <tr>
+                                    <td>5-10</td>
+                                    <td>Choque doloroso, contracciones musculares</td>
+                                </tr>
+                                <tr>
+                                    <td>10-30</td>
+                                    <td>Contracciones musculares fuertes, dificultad para soltar</td>
+                                </tr>
+                                <tr>
+                                    <td>>50</td>
+                                    <td>Fibrilación ventricular, paro cardíaco, quemaduras</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <p><strong>Seguridad:</strong> La corriente eléctrica puede ser peligrosa. Incluso corrientes relativamente pequeñas pueden ser letales si atraviesan órganos vitales como el corazón. Siempre tome precauciones al trabajar con electricidad y respete las normas de seguridad.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="voltaje.html" class="nav-btn">← Anterior: Voltaje</a>
+            <a href="potencia.html" class="nav-btn">Siguiente: Potencia →</a>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2025 - Conceptos Básicos de Electricidad y Electrónica</p>
+        </footer>
+    </div>
+
+    <script>
+        // Función para cambiar entre pestañas
+        function changeTab(tabId, tabElement) {
+            // Ocultar todos los contenidos de pestañas
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Desactivar todas las pestañas
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activar la pestaña seleccionada y su contenido
+            document.getElementById(tabId).classList.add('active');
+            tabElement.classList.add('active');
+        }
+        
+        // Función para alternar acordeones
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Cerrar todos los acordeones
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(accordionItem => {
+                accordionItem.classList.remove('active');
+            });
+            
+            // Si el acordeón no estaba activo, abrirlo
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Activar el primer acordeón en cada sección
+            const firstAccordions = document.querySelectorAll('.accordion:not(.accordion-item) > .accordion-item:first-child');
+            firstAccordions.forEach(accordion => {
+                accordion.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

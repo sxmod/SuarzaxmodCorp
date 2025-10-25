@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipos de Tomas</title>
+    <style>
+        :root {
+            --primary-color: #3f51b5;
+            --secondary-color: #303f9f;
+            --accent-color: #ff4081;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-color: #fff;
+            --border-color: #ddd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            opacity: 0.3;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background-color: var(--card-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .subcategory {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subcategory:hover {
+            background-color: #e8eaf6;
+            transform: scale(1.02);
+        }
+
+        .subcategory::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .subcategory:hover::after {
+            width: 100%;
+        }
+
+        .subcategory h3 {
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .subcategory p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Banner para subcategorías */
+        .subcategory-banner {
+            width: 100%;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .subcategory:hover .subcategory-banner {
+            transform: scale(1.05);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalopen 0.4s;
+        }
+
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-60px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-body h3 {
+            color: var(--secondary-color);
+            margin: 20px 0 10px;
+            font-size: 1.4rem;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .info-box {
+            background-color: #e8eaf6;
+            padding: 15px;
+            border-left: 4px solid var(--primary-color);
+            margin: 20px 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        .info-box:hover {
+            transform: translateX(5px);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: #f2f2f2;
+            color: var(--secondary-color);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .comparison-table tr:hover {
+            background-color: #e8eaf6;
+        }
+
+        .example {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .example h4 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .diagram {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        /* Elementos interactivos */
+        .tabs {
+            display: flex;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .accordion {
+            margin: 20px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+        }
+
+        .accordion-header {
+            padding: 15px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: #e0e0e0;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+        }
+
+        .accordion-item.active .accordion-header::after {
+            content: '-';
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 15px;
+            max-height: 1000px;
+        }
+
+        /* Calculadora interactiva */
+        .calculator {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator h4 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .calculator-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .calculator-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            grid-column: span 2;
+        }
+
+        .calculator-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .calculator-result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e8eaf6;
+            border-left: 4px solid var(--primary-color);
+            display: none;
+        }
+
+        /* Visualización interactiva */
+        .interactive-visual {
+            width: 100%;
+            height: 300px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .circuit-element {
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .circuit-wire {
+            height: 5px;
+            background-color: #333;
+        }
+
+        .circuit-component {
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            border: 2px solid #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .circuit-ground {
+            width: 60px;
+            height: 30px;
+            background-color: transparent;
+            border-top: 3px solid #333;
+            position: relative;
+        }
+
+        .circuit-ground::before,
+        .circuit-ground::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background-color: #333;
+            left: 10px;
+        }
+
+        .circuit-ground::before {
+            top: 8px;
+        }
+
+        .circuit-ground::after {
+            top: 16px;
+            width: 20px;
+            left: 20px;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pros, .cons {
+            padding: 15px;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .pros:hover, .cons:hover {
+            transform: translateY(-5px);
+        }
+
+        .pros {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+
+        .cons {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+
+        .pros h4, .cons h4 {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+                margin: 20px auto;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-form {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-btn {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31" alt="Banner de sistemas eléctricos" class="header-banner">
+            <div class="header-content">
+                <h1>Tipos de Tomas</h1>
+                <p class="subtitle">Sistemas de puesta a tierra, potencia y protección</p>
+            </div>
+        </header>
+
+        <div class="categories">
+            <div class="category-card">
+                <h2>Sistemas de Seguridad Eléctrica</h2>
+                
+                <div class="subcategory" onclick="openModal('tierra')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1605719126983-1f77d6793696')"></div>
+                    <h3>Tipos de Sistemas de Puesta a Tierra</h3>
+                    <p>Métodos de conexión a tierra y protección contra descargas eléctricas.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('potencia')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475')"></div>
+                    <h3>Sistemas de Ecuaciones de Potencias</h3>
+                    <p>Cálculos y balances de potencia en sistemas eléctricos.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('cortocircuito')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1504890001746-a9a68eda46e2')"></div>
+                    <h3>Cortocircuitos</h3>
+                    <p>Causas, efectos y protecciones contra cortocircuitos en instalaciones.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 - Sistemas Eléctricos y Protecciones</p>
+        </footer>
+    </div>
+
+    <!-- Modales para cada subcategoría -->
+    
+    <!-- Tipos de Sistemas de Puesta a Tierra -->
+    <div id="tierra" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('tierra')">&times;</span>
+            <div class="modal-header">
+                <h2>Tipos de Sistemas de Puesta a Tierra</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1605719126983-1f77d6793696" alt="Sistema de puesta a tierra con electrodos" class="banner-image">
+                
+                <p>Los sistemas de puesta a tierra son fundamentales para la seguridad de las instalaciones eléctricas. Su principal función es proporcionar un camino de baja impedancia para las corrientes de falla, protegiendo así a las personas y equipos contra descargas eléctricas y sobretensiones.</p>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="changeTab('tab1', this)">Conceptos Básicos</div>
+                    <div class="tab" onclick="changeTab('tab2', this)">Tipos de Sistemas</div>
+                    <div class="tab" onclick="changeTab('tab3', this)">Normativas</div>
+                    <div class="tab" onclick="changeTab('tab4', this)">Mediciones</div>
+                </div>
+                
+                <div id="tab1" class="tab-content active">
+                    <h3>Conceptos Fundamentales</h3>
+                    
+                    <p>Un sistema de puesta a tierra consiste en la conexión de equipos eléctricos y electrónicos a tierra, para evitar que un usuario pueda entrar en contacto con una tensión peligrosa si se produce un fallo de aislamiento en los conductores activos.</p>
+                    
+                    <div class="info-box">
+                        <p><strong>Definición:</strong> La puesta a tierra es la conexión eléctrica directa de todas las partes metálicas de una instalación, sin fusibles ni otros sistemas de protección, mediante un conductor de sección adecuada y uno o varios electrodos enterrados en el suelo.</p>
+                    </div>
+                    
+                    <h4>Objetivos de la Puesta a Tierra</h4>
+                    <ul>
+                        <li>Garantizar la seguridad de las personas</li>
+                        <li>Proteger las instalaciones eléctricas</li>
+                        <li>Mejorar la calidad del servicio</li>
+                        <li>Establecer un potencial de referencia</li>
+                        <li>Facilitar la detección de fallos a tierra</li>
+                    </ul>
+                    
+                    <div class="interactive-visual">
+                        <div class="circuit-wire" style="width: 100px; top: 150px; left: 50px;"></div>
+                        <div class="circuit-component" style="top: 125px; left: 150px;">R</div>
+                        <div class="circuit-wire" style="width: 100px; top: 150px; left: 200px;"></div>
+                        <div class="circuit-component" style="top: 125px; left: 300px;">Z</div>
+                        <div class="circuit-wire" style="width: 5px; height: 100px; top: 175px; left: 300px;"></div>
+                        <div class="circuit-ground" style="top: 275px; left: 270px;"></div>
+                    </div>
+                </div>
+                
+                <div id="tab2" class="tab-content">
+                    <h3>Tipos de Sistemas de Puesta a Tierra</h3>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Sistema TT (Tierra-Tierra)</div>
+                            <div class="accordion-content">
+                                <p>En el sistema TT, el neutro del transformador está conectado directamente a tierra, y las masas de la instalación receptora están conectadas a una toma de tierra separada de la toma de tierra de la alimentación.</p>
+                                
+                                <ul>
+                                    <li><strong>Características:</strong> Sencillo, económico, mantenimiento mínimo</li>
+                                    <li><strong>Protección:</strong> Mediante dispositivos diferenciales</li>
+                                    <li><strong>Aplicaciones:</strong> Instalaciones domésticas, pequeños comercios</li>
+                                </ul>
+                                
+                                <img src="/placeholder.svg?height=200&width=400&text=Sistema+TT" alt="Diagrama de sistema TT" class="diagram">
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Sistema TN (Tierra-Neutro)</div>
+                            <div class="accordion-content">
+                                <p>En el sistema TN, el neutro del transformador está conectado directamente a tierra, y las masas de la instalación receptora están conectadas al neutro.</p>
+                                
+                                <h4>Variantes del sistema TN:</h4>
+                                
+                                <ul>
+                                    <li><strong>TN-C:</strong> Conductor neutro y de protección combinados (PEN)</li>
+                                    <li><strong>TN-S:</strong> Conductor neutro y de protección separados (PE y N)</li>
+                                    <li><strong>TN-C-S:</strong> Combinación de ambos sistemas</li>
+                                </ul>
+                                
+                                <p><strong>Aplicaciones:</strong> Instalaciones industriales, grandes edificios</p>
+                                
+                                <img src="/placeholder.svg?height=200&width=400&text=Sistema+TN" alt="Diagrama de sistema TN" class="diagram">
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Sistema IT (Aislado)</div>
+                            <div class="accordion-content">
+                                <p>En el sistema IT, el neutro del transformador está aislado de tierra o conectado a través de una impedancia de alto valor, y las masas de la instalación receptora están conectadas a tierra.</p>
+                                
+                                <ul>
+                                    <li><strong>Características:</strong> Alta continuidad de servicio, primer fallo no provoca corte</li>
+                                    <li><strong>Protección:</strong> Mediante controladores permanentes de aislamiento (CPA)</li>
+                                    <li><strong>Aplicaciones:</strong> Hospitales (quirófanos), industrias con procesos críticos, instalaciones donde la continuidad es prioritaria</li>
+                                </ul>
+                                
+                                <img src="/placeholder.svg?height=200&width=400&text=Sistema+IT" alt="Diagrama de sistema IT" class="diagram">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="tab3" class="tab-content">
+                    <h3>Normativas y Reglamentaciones</h3>
+                    
+                    <p>Los sistemas de puesta a tierra están regulados por diversas normativas internacionales y locales que establecen los requisitos mínimos de seguridad:</p>
+                    
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Normativa</th>
+                            <th>Ámbito</th>
+                            <th>Aspectos Principales</th>
+                        </tr>
+                        <tr>
+                            <td>IEC 60364</td>
+                            <td>Internacional</td>
+                            <td>Instalaciones eléctricas de baja tensión</td>
+                        </tr>
+                        <tr>
+                            <td>IEEE 80</td>
+                            <td>Internacional</td>
+                            <td>Diseño de sistemas de puesta a tierra en subestaciones</td>
+                        </tr>
+                        <tr>
+                            <td>IEEE 142</td>
+                            <td>Internacional</td>
+                            <td>Puesta a tierra de sistemas industriales y comerciales</td>
+                        </tr>
+                        <tr>
+                            <td>REBT (España)</td>
+                            <td>Nacional</td>
+                            <td>Reglamento Electrotécnico para Baja Tensión</td>
+                        </tr>
+                        <tr>
+                            <td>NEC (EE.UU.)</td>
+                            <td>Nacional</td>
+                            <td>National Electrical Code, Artículo 250</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="info-box">
+                        <p><strong>Importante:</strong> Las normativas establecen valores máximos de resistencia de puesta a tierra según el tipo de instalación:</p>
+                        <ul>
+                            <li>Edificios residenciales: ≤ 25 Ω</li>
+                            <li>Edificios con pararrayos: ≤ 10 Ω</li>
+                            <li>Instalaciones sensibles: ≤ 5 Ω</li>
+                            <li>Instalaciones de telecomunicaciones: ≤ 2 Ω</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div id="tab4" class="tab-content">
+                    <h3>Mediciones y Mantenimiento</h3>
+                    
+                    <p>La medición periódica de la resistencia de puesta a tierra es fundamental para garantizar la efectividad del sistema:</p>
+                    
+                    <h4>Métodos de Medición</h4>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Método de Caída de Potencial (3 Puntos)</div>
+                            <div class="accordion-content">
+                                <p>Es el método más común y preciso para medir la resistencia de puesta a tierra.</p>
+                                
+                                <ol>
+                                    <li>Se coloca una pica auxiliar de corriente (C) a una distancia considerable</li>
+                                    <li>Se coloca una pica auxiliar de potencial (P) a diferentes distancias</li>
+                                    <li>Se mide la resistencia y se grafica para encontrar la meseta</li>
+                                </ol>
+                                
+                                <img src="/placeholder.svg?height=200&width=400&text=Método+de+Caída+de+Potencial" alt="Diagrama del método de caída de potencial" class="diagram">
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Método de la Pinza de Tierra</div>
+                            <div class="accordion-content">
+                                <p>Permite medir la resistencia sin desconectar el electrodo ni utilizar picas auxiliares.</p>
+                                
+                                <ul>
+                                    <li><strong>Ventajas:</strong> Rápido, no invasivo</li>
+                                    <li><strong>Limitaciones:</strong> Requiere un circuito cerrado de tierra</li>
+                                    <li><strong>Aplicaciones:</strong> Ideal para sistemas con múltiples tomas de tierra en paralelo</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Calculadora de Resistencia de Puesta a Tierra</h4>
+                    
+                    <div class="calculator">
+                        <h4>Cálculo para Electrodo Vertical</h4>
+                        <div class="calculator-form">
+                            <div class="form-group">
+                                <label for="resistivity">Resistividad del terreno (Ω·m):</label>
+                                <input type="number" id="resistivity" min="1" value="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="length">Longitud del electrodo (m):</label>
+                                <input type="number" id="length" min="0.5" step="0.5" value="2.5">
+                            </div>
+                            <div class="form-group">
+                                <label for="radius">Radio del electrodo (mm):</label>
+                                <input type="number" id="radius" min="5" value="10">
+                            </div>
+                            <button class="calculator-btn" onclick="calculateGroundResistance()">Calcular Resistencia</button>
+                        </div>
+                        <div id="ground-result" class="calculator-result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sistemas de Ecuaciones de Potencias -->
+    <div id="potencia" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('potencia')">&times;</span>
+            <div class="modal-header">
+                <h2>Sistemas de Ecuaciones de Potencias</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475" alt="Sistemas de potencia eléctrica" class="banner-image">
+                
+                <p>Los sistemas de ecuaciones de potencias son fundamentales para el análisis, diseño y operación de sistemas eléctricos. Permiten calcular flujos de potencia, pérdidas, caídas de tensión y otros parámetros esenciales para garantizar un suministro eléctrico eficiente y confiable.</p>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="changeTab('potencia-tab1', this)">Conceptos Básicos</div>
+                    <div class="tab" onclick="changeTab('potencia-tab2', this)">Tipos de Potencia</div>
+                    <div class="tab" onclick="changeTab('potencia-tab3', this)">Flujo de Potencia</div>
+                    <div class="tab" onclick="changeTab('potencia-tab4', this)">Calculadoras</div>
+                </div>
+                
+                <div id="potencia-tab1" class="tab-content active">
+                    <h3>Conceptos Fundamentales de Potencia Eléctrica</h3>
+                    
+                    <p>La potencia eléctrica es la cantidad de energía por unidad de tiempo que se transfiere o consume en un circuito eléctrico. En sistemas de corriente alterna (AC), existen diferentes tipos de potencia que deben considerarse.</p>
+                    
+                    <div class="info-box">
+                        <p><strong>Ecuación fundamental:</strong> En un sistema monofásico, la potencia instantánea se expresa como:</p>
+                        <p style="text-align: center; font-size: 1.2em;">p(t) = v(t) × i(t)</p>
+                        <p>Donde v(t) es la tensión instantánea e i(t) es la corriente instantánea.</p>
+                    </div>
+                    
+                    <h4>Triángulo de Potencias</h4>
+                    
+                    <p>El triángulo de potencias es una representación gráfica de la relación entre los diferentes tipos de potencia en un sistema AC:</p>
+                    
+                    <div class="interactive-visual" id="power-triangle" style="height: 250px;">
+                        <!-- El triángulo de potencias se dibujará con JavaScript -->
+                    </div>
+                    
+                    <ul>
+                        <li><strong>Potencia Activa (P):</strong> Potencia útil que realiza trabajo (W, kW, MW)</li>
+                        <li><strong>Potencia Reactiva (Q):</strong> Potencia que oscila entre la fuente y la carga (VAr, kVAr, MVAr)</li>
+                        <li><strong>Potencia Aparente (S):</strong> Potencia total suministrada (VA, kVA, MVA)</li>
+                        <li><strong>Factor de Potencia (cos φ):</strong> Relación entre potencia activa y aparente</li>
+                    </ul>
+                </div>
+                
+                <div id="potencia-tab2" class="tab-content">
+                    <h3>Tipos de Potencia y sus Ecuaciones</h3>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Potencia en Sistemas Monofásicos</div>
+                            <div class="accordion-content">
+                                <p>En un sistema monofásico con tensión y corriente senoidales:</p>
+                                
+                                <table class="comparison-table">
+                                    <tr>
+                                        <th>Tipo de Potencia</th>
+                                        <th>Ecuación</th>
+                                        <th>Unidades</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Potencia Activa (P)</td>
+                                        <td>P = V × I × cos φ</td>
+                                        <td>Watts (W)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Potencia Reactiva (Q)</td>
+                                        <td>Q = V × I × sin φ</td>
+                                        <td>Volt-Amperes Reactivos (VAr)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Potencia Aparente (S)</td>
+                                        <td>S = V × I</td>
+                                        <td>Volt-Amperes (VA)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Factor de Potencia (FP)</td>
+                                        <td>FP = cos φ = P/S</td>
+                                        <td>Adimensional</td>
+                                    </tr>
+                                </table>
+                                
+                                <p>Donde:</p>
+                                <ul>
+                                    <li>V: Tensión eficaz (RMS)</li>
+                                    <li>I: Corriente eficaz (RMS)</li>
+                                    <li>φ: Ángulo de desfase entre tensión y corriente</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Potencia en Sistemas Trifásicos Equilibrados</div>
+                            <div class="accordion-content">
+                                <p>En un sistema trifásico equilibrado:</p>
+                                
+                                <table class="comparison-table">
+                                    <tr>
+                                        <th>Tipo de Potencia</th>
+                                        <th>Ecuación (Conexión Estrella)</th>
+                                        <th>Ecuación (Conexión Triángulo)</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Potencia Activa (P)</td>
+                                        <td>P = √3 × VL × IL × cos φ</td>
+                                        <td>P = √3 × VL × IL × cos φ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Potencia Reactiva (Q)</td>
+                                        <td>Q = √3 × VL × IL × sin φ</td>
+                                        <td>Q = √3 × VL × IL × sin φ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Potencia Aparente (S)</td>
+                                        <td>S = √3 × VL × IL</td>
+                                        <td>S = √3 × VL × IL</td>
+                                    </tr>
+                                </table>
+                                
+                                <p>Donde:</p>
+                                <ul>
+                                    <li>VL: Tensión de línea</li>
+                                    <li>IL: Corriente de línea</li>
+                                    <li>φ: Ángulo de desfase entre tensión y corriente de fase</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Potencia Compleja y Notación Fasorial</div>
+                            <div class="accordion-content">
+                                <p>La potencia compleja (S) combina la potencia activa y reactiva en un número complejo:</p>
+                                
+                                <div class="info-box">
+                                    <p style="text-align: center; font-size: 1.2em;">S = P + jQ</p>
+                                    <p>Donde j es el operador imaginario (√-1).</p>
+                                </div>
+                                
+                                <p>Esta notación facilita los cálculos en sistemas eléctricos complejos y permite representar:</p>
+                                <ul>
+                                    <li>Magnitud: |S| = √(P² + Q²)</li>
+                                    <li>Ángulo: φ = tan⁻¹(Q/P)</li>
+                                </ul>
+                                
+                                <p>La potencia compleja es fundamental en el análisis de flujos de potencia en redes eléctricas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="potencia-tab3" class="tab-content">
+                    <h3>Flujo de Potencia en Sistemas Eléctricos</h3>
+                    
+                    <p>El análisis de flujo de potencia (o flujo de carga) es una herramienta fundamental para estudiar el comportamiento de los sistemas eléctricos en régimen permanente.</p>
+                    
+                    <h4>Ecuaciones de Flujo de Potencia</h4>
+                    
+                    <p>Para un sistema con n barras, las ecuaciones de flujo de potencia se expresan como:</p>
+                    
+                    <div class="info-box">
+                        <p style="text-align: center; font-size: 1.1em;">P<sub>i</sub> = |V<sub>i</sub>| Σ<sub>j=1</sub><sup>n</sup> |V<sub>j</sub>| |Y<sub>ij</sub>| cos(θ<sub>ij</sub> - δ<sub>i</sub> + δ<sub>j</sub>)</p>
+                        <p style="text-align: center; font-size: 1.1em;">Q<sub>i</sub> = |V<sub>i</sub>| Σ<sub>j=1</sub><sup>n</sup> |V<sub>j</sub>| |Y<sub>ij</sub>| sin(θ<sub>ij</sub> - δ<sub>i</sub> + δ<sub>j</sub>)</p>
+                    </div>
+                    
+                    <p>Donde:</p>
+                    <ul>
+                        <li>P<sub>i</sub>, Q<sub>i</sub>: Potencias activa y reactiva inyectadas en la barra i</li>
+                        <li>V<sub>i</sub>, δ<sub>i</sub>: Magnitud y ángulo de la tensión en la barra i</li>
+                        <li>Y<sub>ij</sub>, θ<sub>ij</sub>: Magnitud y ángulo del elemento ij de la matriz de admitancias</li>
+                    </ul>
+                    
+                    <h4>Métodos de Resolución</h4>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Método de Gauss-Seidel</div>
+                            <div class="accordion-content">
+                                <p>Método iterativo basado en la resolución secuencial de las ecuaciones:</p>
+                                <ul>
+                                    <li><strong>Ventajas:</strong> Simple implementación, bajo requerimiento de memoria</li>
+                                    <li><strong>Desventajas:</strong> Convergencia lenta, especialmente en sistemas mal condicionados</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Método de Newton-Raphson</div>
+                            <div class="accordion-content">
+                                <p>Método basado en la linealización de las ecuaciones mediante series de Taylor:</p>
+                                <ul>
+                                    <li><strong>Ventajas:</strong> Convergencia cuadrática, robusto</li>
+                                    <li><strong>Desventajas:</strong> Mayor complejidad computacional, requiere cálculo de matriz jacobiana</li>
+                                </ul>
+                                <p>Es el método más utilizado en la práctica para sistemas de potencia de tamaño real.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Método Desacoplado Rápido</div>
+                            <div class="accordion-content">
+                                <p>Variante optimizada del método de Newton-Raphson que aprovecha el desacoplamiento natural entre potencia activa-ángulo y potencia reactiva-tensión:</p>
+                                <ul>
+                                    <li><strong>Ventajas:</strong> Menor costo computacional, matrices constantes</li>
+                                    <li><strong>Desventajas:</strong> Puede presentar problemas de convergencia en sistemas muy cargados</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="potencia-tab4" class="tab-content">
+                    <h3>Calculadoras de Potencia</h3>
+                    
+                    <div class="calculator">
+                        <h4>Calculadora de Factor de Potencia</h4>
+                        <div class="calculator-form">
+                            <div class="form-group">
+                                <label for="active-power">Potencia Activa (kW):</label>
+                                <input type="number" id="active-power" min="0" step="0.1" value="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="apparent-power">Potencia Aparente (kVA):</label>
+                                <input type="number" id="apparent-power" min="0" step="0.1" value="125">
+                            </div>
+                            <button class="calculator-btn" onclick="calculatePowerFactor()">Calcular Factor de Potencia</button>
+                        </div>
+                        <div id="power-factor-result" class="calculator-result"></div>
+                    </div>
+                    
+                    <div class="calculator">
+                        <h4>Calculadora de Compensación de Reactiva</h4>
+                        <div class="calculator-form">
+                            <div class="form-group">
+                                <label for="power-kw">Potencia Activa (kW):</label>
+                                <input type="number" id="power-kw" min="0" step="0.1" value="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="current-fp">Factor de Potencia Actual:</label>
+                                <input type="number" id="current-fp" min="0" max="1" step="0.01" value="0.8">
+                            </div>
+                            <div class="form-group">
+                                <label for="target-fp">Factor de Potencia Deseado:</label>
+                                <input type="number" id="target-fp" min="0" max="1" step="0.01" value="0.95">
+                            </div>
+                            <button class="calculator-btn" onclick="calculateCapacitorBank()">Calcular Capacitores</button>
+                        </div>
+                        <div id="capacitor-result" class="calculator-result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cortocircuitos -->
+    <div id="cortocircuito" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('cortocircuito')">&times;</span>
+            <div class="modal-header">
+                <h2>Cortocircuitos</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1504890001746-a9a68eda46e2" alt="Efectos de un cortocircuito en instalación eléctrica" class="banner-image">
+                
+                <p>Un cortocircuito es una conexión de baja impedancia entre dos puntos de un circuito eléctrico que están normalmente a diferentes potenciales, lo que provoca un flujo de corriente muy elevado. Este fenómeno puede causar daños graves en las instalaciones eléctricas y representar un riesgo para la seguridad si no se toman las medidas de protección adecuadas.</p>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="changeTab('cc-tab1', this)">Fundamentos</div>
+                    <div class="tab" onclick="changeTab('cc-tab2', this)">Tipos y Causas</div>
+                    <div class="tab" onclick="changeTab('cc-tab3', this)">Cálculos</div>
+                    <div class="tab" onclick="changeTab('cc-tab4', this)">Protecciones</div>
+                </div>
+                
+                <div id="cc-tab1" class="tab-content active">
+                    <h3>Fundamentos de los Cortocircuitos</h3>
+                    
+                    <div class="info-box">
+                        <p><strong>Definición:</strong> Un cortocircuito es una conexión anormal de muy baja impedancia entre dos puntos de un circuito eléctrico con diferente potencial, que provoca una corriente anormalmente alta.</p>
+                    </div>
+                    
+                    <h4>Características Principales</h4>
+                    <ul>
+                        <li><strong>Corriente elevada:</strong> Puede alcanzar valores de 10 a 30 veces la corriente nominal</li>
+                        <li><strong>Duración breve:</strong> Generalmente milisegundos hasta que actúan las protecciones</li>
+                        <li><strong>Efectos térmicos:</strong> Calentamiento extremo de conductores y equipos</li>
+                        <li><strong>Efectos electrodinámicos:</strong> Fuerzas mecánicas que pueden deformar conductores</li>
+                    </ul>
+                    
+                    <div class="interactive-visual" id="short-circuit-animation">
+                        <!-- Animación interactiva de cortocircuito -->
+                        <div class="circuit-wire" style="width: 100px; top: 50px; left: 50px;"></div>
+                        <div class="circuit-component" style="top: 25px; left: 150px;">G</div>
+                        <div class="circuit-wire" style="width: 100px; top: 50px; left: 200px;"></div>
+                        <div class="circuit-component" style="top: 25px; left: 300px;">Z</div>
+                        <div class="circuit-wire" style="width: 100px; top: 50px; left: 350px;"></div>
+                        
+                        <div class="circuit-wire" style="height: 100px; width: 5px; top: 50px; left: 400px;"></div>
+                        <div class="circuit-wire" style="width: 300px; top: 150px; left: 100px;"></div>
+                        
+                        <div id="short-circuit-spark" style="position: absolute; top: 100px; left: 250px; color: red; font-size: 24px; display: none;">⚡</div>
+                    </div>
+                    
+                    <button onclick="animateShortCircuit()" style="background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-top: 10px;">Simular Cortocircuito</button>
+                </div>
+                
+                <div id="cc-tab2" class="tab-content">
+                    <h3>Tipos y Causas de Cortocircuitos</h3>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Tipos de Cortocircuitos</div>
+                            <div class="accordion-content">
+                                <h4>Según las fases afectadas:</h4>
+                                
+                                <table class="comparison-table">
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Descripción</th>
+                                        <th>Frecuencia</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Trifásico</td>
+                                        <td>Contacto entre las tres fases</td>
+                                        <td>5-10% de los casos</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bifásico</td>
+                                        <td>Contacto entre dos fases</td>
+                                        <td>15-20% de los casos</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bifásico a tierra</td>
+                                        <td>Contacto entre dos fases y tierra</td>
+                                        <td>10-15% de los casos</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Monofásico a tierra</td>
+                                        <td>Contacto entre una fase y tierra</td>
+                                        <td>60-70% de los casos</td>
+                                    </tr>
+                                </table>
+                                
+                                <h4>Según su duración:</h4>
+                                <ul>
+                                    <li><strong>Cortocircuito permanente:</strong> Requiere intervención para su eliminación</li>
+                                    <li><strong>Cortocircuito transitorio:</strong> Se extingue por sí solo o tras una breve interrupción</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Causas Comunes</div>
+                            <div class="accordion-content">
+                                <h4>Causas de origen interno:</h4>
+                                <ul>
+                                    <li><strong>Deterioro del aislamiento:</strong> Envejecimiento, sobrecalentamiento</li>
+                                    <li><strong>Sobretensiones:</strong> Maniobras, resonancia</li>
+                                    <li><strong>Fallos mecánicos:</strong> Rotura de conductores, aflojamiento de conexiones</li>
+                                    <li><strong>Errores humanos:</strong> Durante mantenimiento o instalación</li>
+                                </ul>
+                                
+                                <h4>Causas de origen externo:</h4>
+                                <ul>
+                                    <li><strong>Fenómenos atmosféricos:</strong> Rayos, viento, hielo</li>
+                                    <li><strong>Animales:</strong> Contacto con líneas aéreas o equipos</li>
+                                    <li><strong>Vegetación:</strong> Contacto con líneas aéreas</li>
+                                    <li><strong>Accidentes:</strong> Excavaciones, colisiones con postes</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Efectos y Consecuencias</div>
+                            <div class="accordion-content">
+                                <div class="pros-cons">
+                                    <div class="cons">
+                                        <h4>Efectos Inmediatos</h4>
+                                        <ul>
+                                            <li>Arcos eléctricos y posible incendio</li>
+                                            <li>Sobrecalentamiento extremo de conductores</li>
+                                            <li>Fuerzas electrodinámicas que deforman componentes</li>
+                                            <li>Caídas de tensión en el sistema</li>
+                                            <li>Interrupción del suministro eléctrico</li>
+                                        </ul>
+                                    </div>
+                                    <div class="cons">
+                                        <h4>Consecuencias a Largo Plazo</h4>
+                                        <ul>
+                                            <li>Daño permanente en equipos</li>
+                                            <li>Degradación acelerada de aislamientos</li>
+                                            <li>Pérdidas económicas por interrupción</li>
+                                            <li>Posibles lesiones a personas</li>
+                                            <li>Reducción de la vida útil de la instalación</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="cc-tab3" class="tab-content">
+                    <h3>Cálculo de Corrientes de Cortocircuito</h3>
+                    
+                    <p>El cálculo de las corrientes de cortocircuito es fundamental para dimensionar adecuadamente las protecciones y verificar la resistencia térmica y dinámica de los componentes de la instalación.</p>
+                    
+                    <h4>Métodos de Cálculo</h4>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Método de las Impedancias</div>
+                            <div class="accordion-content">
+                                <p>Se basa en determinar la impedancia equivalente del circuito hasta el punto de falla:</p>
+                                
+                                <div class="info-box">
+                                    <p style="text-align: center; font-size: 1.2em;">I<sub>cc</sub> = V / Z<sub>eq</sub></p>
+                                    <p>Donde:</p>
+                                    <ul>
+                                        <li>I<sub>cc</sub>: Corriente de cortocircuito</li>
+                                        <li>V: Tensión nominal en el punto de falla</li>
+                                        <li>Z<sub>eq</sub>: Impedancia equivalente hasta el punto de falla</li>
+                                    </ul>
+                                </div>
+                                
+                                <p>La impedancia equivalente incluye:</p>
+                                <ul>
+                                    <li>Impedancia de la red de alimentación</li>
+                                    <li>Impedancia de transformadores</li>
+                                    <li>Impedancia de líneas y cables</li>
+                                    <li>Impedancia de motores (contribución)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Método de las Potencias</div>
+                            <div class="accordion-content">
+                                <p>Utiliza las potencias de cortocircuito en lugar de impedancias:</p>
+                                
+                                <div class="info-box">
+                                    <p style="text-align: center; font-size: 1.2em;">S<sub>cc</sub> = V² / Z<sub>eq</sub></p>
+                                    <p style="text-align: center; font-size: 1.2em;">I<sub>cc</sub> = S<sub>cc</sub> / (√3 × V)</p>
+                                </div>
+                                
+                                <p>Este método es especialmente útil cuando se conoce la potencia de cortocircuito de la red de alimentación.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Método por Unidad (p.u.)</div>
+                            <div class="accordion-content">
+                                <p>Simplifica los cálculos mediante la normalización de todas las magnitudes:</p>
+                                
+                                <ol>
+                                    <li>Se elige una potencia base S<sub>base</sub> y una tensión base V<sub>base</sub></li>
+                                    <li>Se convierten todas las impedancias a valores p.u.</li>
+                                    <li>Se suman las impedancias en p.u.</li>
+                                    <li>Se calcula la corriente de cortocircuito</li>
+                                </ol>
+                                
+                                <p>Este método facilita los cálculos en sistemas con múltiples niveles de tensión.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Calculadora de Corriente de Cortocircuito</h4>
+                    
+                    <div class="calculator">
+                        <h4>Cálculo Simplificado (Método de las Impedancias)</h4>
+                        <div class="calculator-form">
+                            <div class="form-group">
+                                <label for="voltage">Tensión nominal (V):</label>
+                                <input type="number" id="voltage" min="100" value="400">
+                            </div>
+                            <div class="form-group">
+                                <label for="transformer-power">Potencia del transformador (kVA):</label>
+                                <input type="number" id="transformer-power" min="1" value="630">
+                            </div>
+                            <div class="form-group">
+                                <label for="transformer-impedance">Impedancia del transformador (%):</label>
+                                <input type="number" id="transformer-impedance" min="0.1" step="0.1" value="4">
+                              id="transformer-impedance" min="0.1" step="0.1" value="4">
+                            </div>
+                            <div class="form-group">
+                                <label for="cable-length">Longitud del cable (m):</label>
+                                <input type="number" id="cable-length" min="1" value="50">
+                            </div>
+                            <div class="form-group">
+                                <label for="cable-section">Sección del cable (mm²):</label>
+                                <input type="number" id="cable-section" min="1" value="25">
+                            </div>
+                            <button class="calculator-btn" onclick="calculateShortCircuit()">Calcular Corriente</button>
+                        </div>
+                        <div id="short-circuit-result" class="calculator-result"></div>
+                    </div>
+                </div>
+                
+                <div id="cc-tab4" class="tab-content">
+                    <h3>Protecciones contra Cortocircuitos</h3>
+                    
+                    <p>Las protecciones contra cortocircuitos son dispositivos diseñados para detectar y eliminar rápidamente las corrientes de falla, minimizando los daños en la instalación y garantizando la seguridad.</p>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Fusibles</div>
+                            <div class="accordion-content">
+                                <p>Dispositivos de protección basados en un elemento fusible que se funde cuando la corriente supera un valor determinado.</p>
+                                
+                                <h4>Tipos de fusibles:</h4>
+                                <ul>
+                                    <li><strong>gG:</strong> Uso general, protección contra sobrecargas y cortocircuitos</li>
+                                    <li><strong>aM:</strong> Acompañamiento de motores, protección contra cortocircuitos</li>
+                                    <li><strong>gR/aR:</strong> Protección de semiconductores</li>
+                                </ul>
+                                
+                                <h4>Características:</h4>
+                                <ul>
+                                    <li><strong>Poder de corte:</strong> Hasta 100 kA o más</li>
+                                    <li><strong>Limitación de corriente:</strong> Actúan antes del primer pico de corriente</li>
+                                    <li><strong>Simplicidad:</strong> Sin partes móviles</li>
+                                    <li><strong>Desventaja:</strong> Requieren reemplazo tras la operación</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Interruptores Automáticos</div>
+                            <div class="accordion-content">
+                                <p>Dispositivos mecánicos de maniobra capaces de establecer, soportar e interrumpir corrientes en condiciones normales y anormales.</p>
+                                
+                                <h4>Tipos según mecanismo de disparo:</h4>
+                                <ul>
+                                    <li><strong>Magnetotérmicos:</strong> Combinan protección térmica (sobrecargas) y magnética (cortocircuitos)</li>
+                                    <li><strong>Electrónicos:</strong> Con unidades de disparo electrónicas programables</li>
+                                </ul>
+                                
+                                <h4>Tipos según aplicación:</h4>
+                                <ul>
+                                    <li><strong>Interruptores modulares (MCB):</strong> Para instalaciones residenciales y pequeño terciario</li>
+                                    <li><strong>Interruptores de caja moldeada (MCCB):</strong> Para instalaciones comerciales e industriales</li>
+                                    <li><strong>Interruptores de potencia (ACB):</strong> Para grandes instalaciones industriales</li>
+                                </ul>
+                                
+                                <h4>Ventajas:</h4>
+                                <ul>
+                                    <li>Rearmables tras la operación</li>
+                                    <li>Combinan protección contra sobrecargas y cortocircuitos</li>
+                                    <li>Permiten maniobra manual</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Relés de Protección</div>
+                            <div class="accordion-content">
+                                <p>Dispositivos que detectan condiciones anormales en el sistema eléctrico y ordenan la apertura de interruptores.</p>
+                                
+                                <h4>Tipos de relés para protección contra cortocircuitos:</h4>
+                                <ul>
+                                    <li><strong>Relés de sobreintensidad (50/51):</strong> Detectan corrientes excesivas</li>
+                                    <li><strong>Relés direccionales (67):</strong> Sensibles a la dirección del flujo de corriente</li>
+                                    <li><strong>Relés diferenciales (87):</strong> Comparan corrientes entrantes y salientes</li>
+                                    <li><strong>Relés de distancia (21):</strong> Miden la impedancia hasta el punto de falla</li>
+                                </ul>
+                                
+                                <h4>Características de los relés modernos:</h4>
+                                <ul>
+                                    <li>Multifunción</li>
+                                    <li>Comunicación digital</li>
+                                    <li>Registro de eventos</li>
+                                    <li>Autodiagnóstico</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Selectividad de Protecciones</h4>
+                    
+                    <p>La selectividad es la coordinación entre dispositivos de protección para que solo actúe el más cercano a la falla, minimizando la zona afectada.</p>
+                    
+                    <div class="interactive-visual" id="selectivity-diagram" style="height: 300px;">
+                        <!-- Diagrama interactivo de selectividad -->
+                        <div style="position: absolute; top: 20px; left: 50px; text-align: center;">
+                            <div style="width: 60px; height: 30px; border: 2px solid #333; margin: 0 auto; background: #f5f5f5;">Q1</div>
+                            <div style="width: 5px; height: 40px; background: #333; margin: 0 auto;"></div>
+                        </div>
+                        
+                        <div style="position: absolute; top: 90px; left: 50px; text-align: center;">
+                            <div style="width: 50px; height: 25px; border: 2px solid #333; margin: 0 auto; background: #f5f5f5;">Q2</div>
+                            <div style="width: 5px; height: 40px; background: #333; margin: 0 auto;"></div>
+                        </div>
+                        
+                        <div style="position: absolute; top: 155px; left: 50px; text-align: center;">
+                            <div style="width: 40px; height: 20px; border: 2px solid #333; margin: 0 auto; background: #f5f5f5;">Q3</div>
+                            <div style="width: 5px; height: 40px; background: #333; margin: 0 auto;"></div>
+                        </div>
+                        
+                        <div style="position: absolute; top: 215px; left: 50px; text-align: center;">
+                            <div style="width: 30px; height: 30px; border-radius: 50%; border: 2px solid #333; margin: 0 auto; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">F</div>
+                        </div>
+                        
+                        <div style="position: absolute; top: 100px; left: 150px; width: 200px;">
+                            <p><strong>Selectividad:</strong></p>
+                            <p>Al producirse un cortocircuito en F, solo debe actuar Q3, manteniendo el servicio en el resto de la instalación.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir modal
+        function openModal(id) {
+            var modal = document.getElementById(id);
+            if (modal) {
+                modal.style.display = "block";
+                document.body.style.overflow = "hidden"; // Evita el desplazamiento del fondo
+            } else {
+                console.error("Modal con ID " + id + " no encontrado");
+            }
+        }
+        
+        // Función para cerrar modal
+        function closeModal(id) {
+            var modal = document.getElementById(id);
+            if (modal) {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto"; // Restaura el desplazamiento
+            } else {
+                console.error("Modal con ID " + id + " no encontrado");
+            }
+        }
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            if (event.target.classList.contains("modal")) {
+                event.target.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+        
+        // Cerrar modal con la tecla Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                var modals = document.getElementsByClassName("modal");
+                for (var i = 0; i < modals.length; i++) {
+                    if (modals[i].style.display === "block") {
+                        modals[i].style.display = "none";
+                        document.body.style.overflow = "auto";
+                    }
+                }
+            }
+        });
+
+        // Función para cambiar de pestaña
+        function changeTab(tabId, tabElement) {
+            // Ocultar todos los contenidos de pestañas
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Desactivar todas las pestañas
+            var tabs = tabElement.parentElement.getElementsByClassName("tab");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            
+            // Activar la pestaña seleccionada y su contenido
+            document.getElementById(tabId).classList.add("active");
+            tabElement.classList.add("active");
+        }
+        
+        // Función para alternar acordeón
+        function toggleAccordion(header) {
+            var item = header.parentElement;
+            if (item.classList.contains("active")) {
+                item.classList.remove("active");
+            } else {
+                item.classList.add("active");
+            }
+        }
+        
+        // Calculadora de resistencia de puesta a tierra
+        function calculateGroundResistance() {
+            var resistivity = parseFloat(document.getElementById("resistivity").value);
+            var length = parseFloat(document.getElementById("length").value);
+            var radius = parseFloat(document.getElementById("radius").value) / 1000; // Convertir a metros
+            
+            if (isNaN(resistivity) || isNaN(length) || isNaN(radius)) {
+                alert("Por favor, ingrese valores numéricos válidos.");
+                return;
+            }
+            
+            // Fórmula para electrodo vertical: R = (ρ/2πL) * [ln(4L/r) - 1]
+            var resistance = (resistivity / (2 * Math.PI * length)) * (Math.log(4 * length / radius) - 1);
+            resistance = Math.round(resistance * 100) / 100; // Redondear a 2 decimales
+            
+            var resultDiv = document.getElementById("ground-result");
+            resultDiv.innerHTML = "<strong>Resistencia de puesta a tierra:</strong> " + resistance + " Ω";
+            resultDiv.style.display = "block";
+        }
+        
+        // Calculadora de factor de potencia
+        function calculatePowerFactor() {
+            var activePower = parseFloat(document.getElementById("active-power").value);
+            var apparentPower = parseFloat(document.getElementById("apparent-power").value);
+            
+            if (isNaN(activePower) || isNaN(apparentPower)) {
+                alert("Por favor, ingrese valores numéricos válidos.");
+                return;
+            }
+            
+            if (apparentPower < activePower) {
+                alert("La potencia aparente debe ser mayor o igual que la potencia activa.");
+                return;
+            }
+            
+            var powerFactor = activePower / apparentPower;
+            var angle = Math.acos(powerFactor) * (180 / Math.PI);
+            var reactivePower = Math.sqrt(Math.pow(apparentPower, 2) - Math.pow(activePower, 2));
+            
+            powerFactor = Math.round(powerFactor * 1000) / 1000;
+            angle = Math.round(angle * 10) / 10;
+            reactivePower = Math.round(reactivePower * 10) / 10;
+            
+            var resultDiv = document.getElementById("power-factor-result");
+            resultDiv.innerHTML = "<strong>Factor de Potencia:</strong> " + powerFactor + 
+                                 "<br><strong>Ángulo φ:</strong> " + angle + "°" +
+                                 "<br><strong>Potencia Reactiva:</strong> " + reactivePower + " kVAr";
+            resultDiv.style.display = "block";
+        }
+        
+        // Calculadora de banco de capacitores
+        function calculateCapacitorBank() {
+            var powerKW = parseFloat(document.getElementById("power-kw").value);
+            var currentFP = parseFloat(document.getElementById("current-fp").value);
+            var targetFP = parseFloat(document.getElementById("target-fp").value);
+            
+            if (isNaN(powerKW) || isNaN(currentFP) || isNaN(targetFP)) {
+                alert("Por favor, ingrese valores numéricos válidos.");
+                return;
+            }
+            
+            if (currentFP >= targetFP) {
+                alert("El factor de potencia objetivo debe ser mayor que el actual.");
+                return;
+            }
+            
+            var phi1 = Math.acos(currentFP);
+            var phi2 = Math.acos(targetFP);
+            
+            var capacitorKVAr = powerKW * (Math.tan(phi1) - Math.tan(phi2));
+            capacitorKVAr = Math.round(capacitorKVAr * 10) / 10;
+            
+            var resultDiv = document.getElementById("capacitor-result");
+            resultDiv.innerHTML = "<strong>Potencia reactiva necesaria:</strong> " + capacitorKVAr + " kVAr";
+            resultDiv.style.display = "block";
+        }
+        
+        // Calculadora de corriente de cortocircuito
+        function calculateShortCircuit() {
+            var voltage = parseFloat(document.getElementById("voltage").value);
+            var transformerPower = parseFloat(document.getElementById("transformer-power").value);
+            var transformerImpedance = parseFloat(document.getElementById("transformer-impedance").value) / 100;
+            var cableLength = parseFloat(document.getElementById("cable-length").value);
+            var cableSection = parseFloat(document.getElementById("cable-section").value);
+            
+            if (isNaN(voltage) || isNaN(transformerPower) || isNaN(transformerImpedance) || 
+                isNaN(cableLength) || isNaN(cableSection)) {
+                alert("Por favor, ingrese valores numéricos válidos.");
+                return;
+            }
+            
+            // Impedancia del transformador en ohmios
+            var zTrafo = (voltage * voltage * transformerImpedance) / (transformerPower * 1000);
+            
+            // Impedancia del cable (aproximada, solo resistencia)
+            var resistivityCopper = 0.0175; // Ω·mm²/m
+            var zCable = resistivityCopper * cableLength / cableSection;
+            
+            // Impedancia total
+            var zTotal = zTrafo + zCable;
+            
+            // Corriente de cortocircuito trifásica
+            var icc3 = voltage / (Math.sqrt(3) * zTotal);
+            
+            // Corriente de cortocircuito monofásica (aproximada)
+            var icc1 = 0.8 * icc3;
+            
+            icc3 = Math.round(icc3);
+            icc1 = Math.round(icc1);
+            
+            var resultDiv = document.getElementById("short-circuit-result");
+            resultDiv.innerHTML = "<strong>Corriente de cortocircuito trifásica:</strong> " + icc3 + " A" +
+                                 "<br><strong>Corriente de cortocircuito monofásica:</strong> " + icc1 + " A";
+            resultDiv.style.display = "block";
+        }
+        
+        // Animación de cortocircuito
+        function animateShortCircuit() {
+            var spark = document.getElementById("short-circuit-spark");
+            spark.style.display = "block";
+            
+            // Parpadeo
+            var blinks = 0;
+            var blinkInterval = setInterval(function() {
+                spark.style.visibility = spark.style.visibility === "hidden" ? "visible" : "hidden";
+                blinks++;
+                
+                if (blinks > 10) {
+                    clearInterval(blinkInterval);
+                    spark.style.display = "none";
+                    spark.style.visibility = "visible";
+                }
+            }, 100);
+        }
+        
+        // Dibujar triángulo de potencias
+        document.addEventListener('DOMContentLoaded', function() {
+            var powerTriangle = document.getElementById("power-triangle");
+            if (powerTriangle) {
+                // Crear elementos del triángulo
+                var triangle = document.createElement("div");
+                triangle.style.position = "absolute";
+                triangle.style.top = "50px";
+                triangle.style.left = "50px";
+                triangle.style.width = "200px";
+                triangle.style.height = "150px";
+                triangle.style.border = "2px solid #333";
+                triangle.style.borderTop = "none";
+                triangle.style.borderRight = "none";
+                triangle.style.position = "relative";
+                
+                // Hipotenusa
+                var hypotenuse = document.createElement("div");
+                hypotenuse.style.position = "absolute";
+                hypotenuse.style.width = "250px";
+                hypotenuse.style.height = "2px";
+                hypotenuse.style.background = "#333";
+                hypotenuse.style.top = "150px";
+                hypotenuse.style.left = "0";
+                hypotenuse.style.transformOrigin = "left bottom";
+                hypotenuse.style.transform = "rotate(-37deg)";
+                
+                // Etiquetas
+                var labelP = document.createElement("div");
+                labelP.style.position = "absolute";
+                labelP.style.bottom = "-25px";
+                labelP.style.left = "90px";
+                labelP.innerHTML = "P (Activa)";
+                
+                var labelQ = document.createElement("div");
+                labelQ.style.position = "absolute";
+                labelQ.style.left = "-25px";
+                labelQ.style.top = "70px";
+                labelQ.style.transform = "rotate(-90deg)";
+                labelQ.innerHTML = "Q (Reactiva)";
+                
+                var labelS = document.createElement("div");
+                labelS.style.position = "absolute";
+                labelS.style.top = "60px";
+                labelS.style.left = "120px";
+                labelS.style.transform = "rotate(-37deg)";
+                labelS.innerHTML = "S (Aparente)";
+                
+                var labelPhi = document.createElement("div");
+                labelPhi.style.position = "absolute";
+                labelPhi.style.bottom = "10px";
+                labelPhi.style.left = "20px";
+                labelPhi.innerHTML = "φ";
+                
+                powerTriangle.appendChild(triangle);
+                powerTriangle.appendChild(hypotenuse);
+                powerTriangle.appendChild(labelP);
+                powerTriangle.appendChild(labelQ);
+                powerTriangle.appendChild(labelS);
+                powerTriangle.appendChild(labelPhi);
+            }
+            
+            // Verificar que todos los modales existen
+            var modalIds = ['tierra', 'potencia', 'cortocircuito'];
+            for (var i = 0; i < modalIds.length; i++) {
+                if (!document.getElementById(modalIds[i])) {
+                    console.error("Modal con ID " + modalIds[i] + " no encontrado");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

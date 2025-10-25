@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leyes Básicas de Electricidad</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-color: #fff;
+            --border-color: #ddd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background-color: var(--card-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .subcategory {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .subcategory:hover {
+            background-color: #e9f7fe;
+        }
+
+        .subcategory h3 {
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .subcategory p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalopen 0.4s;
+        }
+
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-60px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-body h3 {
+            color: var(--secondary-color);
+            margin: 20px 0 10px;
+            font-size: 1.4rem;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .formula {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-left: 4px solid var(--primary-color);
+            margin: 20px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .example {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .example h4 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .diagram {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Leyes Básicas de Electricidad</h1>
+            <p class="subtitle">Conceptos fundamentales y aplicaciones prácticas</p>
+        </header>
+
+        <div class="categories">
+            <div class="category-card">
+                <h2>Leyes Fundamentales</h2>
+                
+                <div class="subcategory" onclick="openModal('ohm')">
+                    <h3>Ley de Ohm</h3>
+                    <p>Relación entre voltaje, corriente y resistencia.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('kirchhoff')">
+                    <h3>Leyes de Kirchhoff</h3>
+                    <p>Leyes de corrientes y voltajes en circuitos eléctricos.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('joule')">
+                    <h3>Ley de Joule-Lenz</h3>
+                    <p>Relación entre corriente eléctrica y calor generado.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('coulomb')">
+                    <h3>Ley de Coulomb</h3>
+                    <p>Fuerza entre cargas eléctricas.</p>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <h2>Conexiones Eléctricas</h2>
+                
+                <div class="subcategory" onclick="openModal('serie')">
+                    <h3>Conexión en Serie</h3>
+                    <p>Características y aplicaciones de circuitos en serie.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('paralelo')">
+                    <h3>Conexión en Paralelo</h3>
+                    <p>Características y aplicaciones de circuitos en paralelo.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('mixto')">
+                    <h3>Circuitos Mixtos</h3>
+                    <p>Combinación de conexiones en serie y paralelo.</p>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <h2>Seguridad Eléctrica</h2>
+                
+                <div class="subcategory" onclick="openModal('proteccion')">
+                    <h3>Dispositivos de Protección</h3>
+                    <p>Fusibles, interruptores y sistemas de seguridad.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('riesgos')">
+                    <h3>Riesgos Eléctricos</h3>
+                    <p>Identificación y prevención de peligros eléctricos.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('normativas')">
+                    <h3>Normativas de Seguridad</h3>
+                    <p>Estándares y regulaciones en instalaciones eléctricas.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 - Leyes Básicas de Electricidad</p>
+        </footer>
+    </div>
+
+    <!-- Modales para cada subcategoría -->
+    
+    <!-- Ley de Ohm -->
+    <div id="ohm" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('ohm')">&times;</span>
+            <div class="modal-header">
+                <h2>Ley de Ohm</h2>
+            </div>
+            <div class="modal-body">
+                <p>La Ley de Ohm es una de las leyes fundamentales de la electricidad, formulada por el físico alemán Georg Simon Ohm en 1827. Esta ley establece la relación entre la diferencia de potencial (voltaje), la intensidad de corriente y la resistencia en un circuito eléctrico.</p>
+                
+                <div class="formula">
+                    V = I × R
+                </div>
+                
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>V</strong> = Voltaje o diferencia de potencial (medido en voltios, V)</li>
+                    <li><strong>I</strong> = Intensidad de corriente eléctrica (medida en amperios, A)</li>
+                    <li><strong>R</strong> = Resistencia eléctrica (medida en ohmios, Ω)</li>
+                </ul>
+                
+                <p>De esta fórmula principal, podemos despejar las otras variables:</p>
+                
+                <div class="formula">
+                    I = V / R<br>
+                    R = V / I
+                </div>
+                
+                <h3>Aplicaciones de la Ley de Ohm</h3>
+                <p>La Ley de Ohm es fundamental para el análisis y diseño de circuitos eléctricos. Algunas aplicaciones incluyen:</p>
+                <ul>
+                    <li>Cálculo de corrientes en circuitos</li>
+                    <li>Dimensionamiento de componentes eléctricos</li>
+                    <li>Análisis de caídas de tensión</li>
+                    <li>Diseño de sistemas de protección</li>
+                </ul>
+                
+                <h3>Ejemplo Práctico</h3>
+                <div class="example">
+                    <h4>Problema:</h4>
+                    <p>Si conectamos una resistencia de 100 Ω a una fuente de 12 V, ¿cuál será la corriente que circula por el circuito?</p>
+                    
+                    <h4>Solución:</h4>
+                    <p>Usando la fórmula I = V / R:</p>
+                    <p>I = 12 V / 100 Ω = 0.12 A = 120 mA</p>
+                </div>
+                
+                <img src="/placeholder.svg?height=300&width=500" alt="Diagrama de circuito con Ley de Ohm" class="diagram">
+                
+                <h3>Limitaciones de la Ley de Ohm</h3>
+                <p>Es importante señalar que la Ley de Ohm se aplica principalmente a conductores metálicos a temperatura constante. No se cumple en:</p>
+                <ul>
+                    <li>Semiconductores</li>
+                    <li>Diodos y otros dispositivos no lineales</li>
+                    <li>Conductores cuya temperatura varía significativamente</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Leyes de Kirchhoff -->
+    <div id="kirchhoff" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('kirchhoff')">&times;</span>
+            <div class="modal-header">
+                <h2>Leyes de Kirchhoff</h2>
+            </div>
+            <div class="modal-body">
+                <p>Las Leyes de Kirchhoff, formuladas por Gustav Kirchhoff en 1845, son dos principios fundamentales que permiten analizar circuitos eléctricos complejos. Estas leyes son una aplicación de la conservación de la carga y la energía en circuitos eléctricos.</p>
+                
+                <h3>Primera Ley de Kirchhoff: Ley de Corrientes o Ley de Nodos</h3>
+                <p>También conocida como Ley de Conservación de la Carga, establece que:</p>
+                
+                <div class="formula">
+                    ∑I = 0
+                </div>
+                
+                <p>"La suma algebraica de todas las corrientes que entran y salen de un nodo es igual a cero."</p>
+                
+                <p>Por convención:</p>
+                <ul>
+                    <li>Las corrientes que entran a un nodo se consideran positivas (+)</li>
+                    <li>Las corrientes que salen de un nodo se consideran negativas (-)</li>
+                </ul>
+                
+                <img src="/placeholder.svg?height=250&width=450" alt="Diagrama de la Ley de Nodos de Kirchhoff" class="diagram">
+                
+                <h3>Segunda Ley de Kirchhoff: Ley de Voltajes o Ley de Mallas</h3>
+                <p>También conocida como Ley de Conservación de la Energía, establece que:</p>
+                
+                <div class="formula">
+                    ∑V = 0
+                </div>
+                
+                <p>"La suma algebraica de todas las diferencias de potencial (voltajes) en cualquier trayectoria cerrada (malla) de un circuito es igual a cero."</p>
+                
+                <p>Por convención:</p>
+                <ul>
+                    <li>Los voltajes de fuentes que van de - a + en el sentido del recorrido se consideran positivos</li>
+                    <li>Las caídas de tensión en resistencias en el sentido del recorrido se consideran negativas</li>
+                </ul>
+                
+                <img src="/placeholder.svg?height=250&width=450" alt="Diagrama de la Ley de Mallas de Kirchhoff" class="diagram">
+                
+                <h3>Ejemplo Práctico</h3>
+                <div class="example">
+                    <h4>Análisis de un circuito con dos mallas:</h4>
+                    <p>Consideremos un circuito con dos fuentes de voltaje (E₁ = 12V y E₂ = 6V) y tres resistencias (R₁ = 2Ω, R₂ = 4Ω y R₃ = 3Ω).</p>
+                    
+                    <h4>Aplicando la Ley de Mallas:</h4>
+                    <p>Malla 1: E₁ - I₁R₁ - I₁R₃ + I₂R₃ = 0</p>
+                    <p>Malla 2: -I₂R₃ - I₂R₂ + E₂ = 0</p>
+                    
+                    <p>Resolviendo este sistema de ecuaciones, podemos encontrar las corrientes I₁ e I₂.</p>
+                </div>
+                
+                <h3>Aplicaciones</h3>
+                <p>Las Leyes de Kirchhoff son fundamentales para:</p>
+                <ul>
+                    <li>Análisis de circuitos complejos con múltiples fuentes</li>
+                    <li>Diseño de redes eléctricas</li>
+                    <li>Resolución de problemas en sistemas de distribución</li>
+                    <li>Análisis de circuitos integrados</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ley de Joule-Lenz -->
+    <div id="joule" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('joule')">&times;</span>
+            <div class="modal-header">
+                <h2>Ley de Joule-Lenz</h2>
+            </div>
+            <div class="modal-body">
+                <p>La Ley de Joule-Lenz, también conocida como Ley de Joule o Efecto Joule, fue descubierta independientemente por James Prescott Joule y Heinrich Lenz. Esta ley describe la relación entre la corriente eléctrica que fluye a través de un conductor y el calor generado debido a la resistencia eléctrica.</p>
+                
+                <div class="formula">
+                    Q = I² × R × t
+                </div>
+                
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>Q</strong> = Calor generado (medido en julios, J)</li>
+                    <li><strong>I</strong> = Intensidad de corriente (medida en amperios, A)</li>
+                    <li><strong>R</strong> = Resistencia del conductor (medida en ohmios, Ω)</li>
+                    <li><strong>t</strong> = Tiempo durante el cual circula la corriente (medido en segundos, s)</li>
+                </ul>
+                
+                <p>También se puede expresar en términos de potencia:</p>
+                
+                <div class="formula">
+                    P = I² × R = V × I = V² / R
+                </div>
+                
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>P</strong> = Potencia disipada (medida en vatios, W)</li>
+                    <li><strong>V</strong> = Voltaje aplicado (medido en voltios, V)</li>
+                </ul>
+                
+                <h3>Principio Físico</h3>
+                <p>Cuando una corriente eléctrica fluye a través de un conductor, los electrones colisionan con los átomos del material. Estas colisiones transfieren energía cinética a los átomos, aumentando su vibración y, por lo tanto, la temperatura del conductor. Este fenómeno es la base de muchos dispositivos que convierten energía eléctrica en calor.</p>
+                
+                <img src="/placeholder.svg?height=250&width=450" alt="Ilustración del Efecto Joule" class="diagram">
+                
+                <h3>Aplicaciones Prácticas</h3>
+                <ul>
+                    <li><strong>Calefacción eléctrica:</strong> Estufas, hornos, calentadores de agua</li>
+                    <li><strong>Iluminación incandescente:</strong> Bombillas tradicionales</li>
+                    <li><strong>Fusibles:</strong> Dispositivos de protección que se funden cuando la corriente excede un valor seguro</li>
+                    <li><strong>Soldadura eléctrica:</strong> Utiliza el calor generado para fundir metales</li>
+                </ul>
+                
+                <h3>Ejemplo Práctico</h3>
+                <div class="example">
+                    <h4>Problema:</h4>
+                    <p>Una resistencia de 20 Ω está conectada a una fuente de 120 V durante 5 minutos. ¿Cuánto calor genera?</p>
+                    
+                    <h4>Solución:</h4>
+                    <p>Primero calculamos la corriente usando la Ley de Ohm:</p>
+                    <p>I = V / R = 120 V / 20 Ω = 6 A</p>
+                    
+                    <p>Ahora calculamos el calor generado:</p>
+                    <p>Q = I² × R × t = (6 A)² × 20 Ω × (5 × 60 s) = 36 × 20 × 300 = 216,000 J = 216 kJ</p>
+                </div>
+                
+                <h3>Eficiencia Energética</h3>
+                <p>El Efecto Joule es considerado una pérdida de energía en sistemas de transmisión eléctrica, ya que la energía se convierte en calor en lugar de trabajo útil. Por esta razón, se busca minimizar la resistencia en líneas de transmisión para reducir estas pérdidas.</p>
+                
+                <p>Sin embargo, en aplicaciones de calefacción, el Efecto Joule es precisamente el fenómeno deseado, y en estos casos la eficiencia de conversión de energía eléctrica a calor es prácticamente del 100%.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ley de Coulomb -->
+    <div id="coulomb" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('coulomb')">&times;</span>
+            <div class="modal-header">
+                <h2>Ley de Coulomb</h2>
+            </div>
+            <div class="modal-body">
+                <p>La Ley de Coulomb, formulada por el físico francés Charles-Augustin de Coulomb en 1785, describe la fuerza de interacción electrostática entre partículas cargadas eléctricamente. Esta ley es fundamental para entender el comportamiento de las cargas eléctricas y es la base de la electrostática.</p>
+                
+                <div class="formula">
+                    F = k × (q₁ × q₂) / r²
+                </div>
+                
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>F</strong> = Fuerza electrostática entre las cargas (medida en newtons, N)</li>
+                    <li><strong>k</strong> = Constante de Coulomb (k ≈ 9 × 10⁹ N·m²/C²)</li>
+                    <li><strong>q₁, q₂</strong> = Magnitud de las cargas eléctricas (medidas en coulombs, C)</li>
+                    <li><strong>r</strong> = Distancia entre las cargas (medida en metros, m)</li>
+                </ul>
+                
+                <p>La constante k también puede expresarse como:</p>
+                
+                <div class="formula">
+                    k = 1 / (4πε₀)
+                </div>
+                
+                <p>Donde ε₀ es la permitividad del vacío (ε₀ ≈ 8.85 × 10⁻¹² F/m).</p>
+                
+                <h3>Características de la Fuerza Electrostática</h3>
+                <ul>
+                    <li><strong>Dirección:</strong> La fuerza actúa a lo largo de la línea que une las dos cargas</li>
+                    <li><strong>Sentido:</strong> 
+                        <ul>
+                            <li>Si las cargas son del mismo signo (ambas positivas o ambas negativas), la fuerza es repulsiva</li>
+                            <li>Si las cargas son de signos opuestos (una positiva y otra negativa), la fuerza es atractiva</li>
+                        </ul>
+                    </li>
+                    <li><strong>Magnitud:</strong> Proporcional al producto de las cargas e inversamente proporcional al cuadrado de la distancia</li>
+                </ul>
+                
+                <img src="/placeholder.svg?height=300&width=500" alt="Ilustración de la Ley de Coulomb" class="diagram">
+                
+                <h3>Principio de Superposición</h3>
+                <p>Cuando hay más de dos cargas, la fuerza total sobre una carga específica es la suma vectorial de las fuerzas individuales ejercidas por cada una de las otras cargas.</p>
+                
+                <h3>Ejemplo Práctico</h3>
+                <div class="example">
+                    <h4>Problema:</h4>
+                    <p>Dos cargas puntuales, q₁ = 3 × 10⁻⁶ C y q₂ = -2 × 10⁻⁶ C, están separadas por una distancia de 0.1 m. ¿Cuál es la magnitud y dirección de la fuerza entre ellas?</p>
+                    
+                    <h4>Solución:</h4>
+                    <p>F = k × (q₁ × q₂) / r²</p>
+                    <p>F = (9 × 10⁹) × [(3 × 10⁻⁶) × (-2 × 10⁻⁶)] / (0.1)²</p>
+                    <p>F = (9 × 10⁹) × (-6 × 10⁻¹²) / 0.01</p>
+                    <p>F = -5.4 N</p>
+                    
+                    <p>El signo negativo indica que la fuerza es atractiva (las cargas son de signos opuestos).</p>
+                </div>
+                
+                <h3>Aplicaciones de la Ley de Coulomb</h3>
+                <ul>
+                    <li>Diseño de componentes electrostáticos</li>
+                    <li>Análisis de campos eléctricos</li>
+                    <li>Fundamento para el estudio de circuitos eléctricos</li>
+                    <li>Base para el desarrollo de tecnologías como impresoras láser y fotocopiadoras</li>
+                    <li>Comprensión de fenómenos naturales como los rayos</li>
+                </ul>
+                
+                <h3>Relación con el Campo Eléctrico</h3>
+                <p>La Ley de Coulomb permite definir el concepto de campo eléctrico (E), que es la fuerza por unidad de carga:</p>
+                
+                <div class="formula">
+                    E = F / q = k × Q / r²
+                </div>
+                
+                <p>Donde Q es la carga que genera el campo y r es la distancia desde esa carga.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Conexión en Serie -->
+    <div id="serie" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('serie')">&times;</span>
+            <div class="modal-header">
+                <h2>Conexión en Serie</h2>
+            </div>
+            <div class="modal-body">
+                <p>En una conexión en serie, los componentes eléctricos se conectan uno a continuación del otro, formando un único camino para la corriente eléctrica. Esta configuración es fundamental en muchos circuitos eléctricos y tiene características específicas que la distinguen de otros tipos de conexiones.</p>
+                
+                <img src="/placeholder.svg?height=200&width=500" alt="Diagrama de conexión en serie" class="diagram">
+                
+                <h3>Características Principales</h3>
+                
+                <h4>1. Corriente Eléctrica</h4>
+                <p>En un circuito en serie, la corriente eléctrica es la misma en todos los puntos del circuito:</p>
+                
+                <div class="formula">
+                    I = I₁ = I₂ = I₃ = ... = Iₙ
+                </div>
+                
+                <h4>2. Voltaje o Diferencia de Potencial</h4>
+                <p>El voltaje total del circuito es igual a la suma de las caídas de tensión en cada componente:</p>
+                
+                <div class="formula">
+                    V<sub>total</sub> = V₁ + V₂ + V₃ + ... + Vₙ
+                </div>
+                
+                <h4>3. Resistencia Eléctrica</h4>
+                <p>La resistencia total en un circuito en serie es igual a la suma de todas las resistencias individuales:</p>
+                
+                <div class="formula">
+                    R<sub>total</sub> = R₁ + R₂ + R₃ + ... + Rₙ
+                </div>
+                
+                <h3>Aplicaciones Prácticas</h3>
+                <ul>
+                    <li><strong>Luces navideñas tradicionales:</strong> Si una bombilla se quema, todo el circuito deja de funcionar</li>
+                    <li><strong>Fusibles y protecciones:</strong> Se colocan en serie para interrumpir el circuito en caso de sobrecarga</li>
+                    <li><strong>Amperímetros:</strong> Se conectan en serie para medir la corriente</li>
+                    <li><strong>Divisores de tensión:</strong> Permiten obtener voltajes menores a partir de una fuente mayor</li>
+                </ul>
+                
+                <h3>Ventajas y Desventajas</h3>
+                
+                <h4>Ventajas:</h4>
+                <ul>
+                    <li>Diseño simple y fácil de implementar</li>
+                    <li>Útil para aplicaciones donde se requiere la misma corriente en todos los componentes</li>
+                    <li>Facilita la detección de fallos (si un componente falla, todo el circuito deja de funcionar)</li>
+                </ul>
+                
+                <h4>Desventajas:</h4>
+                <ul>
+                    <li>Si un componente falla, todo el circuito deja de funcionar</li>
+                    <li>La resistencia total aumenta con cada componente añadido</li>
+                    <li>El voltaje se divide entre los componentes, lo que puede resultar en voltajes insuficientes</li>
+                </ul>
+                
+                <h3>Ejemplo Práctico</h3>
+                <div class="example">
+                    <h4>Problema:</h4>
+                    <p>En un circuito en serie hay tres resistencias: R₁ = 10 Ω, R₂ = 15 Ω y R₃ = 25 Ω. Si se aplica un voltaje de 100 V, calcular:</p>
+                    <ol>
+                        <li>La resistencia total</li>
+                        <li>La corriente que circula por el circuito</li>
+                        <li>La caída de tensión en cada resistencia</li>
+                    </ol>
+                    
+                    <h4>Solución:</h4>
+                    <p>1. Resistencia total:</p>
+                    <p>R<sub>total</sub> = R₁ + R₂ + R₃ = 10 Ω + 15 Ω + 25 Ω = 50 Ω</p>
+                    
+                    <p>2. Corriente (usando la Ley de Ohm):</p>
+                    <p>I = V / R<sub>total</sub> = 100 V / 50 Ω = 2 A</p>
+                    
+                    <p>3. Caída de tensión en cada resistencia:</p>
+                    <p>V₁ = I × R₁ = 2 A × 10 Ω = 20 V</p>
+                    <p>V₂ = I × R₂ = 2 A × 15 Ω = 30 V</p>
+                    <p>V₃ = I × R₃ = 2 A × 25 Ω = 50 V</p>
+                    
+                    <p>Comprobación: V<sub>total</sub> = V₁ + V₂ + V₃ = 20 V + 30 V + 50 V = 100 V ✓</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Conexión en Paralelo -->
+    <div id="paralelo" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('paralelo')">&times;</span>
+            <div class="modal-header">
+                <h2>Conexión en Paralelo</h2>
+            </div>
+            <div class="modal-body">
+                <p>En una conexión en paralelo, los componentes eléctricos se conectan de manera que todos sus terminales de un mismo tipo están unidos entre sí. Esta configuración proporciona múltiples caminos para que la corriente fluya y tiene características específicas que la distinguen de la conexión en serie.</p>
+                
+                <img src="/placeholder.svg?height=250&width=500" alt="Diagrama de conexión en paralelo" class="diagram">
+                
+                <h3>Características Principales</h3>
+                
+                <h4>1. Voltaje o Diferencia de Potencial</h4>
+                <p>En un circuito en paralelo, el voltaje es el mismo en todos los componentes:</p>
+                
+                <div class="formula">
+                    V = V₁ = V₂ = V₃ = ... = Vₙ
+                </div>
+                
+                <h4>2. Corriente Eléctrica</h4>
+                <p>La corriente total del circuito es igual a la suma de las corrientes que pasan por cada rama:</p>
+                
+                <div class="formula">
+                    I<sub>total</sub> = I₁ + I₂ + I₃ + ... + Iₙ
+                </div>
+                
+                <h4>3. Resistencia Eléctrica</h4>
+                <p>La resistencia total en un circuito en paralelo se calcula mediante la siguiente fórmula:</p>
+                
+                <div class="formula">
+                    1/R<sub>total</sub> = 1/R₁ + 1/R₂ + 1/R₃ + ... + 1/Rₙ
+                </div>
+                
+                <p>O de forma simplificada para dos resistencias:</p>
+                
+                <div class="formula">
+                    R<sub>total</sub> = (R₁ × R₂) / (R₁ + R₂)
+                </div>
+                
+                <p>Una propiedad importante es que la resistencia total siempre es menor que la resistencia más pequeña del circuito.</p>
+                
+                <h3>Aplicaciones Prácticas</h3>
+                <ul>
+                    <li><strong>Instalaciones eléctricas domésticas:</strong> Todos los electrodomésticos se conectan en paralelo</li>
+                    <li><strong>Luces modernas navideñas:</strong> Si una bombilla se quema, las demás siguen funcionando</li>
+                    <li><strong>Voltímetros:</strong> Se conectan en paralelo para medir el voltaje</li>
+                    <li><strong>Baterías:</strong> Para aumentar la capacidad de corriente</li>
+                </ul>
+                
+                <h3>Ventajas y Desventajas</h3>
+                
+                <h4>Ventajas:</h4>
+                <ul>
+                    <li>Si un componente falla, los demás siguen funcionando</li>
+                    <li>Todos los componentes reciben el mismo voltaje</li>
+                    <li>Facilita la adición de nuevos componentes sin afectar significativamente el circuito</li>
+                    <li>La resistencia total disminuye con cada componente añadido</li>
+                </ul>
+                
+                <h4>Desventajas:</h4>
+                <ul>
+                    <li>Mayor consumo de corriente</li>
+                    <li>Posibilidad de sobrecarga en la fuente de alimentación</li>
+                    <li>Más difícil detectar fallos específicos</li>
+                </ul>
+                
+                <h3>Ejemplo Práctico</h3>
+                <div class="example">
+                    <h4>Problema:</h4>
+                    <p>En un circuito en paralelo hay tres resistencias: R₁ = 30 Ω, R₂ = 20 Ω y R₃ = 60 Ω. Si se aplica un voltaje de 120 V, calcular:</p>
+                    <ol>
+                        <li>La resistencia total</li>
+                        <li>La corriente total</li>
+                        <li>La corriente que circula por cada resistencia</li>
+                    </ol>
+                    
+                    <h4>Solución:</h4>
+                    <p>1. Resistencia total:</p>
+                    <p>1/R<sub>total</sub> = 1/30 + 1/20 + 1/60 = 2/60 + 3/60 + 1/60 = 6/60 = 1/10</p>
+                    <p>R<sub>total</sub> = 10 Ω</p>
+                    
+                    <p>2. Corriente total (usando la Ley de Ohm):</p>
+                    <p>I<sub>total</sub> = V / R<sub>total</sub> = 120 V / 10 Ω = 12 A</p>
+                    
+                    <p>3. Corriente en cada resistencia:</p>
+                    <p>I₁ = V / R₁ = 120 V / 30 Ω = 4 A</p>
+                    <p>I₂ = V / R₂ = 120 V / 20 Ω = 6 A</p>
+                    <p>I₃ = V / R₃ = 120 V / 60 Ω = 2 A</p>
+                    
+                    <p>Comprobación: I<sub>total</sub> = I₁ + I₂ + I₃ = 4 A + 6 A + 2 A = 12 A ✓</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Circuitos Mixtos -->
+    <div id="mixto" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('mixto')">&times;</span>
+            <div class="modal-header">
+                <h2>Circuitos Mixtos</h2>
+            </div>
+            <div class="modal-body">
+                <p>Los circuitos mixtos son aquellos que combinan conexiones en serie y en paralelo. Estos circuitos son muy comunes en aplicaciones prácticas y requieren un análisis más detallado para determinar sus características eléctricas.</p>
+                
+                <img src="/placeholder.svg?height=300&width=500" alt="Diagrama de circuito mixto" class="diagram">
+                
+                <h3>Análisis de Circuitos Mixtos</h3>
+                <p>Para analizar un circuito mixto, se siguen estos pasos:</p>
+                
+                <ol>
+                    <li><strong>Identificar grupos:</strong> Reconocer qué componentes están en serie y cuáles en paralelo</li>
+                    <li><strong>Simplificar por etapas:</strong> Calcular resistencias equivalentes para cada grupo</li>
+                    <li><strong>Calcular la resistencia total:</strong> Combinar las resistencias equivalentes</li>
+                    <li><strong>Determinar la corriente principal:</strong> Usando la Ley de Ohm</li>
+                    <li><strong>Calcular voltajes y corrientes:</strong> Analizar cada parte del circuito</li>
+                </ol>
+                
+                <h3>Técnicas de Resolución</h3>
+                
+                <h4>1. Método de Reducción</h4>
+                <p>Consiste en simplificar progresivamente el circuito, reemplazando grupos de resistencias por sus equivalentes hasta obtener un circuito simple.</p>
+                
+                <h4>2. Leyes de Kirchhoff</h4>
+                <p>Para circuitos más complejos, se aplican las leyes de Kirchhoff:</p>
+                <ul>
+                    <li>Ley de corrientes (nodos)</li>
+                    <li>Ley de voltajes (mallas)</li>
+                </ul>
+                
+                <h4>3. Teoremas de Circuitos</h4>
+                <p>En casos específicos, se pueden aplicar teoremas como:</p>
+                <ul>
+                    <li>Teorema de Superposición</li>
+                    <li>Teorema de Thévenin</li>
+                    <li>Teorema de Norton</li>
+                </ul>
+                
+                <h3>Ejemplo Práctico</h3>
+                <div class="example">
+                    <h4>Problema:</h4>
+                    <p>Analizar el siguiente circuito mixto:</p>
+                    <ul>
+                        <li>Una resistencia R₁ = 10 Ω en serie con un conjunto paralelo de R₂ = 20 Ω y R₃ = 30 Ω</li>
+                        <li>Voltaje aplicado: 120 V</li>
+                    </ul>
+                    
+                    <h4>Solución:</h4>
+                    <p>1. Calculamos la resistencia equivalente del conjunto paralelo:</p>
+                    <p>1/R<sub>eq(paralelo)</sub> = 1/20 + 1/30 = 3/60 + 2/60 = 5/60</p>
+                    <p>R<sub>eq(paralelo)</sub> = 60/5 = 12 Ω</p>
+                    
+                    <p>2. Calculamos la resistencia total (R₁ en serie con R<sub>eq(paralelo)</sub>):</p>
+                    <p>R<sub>total</sub> = 10 Ω + 12 Ω = 22 Ω</p>
+                    
+                    <p>3. Calculamos la corriente principal:</p>
+                    <p>I<sub>principal</sub> = V / R<sub>total</sub> = 120 V / 22 Ω ≈ 5.45 A</p>
+                    
+                    <p>4. Calculamos la caída de tensión en R₁:</p>
+                    <p>V<sub>R₁</sub> = I<sub>principal</sub> × R₁ = 5.45 A × 10 Ω = 54.5 V</p>
+                    
+                    <p>5. Calculamos la caída de tensión en el conjunto paralelo:</p>
+                    <p>V<sub>paralelo</sub> = I<sub>principal</sub> × R<sub>eq(paralelo)</sub> = 5.45 A × 12 Ω = 65.5 V</p>
+                    
+                    <p>6. Calculamos las corrientes en las ramas paralelas:</p>
+                    <p>I<sub>R₂</sub> = V<sub>paralelo</sub> / R₂ = 65.5 V / 20 Ω ≈ 3.28 A</p>
+                    <p>I<sub>R₃</sub> = V<sub>paralelo</sub> / R₃ = 65.5 V / 30 Ω ≈ 2.18 A</p>
+                    
+                    <p>Comprobación: I<sub>principal</sub> = I<sub>R₂</sub> + I<sub>R₃</sub> = 3.28 A + 2.18 A ≈ 5.46 A ✓</p>
+                </div>
+                
+                <h3>Aplicaciones de Circuitos Mixtos</h3>
+                <ul>
+                    <li>Sistemas de iluminación</li>
+                    <li>Circuitos electrónicos</li>
+                    <li>Sistemas de control</li>
+                    <li>Electrodomésticos</li>
+                    <li>Equipos de audio y video</li>
+                </ul>
+                
+                <p>Los circuitos mixtos permiten diseñar sistemas más complejos y eficientes, aprovechando las ventajas tanto de las conexiones en serie como en paralelo según las necesidades específicas de cada aplicación.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dispositivos de Protección -->
+    <div id="proteccion" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('proteccion')">&times;</span>
+            <div class="modal-header">
+                <h2>Dispositivos de Protección Eléctrica</h2>
+            </div>
+            <div class="modal-body">
+                <p>Los dispositivos de protección eléctrica son componentes esenciales en cualquier instalación eléctrica, diseñados para prevenir daños a equipos, evitar incendios y proteger a las personas contra descargas eléctricas. Estos dispositivos actúan interrumpiendo el flujo de corriente cuando detectan condiciones anormales.</p>
+                
+                <h3>Principales Dispositivos de Protección</h3>
+                
+                <h4>1. Fusibles</h4>
+                <p>Son dispositivos de protección contra sobrecorrientes que contienen un elemento conductor que se funde cuando la corriente supera un valor determinado.</p>
+                
+                <ul>
+                    <li><strong>Funcionamiento:</strong> Basado en el efecto Joule (calentamiento por corriente)</li>
+                    <li><strong>Tipos:</strong> 
+                        <ul>
+                            <li>Fusibles de cartucho</li>
+                            <li>Fusibles tipo cuchilla</li>
+                            <li>Fusibles de tapón</li>
+                            <li>Fusibles de acción rápida o retardada</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ventajas:</strong> Económicos, simples, fiables</li>
+                    <li><strong>Desventajas:</strong> Desechables (uso único), requieren reemplazo manual</li>
+                </ul>
+                
+                <img src="/placeholder.svg?height=200&width=400" alt="Tipos de fusibles" class="diagram">
+                
+                <h4>2. Interruptores Automáticos (Breakers)</h4>
+                <p>Dispositivos de protección rearmables que interrumpen automáticamente un circuito eléctrico cuando detectan una sobrecarga o cortocircuito.</p>
+                
+                <ul>
+                    <li><strong>Funcionamiento:</strong> Combinan protección térmica (para sobrecargas) y magnética (para cortocircuitos)</li>
+                    <li><strong>Tipos:</strong> 
+                        <ul>
+                            <li>Interruptores termomagnéticos</li>
+                            <li>Interruptores de caja moldeada</li>
+                            <li>Interruptores de potencia</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ventajas:</strong> Reusables, fácil restablecimiento, mayor precisión</li>
+                    <li><strong>Desventajas:</strong> Mayor costo, mayor tamaño</li>
+                </ul>
+                
+                <h4>3. Interruptores Diferenciales (GFCI/RCD)</h4>
+                <p>Dispositivos diseñados para proteger a las personas contra descargas eléctricas, detectando fugas de corriente a tierra.</p>
+                
+                <ul>
+                    <li><strong>Funcionamiento:</strong> Comparan la corriente que entra con la que sale del circuito</li>
+                    <li><strong>Sensibilidad:</strong> Típicamente 30 mA para protección personal</li>
+                    <li><strong>Aplicaciones:</strong> Baños, cocinas, exteriores y áreas húmedas</li>
+                    <li><strong>Ventajas:</strong> Alta protección contra electrocución</li>
+                </ul>
+                
+                <img src="/placeholder.svg?height=200&width=400" alt="Interruptor diferencial" class="diagram">
+                
+                <h4>4. Protectores contra Sobretensiones (SPD)</h4>
+                <p>Dispositivos que protegen equipos electrónicos contra picos de voltaje y sobretensiones transitorias.</p>
+                
+                <ul>
+                    <li><strong>Funcionamiento:</strong> Desvían el exceso de voltaje a tierra</li>
+                    <li><strong>Tipos:</strong> 
+                        <ul>
+                            <li>Tipo 1: Protección primaria (rayos directos)</li>
+                            <li>Tipo 2: Protección secundaria (distribución)</li>
+                            <li>Tipo 3: Protección final (punto de uso)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Aplicaciones:</strong> Equipos sensibles, sistemas de comunicación, centros de datos</li>
+                </ul>
+                
+                <h3>Coordinación de Protecciones</h3>
+                <p>La coordinación de protecciones es el proceso de seleccionar y configurar dispositivos de protección para que actúen de manera selectiva, asegurando que solo se desconecte la parte del sistema afectada por una falla.</p>
+                
+                <ul>
+                    <li><strong>Selectividad:</strong> Garantiza que solo actúe el dispositivo más cercano a la falla</li>
+                    <li><strong>Respaldo:</strong> Si falla la protección principal, debe actuar la siguiente</li>
+                    <li><strong>Tiempo de actuación:</strong> Las protecciones más cercanas a la carga deben actuar más rápido</li>
+                </ul>
+                
+                <h3>Ejemplo Práctico</h3>
+                <div class="example">
+                    <h4>Selección de un interruptor automático:</h4>
+                    <p>Para un circuito que alimenta un motor de 10 A de corriente nominal:</p>
+                    
+                    <ol>
+                        <li>Corriente de diseño: I<sub>d</sub> = 10 A × 1.25 = 12.5 A (factor de seguridad)</li>
+                        <li>Selección del interruptor: Se elige un interruptor de 16 A (valor normalizado superior)</li>
+                        <li>Verificación de la capacidad de cortocircuito: Debe ser mayor que la corriente de cortocircuito máxima en el punto de instalación</li>
+                    </ol>
+                </div>
+                
+                <h3>Normativas y Estándares</h3>
+                <p>Los dispositivos de protección deben cumplir con normativas específicas según la región:</p>
+                
+                <ul>
+                    <li><strong>IEC:</strong> Estándares internacionales</li>
+                    <li><strong>NEMA/UL:</strong> Estándares norteamericanos</li>
+                    <li><strong>NEC:</strong> Código Eléctrico Nacional (EE.UU.)</li>
+                    <li><strong>REBT:</strong> Reglamento Electrotécnico de Baja Tensión (España)</li>
+                </ul>
+                
+                <p>La correcta selección e instalación de dispositivos de protección es fundamental para garantizar la seguridad de las personas y la integridad de los equipos eléctricos.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Riesgos Eléctricos -->
+    <div id="riesgos" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('riesgos')">&times;</span>
+            <div class="modal-header">
+                <h2>Riesgos Eléctricos</h2>
+            </div>
+            <div class="modal-body">
+                <p>Los riesgos eléctricos representan uno de los peligros más significativos en entornos industriales, comerciales y residenciales. La electricidad puede causar daños graves e incluso fatales si no se maneja adecuadamente. Identificar y prevenir estos riesgos es fundamental para garantizar la seguridad.</p>
+                
+                <h3>Principales Riesgos Eléctricos</h3>
+                
+                <h4>1. Choque Eléctrico</h4>
+                <p>Ocurre cuando una persona forma parte de un circuito eléctrico, permitiendo que la corriente fluya a través de su cuerpo.</p>
+                
+                <ul>
+                    <li><strong>Efectos según la intensidad:</strong>
+                        <ul>
+                            <li>1-3 mA: Percepción (cosquilleo)</li>
+                            <li>3-10 mA: Dolor</li>
+                            <li>10-30 mA: Contracción muscular (no poder soltar)</li>
+                            <li>30-50 mA: Dificultad respiratoria</li>
+                            <li>50-100 mA: Fibrilación ventricular posible</li>
+                            <li>>100 mA: Fibrilación ventricular probable, quemaduras graves</li>
+                        </ul>
+                    </li>
+                    <li><strong>Factores que influyen:</strong> Intensidad, duración, frecuencia, trayectoria, impedancia del cuerpo</li>
+                </ul>
+                
+                <img src="/placeholder.svg?height=250&width=450" alt="Efectos de la corriente eléctrica en el cuerpo humano" class="diagram">
+                
+                <h4>2. Arco Eléctrico</h4>
+                <p>Descarga eléctrica de alta energía que salta a través del aire entre conductores o de un conductor a tierra.</p>
+                
+                <ul>
+                    <li><strong>Causas:</strong> Cortocircuitos, fallos de aislamiento, aproximación excesiva a partes energizadas</li>
+                    <li><strong>Peligros:</strong> Temperaturas extremas (hasta 20,000°C), radiación UV intensa, onda expansiva, proyección de partículas fundidas</li>
+                    <li><strong>Consecuencias:</strong> Quemaduras graves, ceguera, lesiones por impacto, muerte</li>
+                </ul>
+                
+                <h4>3. Incendios de Origen Eléctrico</h4>
+                <p>Representan aproximadamente el 25-30% de todos los incendios en edificios.</p>
+                
+                <ul>
+                    <li><strong>Causas:</strong>
+                        <ul>
+                            <li>Sobrecarga de circuitos</li>
+                            <li>Cortocircuitos</li>
+                            <li>Conexiones flojas</li>
+                            <li>Envejecimiento de instalaciones</li>
+                            <li>Uso inadecuado de equipos</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h4>4. Explosiones</h4>
+                <p>Pueden ocurrir en ambientes con gases o polvos inflamables cuando una chispa eléctrica proporciona la energía de ignición.</p>
+                
+                <h3>Factores de Riesgo</h3>
+                
+                <ul>
+                    <li><strong>Instalaciones defectuosas:</strong> Cableado inadecuado, falta de protecciones</li>
+                    <li><strong>Equipos en mal estado:</strong> Aislamiento deteriorado, componentes dañados</li>
+                    <li><strong>Falta de mantenimiento:</strong> Conexiones flojas, acumulación de polvo</li>
+                    <li><strong>Procedimientos incorrectos:</strong> Trabajar con tensión cuando no es necesario</li>
+                    <li><strong>Falta de capacitación:</strong> Desconocimiento de riesgos y medidas preventivas</li>
+                    <li><strong>Condiciones ambientales:</strong> Humedad, temperatura, atmósferas explosivas</li>
+                </ul>
+                
+                <h3>Medidas Preventivas</h3>
+                
+                <h4>1. Medidas Técnicas</h4>
+                <ul>
+                    <li><strong>Aislamiento:</strong> Recubrimiento de partes activas</li>
+                    <li><strong>Puesta a tierra:</strong> Conexión de masas metálicas a tierra</li>
+                    <li><strong>Protección diferencial:</strong> Interruptores que detectan fugas de corriente</li>
+                    <li><strong>Barreras físicas:</strong> Impedir el acceso a partes energizadas</li>
+                    <li><strong>Tensión de seguridad:</strong> Uso de muy baja tensión en ambientes húmedos</li>
+                </ul>
+                
+                <h4>2. Medidas Organizativas</h4>
+                <ul>
+                    <li><strong>Procedimientos de trabajo:</strong> Métodos seguros, permisos de trabajo</li>
+                    <li><strong>Las 5 Reglas de Oro:</strong>
+                        <ol>
+                            <li>Desconectar completamente</li>
+                            <li>Prevenir cualquier posible realimentación</li>
+                            <li>Verificar la ausencia de tensión</li>
+                            <li>Poner a tierra y en cortocircuito</li>
+                            <li>Señalizar y delimitar la zona de trabajo</li>
+                        </ol>
+                    </li>
+                    <li><strong>Mantenimiento preventivo:</strong> Inspecciones periódicas</li>
+                    <li><strong>Formación:</strong> Capacitación específica para trabajadores</li>
+                </ul>
+                
+                <h4>3. Equipos de Protección Individual (EPI)</h4>
+                <ul>
+                    <li>Guantes aislantes</li>
+                    <li>Calzado aislante</li>
+                    <li>Casco con protección dieléctrica</li>
+                    <li>Pantallas faciales</li>
+                    <li>Ropa ignífuga para trabajos con riesgo de arco eléctrico</li>
+                    <li>Herramientas aisladas</li>
+                </ul>
+                
+                <img src="/placeholder.svg?height=250&width=450" alt="Equipos de protección individual para riesgos eléctricos" class="diagram">
+                
+                <h3>Actuación en Caso de Accidente Eléctrico</h3>
+                
+                <ol>
+                    <li><strong>No tocar a la víctima</strong> si sigue en contacto con la fuente eléctrica</li>
+                    <li><strong>Cortar la corriente</strong> desde el interruptor principal o disyuntor</li>
+                    <li>Si no es posible cortar la corriente, <strong>separar a la víctima</strong> usando un elemento aislante (madera seca, plástico)</li>
+                    <li><strong>Llamar a los servicios de emergencia</strong></li>
+                    <li><strong>Evaluar el estado de la víctima</strong> y aplicar primeros auxilios si es necesario:
+                        <ul>
+                            <li>Comprobar respiración y pulso</li>
+                            <li>Iniciar RCP si es necesario</li>
+                            <li>Tratar las quemaduras</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h3>Normativa Aplicable</h3>
+                <p>La seguridad eléctrica está regulada por diversas normativas que varían según el país, pero generalmente incluyen:</p>
+                
+                <ul>
+                    <li>Reglamentos de instalaciones eléctricas</li>
+                    <li>Normas de seguridad laboral</li>
+                    <li>Estándares técnicos para equipos e instalaciones</li>
+                    <li>Protocolos de trabajo seguro con electricidad</li>
+                </ul>
+                
+                <p>La prevención de riesgos eléctricos requiere un enfoque integral que combine medidas técnicas, organizativas y formativas, adaptadas a cada entorno específico.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Normativas de Seguridad -->
+    <div id="normativas" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('normativas')">&times;</span>
+            <div class="modal-header">
+                <h2>Normativas de Seguridad Eléctrica</h2>
+            </div>
+            <div class="modal-body">
+                <p>Las normativas de seguridad eléctrica son conjuntos de reglas y estándares establecidos por organismos reguladores para garantizar que las instalaciones y equipos eléctricos sean seguros para las personas y los bienes. Estas normativas varían según el país o región, pero comparten principios fundamentales orientados a prevenir accidentes.</p>
+                
+                <h3>Principales Organismos Reguladores</h3>
+                
+                <h4>Organismos Internacionales</h4>
+                <ul>
+                    <li><strong>IEC (International Electrotechnical Commission):</strong> Desarrolla estándares internacionales para tecnologías eléctricas y electrónicas</li>
+                    <li><strong>ISO (International Organization for Standardization):</strong> Establece normas para sistemas de gestión de seguridad</li>
+                </ul>
+                
+                <h4>Organismos Regionales y Nacionales</h4>
+                <ul>
+                    <li><strong>CENELEC:</strong> Comité Europeo de Normalización Electrotécnica</li>
+                    <li><strong>NFPA:</strong> National Fire Protection Association (EE.UU.)</li>
+                    <li><strong>ANSI:</strong> American National Standards Institute</li>
+                    <li><strong>UL:</strong> Underwriters Laboratories (EE.UU.)</li>
+                    <li><strong>CSA:</strong> Canadian Standards Association</li>
+                    <li><strong>AENOR:</strong> Asociación Española de Normalización y Certificación</li>
+                </ul>
+                
+                <h3>Normativas Fundamentales</h3>
+                
+                <h4>1. Códigos Eléctricos Nacionales</h4>
+                <ul>
+                    <li><strong>NEC (National Electrical Code):</strong> Código eléctrico de EE.UU. (NFPA 70)</li>
+                    <li><strong>CEC (Canadian Electrical Code):</strong> Código eléctrico de Canadá</li>
+                    <li><strong>REBT:</strong> Reglamento Electrotécnico para Baja Tensión (España)</li>
+                    <li><strong>NOM:</strong> Normas Oficiales Mexicanas</li>
+                    <li><strong>NBR:</strong> Normas Brasileñas</li>
+                </ul>
+                
+                <h4>2. Estándares de Seguridad Laboral</h4>
+                <ul>
+                    <li><strong>OSHA 1910.269 y 1910.333:</strong> Estándares para trabajos eléctricos (EE.UU.)</li>
+                    <li><strong>NFPA 70E:</strong> Norma para la seguridad eléctrica en lugares de trabajo</li>
+                    <li><strong>IEEE 1584:</strong> Guía para realizar cálculos de arco eléctrico</li>
+                </ul>
+                
+                <img src="/placeholder.svg?height=250&width=450" alt="Señalización de seguridad eléctrica" class="diagram">
+                
+                <h3>Aspectos Clave Regulados</h3>
+                
+                <h4>1. Instalaciones Eléctricas</h4>
+                <ul>
+                    <li><strong>Dimensionamiento de conductores:</strong> Sección adecuada según la carga</li>
+                    <li><strong>Protecciones:</strong> Dispositivos obligatorios según tipo de circuito</li>
+                    <li><strong>Puesta a tierra:</strong> Requisitos de instalación y valores máximos</li>
+                    <li><strong>Distancias de seguridad:</strong> Separaciones mínimas entre componentes</li>
+                    <li><strong>Métodos de canalización:</strong> Formas aprobadas de instalar conductores</li>
+                </ul>
+                
+                <h4>2. Equipos Eléctricos</h4>
+                <ul>
+                    <li><strong>Certificación:</strong> Marcado CE, UL, CSA u otros según región</li>
+                    <li><strong>Grados de protección IP:</strong> Resistencia a polvo y agua</li>
+                    <li><strong>Clasificación para áreas peligrosas:</strong> Equipos para zonas con riesgo de explosión</li>
+                    <li><strong>Aislamiento:</strong> Clases de aislamiento y niveles de protección</li>
+                </ul>
+                
+                <h4>3. Procedimientos de Trabajo</h4>
+                <ul>
+                    <li><strong>Trabajos sin tensión:</strong> Las 5 reglas de oro</li>
+                    <li><strong>Trabajos con tensión:</strong> Requisitos de formación y equipamiento</li>
+                    <li><strong>Distancias de seguridad:</strong> Aproximación a partes energizadas</li>
+                    <li><strong>Señalización:</strong> Requisitos para delimitar zonas de trabajo</li>
+                </ul>
+                
+                <h3>Clasificación de Locales según Riesgo</h3>
+                
+                <p>Las normativas suelen clasificar los locales según su nivel de riesgo eléctrico:</p>
+                
+                <ul>
+                    <li><strong>Locales húmedos:</strong> Requieren protecciones especiales contra la humedad</li>
+                    <li><strong>Locales mojados:</strong> Necesitan equipos con alto grado de protección IP</li>
+                    <li><strong>Locales con riesgo de incendio:</strong> Instalaciones con protección especial</li>
+                    <li><strong>Áreas clasificadas:</strong> Zonas con riesgo de explosión (clasificación por zonas)</li>
+                </ul>
+                
+                <h3>Verificaciones y Mantenimiento</h3>
+                
+                <p>Las normativas también establecen requisitos para:</p>
+                
+                <ul>
+                    <li><strong>Inspecciones iniciales:</strong> Antes de la puesta en servicio</li>
+                    <li><strong>Verificaciones periódicas:</strong> Frecuencia según tipo de instalación</li>
+                    <li><strong>Mediciones obligatorias:</strong> Resistencia de aislamiento, continuidad de conductores, resistencia de puesta a tierra</li>
+                    <li><strong>Documentación:</strong> Registros que deben mantenerse</li>
+                </ul>
+                
+                <h3>Ejemplo de Aplicación Normativa</h3>
+                <div class="example">
+                    <h4>Instalación en un baño residencial:</h4>
+                    <p>Según muchas normativas, se requiere:</p>
+                    <ul>
+                        <li>Protección diferencial de alta sensibilidad (30 mA)</li>
+                        <li>Conexión equipotencial suplementaria</li>
+                        <li>Grados de protección mínimos según zonas (IPX4, IPX5)</li>
+                        <li>Distancias mínimas de seguridad para la ubicación de elementos eléctricos</li>
+                        <li>Uso de muy baja tensión de seguridad (MBTS) para ciertos circuitos</li>
+                    </ul>
+                </div>
+                
+                <h3>Certificaciones y Conformidad</h3>
+                
+                <p>Para demostrar el cumplimiento de las normativas, se utilizan:</p>
+                
+                <ul>
+                    <li><strong>Marcado de conformidad:</strong> CE (Europa), UL (EE.UU.), etc.</li>
+                    <li><strong>Certificados de instalación:</strong> Emitidos por instaladores autorizados</li>
+                    <li><strong>Inspecciones por organismos acreditados:</strong> Para instalaciones de mayor riesgo</li>
+                    <li><strong>Declaraciones de conformidad:</strong> Documentos que certifican el cumplimiento</li>
+                </ul>
+                
+                <img src="/placeholder.svg?height=200&width=400" alt="Marcas de certificación eléctrica" class="diagram">
+                
+                <p>El cumplimiento de las normativas de seguridad eléctrica no solo es una obligación legal, sino también una garantía para prevenir accidentes y proteger vidas. Es responsabilidad de todos los profesionales del sector eléctrico conocer y aplicar estas normativas en su trabajo diario.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir modal
+        function openModal(id) {
+            document.getElementById(id).style.display = "block";
+            document.body.style.overflow = "hidden"; // Evita el desplazamiento del fondo
+        }
+        
+        // Función para cerrar modal
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+            document.body.style.overflow = "auto"; // Restaura el desplazamiento
+        }
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            if (event.target.className === "modal") {
+                event.target.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+        
+        // Cerrar modal con la tecla Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                let modals = document.getElementsByClassName("modal");
+                for (let i = 0; i < modals.length; i++) {
+                    if (modals[i].style.display === "block") {
+                        modals[i].style.display = "none";
+                        document.body.style.overflow = "auto";
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

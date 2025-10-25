@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potencia - Conceptos Básicos</title>
+    <style>
+        /* Variables globales */
+        :root {
+            --color-primary: #4caf50;
+            --color-secondary: #2e7d32;
+            --color-accent: #ff9800;
+            --color-text: #333;
+            --color-bg: #f8f9fa;
+            --color-card: #fff;
+            --color-border: #ddd;
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --radius: 0.375rem;
+            --transition: all 0.3s ease;
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Encabezado */
+        .header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1594818379496-da1e345b0ded');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Contenido */
+        .content {
+            background-color: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 2rem;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            border: 1px solid var(--color-border);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Acordeón */
+        .accordion {
+            margin: 20px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid var(--color-border);
+            margin-bottom: 5px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 15px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background-color: #e0e0e0;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+        }
+
+        .accordion-item.active .accordion-header::after {
+            content: '-';
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 15px;
+            max-height: 1000px;
+        }
+
+        /* Elementos comunes */
+        .info-box {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--color-primary);
+            padding: 15px;
+            margin: 20px 0;
+            transition: var(--transition);
+        }
+
+        .info-box:hover {
+            transform: translateX(5px);
+        }
+
+        .formula {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: 1.25rem;
+            margin: 15px 0;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .flex-col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 250px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid var(--color-border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            color: var(--color-secondary);
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Card */
+        .card {
+            background-color: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        /* Elementos interactivos */
+        .interactive-demo {
+            background-color: #f5f5f5;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: var(--color-secondary);
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--color-primary);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+        }
+
+        /* Navegación */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .nav-btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background-color: var(--color-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                margin-bottom: 5px;
+                border-radius: 5px;
+                border: 1px solid var(--color-border);
+            }
+
+            .flex-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>Potencia</h1>
+                <p class="subtitle">Energía eléctrica por unidad de tiempo</p>
+            </div>
+        </header>
+
+        <div class="nav-buttons">
+            <a href="corriente.html" class="nav-btn">← Anterior: Corriente</a>
+            <a href="resistencias.html" class="nav-btn">Siguiente: Resistencias →</a>
+        </div>
+
+        <div class="content">
+            <img src="https://images.unsplash.com/photo-1594818379496-da1e345b0ded" alt="Medición de potencia eléctrica" class="banner-image">
+            
+            <p>La potencia eléctrica es la cantidad de energía que se transfiere, consume o disipa por unidad de tiempo en un circuito eléctrico. Es una magnitud fundamental que determina la capacidad de realizar trabajo eléctrico y se mide en vatios (W).</p>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="changeTab('potencia-tab1', this)">Definición</div>
+                <div class="tab" onclick="changeTab('potencia-tab2', this)">Tipos</div>
+                <div class="tab" onclick="changeTab('potencia-tab3', this)">Cálculo</div>
+                <div class="tab" onclick="changeTab('potencia-tab4', this)">Aplicaciones</div>
+            </div>
+            
+            <div id="potencia-tab1" class="tab-content active">
+                <h3>¿Qué es la Potencia Eléctrica?</h3>
+                
+                <p>La potencia eléctrica es la tasa a la que se consume o transfiere energía en un circuito eléctrico. Representa la rapidez con la que se realiza un trabajo eléctrico.</p>
+                
+                <div class="info-box">
+                    <p><strong>Definición formal:</strong> La potencia eléctrica es la cantidad de energía eléctrica transferida o transformada por unidad de tiempo. Se mide en vatios (W), donde 1 vatio equivale a 1 julio por segundo (1 W = 1 J/s).</p>
+                </div>
+                
+                <h4>Fórmula Básica</h4>
+                <div class="formula">
+                    P = E / t
+                </div>
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>P</strong>: Potencia (vatios, W)</li>
+                    <li><strong>E</strong>: Energía (julios, J)</li>
+                    <li><strong>t</strong>: Tiempo (segundos, s)</li>
+                </ul>
+                
+                <h4>Fórmulas en Circuitos Eléctricos</h4>
+                <div class="formula">
+                    P = V × I (Circuitos DC)<br>
+                    P = V × I × cos φ (Circuitos AC)
+                </div>
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>P</strong>: Potencia (vatios, W)</li>
+                    <li><strong>V</strong>: Voltaje (voltios, V)</li>
+                    <li><strong>I</strong>: Corriente (amperios, A)</li>
+                    <li><strong>cos φ</strong>: Factor de potencia (en circuitos AC)</li>
+                </ul>
+            </div>
+            
+            <div id="potencia-tab2" class="tab-content">
+                <h3>Tipos de Potencia Eléctrica</h3>
+                
+                <p>En circuitos de corriente continua (DC), solo existe un tipo de potencia. Sin embargo, en circuitos de corriente alterna (AC), existen diferentes tipos de potencia que es importante distinguir.</p>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Potencia Activa (P)</div>
+                        <div class="accordion-content">
+                            <p>La potencia activa, también llamada potencia real o potencia útil, es la que realmente se transforma en trabajo o calor. Es la potencia que realmente "hace el trabajo" en el circuito.</p>
+                            
+                            <h5>Características:</h5>
+                            <ul>
+                                <li>Se mide en vatios (W), kilovatios (kW), etc.</li>
+                                <li>Es la única potencia que realiza trabajo útil</li>
+                                <li>Es la potencia que se factura principalmente en el consumo eléctrico</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Potencia Reactiva (Q)</div>
+                        <div class="accordion-content">
+                            <p>La potencia reactiva es la potencia que oscila entre la fuente y la carga debido a elementos reactivos (inductivos o capacitivos). No realiza trabajo útil, pero es necesaria para crear campos magnéticos y eléctricos.</p>
+                            
+                            <h5>Características:</h5>
+                            <ul>
+                                <li>Se mide en voltamperios reactivos (VAr)</li>
+                                <li>No produce trabajo útil</li>
+                                <li>Oscila entre la fuente y la carga</li>
+                                <li>Necesaria para el funcionamiento de motores, transformadores, etc.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Potencia Aparente (S)</div>
+                        <div class="accordion-content">
+                            <p>La potencia aparente es la suma vectorial de la potencia activa y la potencia reactiva. Representa la potencia total que suministra la fuente de alimentación.</p>
+                            
+                            <h5>Características:</h5>
+                            <ul>
+                                <li>Se mide en voltamperios (VA)</li>
+                                <li>Es la potencia total suministrada</li>
+                                <li>Determina el dimensionamiento de equipos y conductores</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Triángulo de Potencias</h4>
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <img src="/placeholder.svg?height=300&width=400&text=Triángulo+de+Potencias" alt="Triángulo de potencias" style="max-width:100%;">
+                    </div>
+                    <div class="flex-col">
+                        <p>El triángulo de potencias es una representación gráfica de la relación entre los tres tipos de potencia en sistemas de corriente alterna:</p>
+                        <ul>
+                            <li>La potencia activa (P) se representa en el eje horizontal</li>
+                            <li>La potencia reactiva (Q) se representa en el eje vertical</li>
+                            <li>La potencia aparente (S) es la hipotenusa del triángulo</li>
+                            <li>El ángulo φ es el ángulo de desfase entre tensión y corriente</li>
+                        </ul>
+                        <p>A partir del triángulo de potencias se pueden establecer las siguientes relaciones:</p>
+                        <ul>
+                            <li>S = √(P² + Q²)</li>
+                            <li>P = S × cos φ</li>
+                            <li>Q = S × sin φ</li>
+                            <li>tan φ = Q / P</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h4>Factor de Potencia</h4>
+                <div class="info-box">
+                    <p><strong>Factor de Potencia (FP):</strong> Es la relación entre la potencia activa (P) y la potencia aparente (S). Indica qué fracción de la potencia total suministrada se convierte en trabajo útil.</p>
+                    <div class="formula">
+                        FP = P / S = cos φ
+                    </div>
+                </div>
+            </div>
+            
+            <div id="potencia-tab3" class="tab-content">
+                <h3>Cálculo de la Potencia Eléctrica</h3>
+                
+                <p>El cálculo de la potencia eléctrica varía según el tipo de circuito (DC o AC) y los datos disponibles.</p>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Cálculo en Circuitos DC</div>
+                        <div class="accordion-content">
+                            <p>En circuitos de corriente continua, la potencia se puede calcular de varias formas según los datos disponibles:</p>
+                            
+                            <table class="table">
+                                <tr>
+                                    <th>Fórmula</th>
+                                    <th>Variables</th>
+                                    <th>Cuando usarla</th>
+                                </tr>
+                                <tr>
+                                    <td>P = V × I</td>
+                                    <td>V: Voltaje (V)<br>I: Corriente (A)</td>
+                                    <td>Cuando se conocen el voltaje y la corriente</td>
+                                </tr>
+                                <tr>
+                                    <td>P = I² × R</td>
+                                    <td>I: Corriente (A)<br>R: Resistencia (Ω)</td>
+                                    <td>Cuando se conocen la corriente y la resistencia</td>
+                                </tr>
+                                <tr>
+                                    <td>P = V² / R</td>
+                                    <td>V: Voltaje (V)<br>R: Resistencia (Ω)</td>
+                                    <td>Cuando se conocen el voltaje y la resistencia</td>
+                                </tr>
+                            </table>
+                            
+                            <div class="info-box">
+                                <p><strong>Ejemplo:</strong> Un circuito tiene una resistencia de 100 Ω y está conectado a una fuente de 12 V. La potencia será:</p>
+                                <p>P = V² / R = 12² / 100 = 144 / 100 = 1.44 W</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Cálculo en Circuitos AC</div>
+                        <div class="accordion-content">
+                            <p>En circuitos de corriente alterna, debemos considerar el factor de potencia:</p>
+                            
+                            <table class="table">
+                                <tr>
+                                    <th>Tipo de Potencia</th>
+                                    <th>Fórmula</th>
+                                    <th>Variables</th>
+                                </tr>
+                                <tr>
+                                    <td>Potencia Activa (P)</td>
+                                    <td>P = V × I × cos φ</td>
+                                    <td>V: Voltaje RMS (V)<br>I: Corriente RMS (A)<br>cos φ: Factor de potencia</td>
+                                </tr>
+                                <tr>
+                                    <td>Potencia Reactiva (Q)</td>
+                                    <td>Q = V × I × sin φ</td>
+                                    <td>V: Voltaje RMS (V)<br>I: Corriente RMS (A)<br>sin φ: Seno del ángulo de desfase</td>
+                                </tr>
+                                <tr>
+                                    <td>Potencia Aparente (S)</td>
+                                    <td>S = V × I</td>
+                                    <td>V: Voltaje RMS (V)<br>I: Corriente RMS (A)</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Calculadora de Potencia Eléctrica</h4>
+                    
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <div class="form-group">
+                                <label for="circuit-type">Tipo de Circuito:</label>
+                                <select class="form-control" id="circuit-type" onchange="updatePowerCalculator()">
+                                    <option value="dc">DC (Corriente Continua)</option>
+                                    <option value="ac">AC (Corriente Alterna)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="voltage-input">Voltaje (V):</label>
+                                <input type="number" class="form-control" id="voltage-input" min="0" step="0.1" value="12">
+                            </div>
+                            <div class="form-group">
+                                <label for="current-input">Corriente (A):</label>
+                                <input type="number" class="form-control" id="current-input" min="0" step="0.1" value="2">
+                            </div>
+                            <div class="form-group" id="pf-input-container" style="display: none;">
+                                <label for="pf-input">Factor de Potencia:</label>
+                                <input type="number" class="form-control" id="pf-input" min="0" max="1" step="0.01" value="0.8">
+                            </div>
+                            <button class="btn" onclick="calculatePower()">Calcular Potencia</button>
+                        </div>
+                        <div class="flex-col">
+                            <div id="power-result" class="result">
+                                Los resultados se mostrarán aquí
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="potencia-tab4" class="tab-content">
+                <h3>Aplicaciones de la Potencia Eléctrica</h3>
+                
+                <p>La potencia eléctrica es un concepto fundamental con numerosas aplicaciones prácticas en diversos campos.</p>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="card">
+                            <img src="/placeholder.svg?height=150&width=300&text=Diseño+de+Sistemas" alt="Diseño de sistemas eléctricos" style="width:100%">
+                            <div class="card-body">
+                                <h4>Diseño de Sistemas Eléctricos</h4>
+                                <p>El cálculo de potencia es fundamental para dimensionar correctamente:</p>
+                                <ul>
+                                    <li>Conductores y cables</li>
+                                    <li>Protecciones (fusibles, interruptores)</li>
+                                    <li>Transformadores</li>
+                                    <li>Generadores y fuentes de alimentación</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-col">
+                        <div class="card">
+                            <img src="/placeholder.svg?height=150&width=300&text=Eficiencia+Energética" alt="Eficiencia energética" style="width:100%">
+                            <div class="card-body">
+                                <h4>Eficiencia Energética</h4>
+                                <p>La potencia es clave para evaluar y mejorar la eficiencia:</p>
+                                <ul>
+                                    <li>Auditorías energéticas</li>
+                                    <li>Corrección del factor de potencia</li>
+                                    <li>Selección de equipos eficientes</li>
+                                    <li>Reducción de pérdidas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <p><strong>Dato importante:</strong> En la industria, mejorar el factor de potencia de 0.7 a 0.95 puede reducir las pérdidas en conductores hasta en un 45% y liberar capacidad en transformadores y generadores.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="corriente.html" class="nav-btn">← Anterior: Corriente</a>
+            <a href="resistencias.html" class="nav-btn">Siguiente: Resistencias →</a>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2025 - Conceptos Básicos de Electricidad y Electrónica</p>
+        </footer>
+    </div>
+
+    <script>
+        // Función para cambiar entre pestañas
+        function changeTab(tabId, tabElement) {
+            // Ocultar todos los contenidos de pestañas
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Desactivar todas las pestañas
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activar la pestaña seleccionada y su contenido
+            document.getElementById(tabId).classList.add('active');
+            tabElement.classList.add('active');
+        }
+        
+        // Función para alternar acordeones
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Cerrar todos los acordeones
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(accordionItem => {
+                accordionItem.classList.remove('active');
+            });
+            
+            // Si el acordeón no estaba activo, abrirlo
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+        
+        // Función para actualizar la calculadora de potencia
+        function updatePowerCalculator() {
+            const circuitType = document.getElementById('circuit-type').value;
+            const pfInputContainer = document.getElementById('pf-input-container');
+            
+            if (circuitType === 'ac') {
+                pfInputContainer.style.display = 'block';
+            } else {
+                pfInputContainer.style.display = 'none';
+            }
+        }
+        
+        // Función para calcular la potencia
+        function calculatePower() {
+            const circuitType = document.getElementById('circuit-type').value;
+            const voltage = parseFloat(document.getElementById('voltage-input').value);
+            const current = parseFloat(document.getElementById('current-input').value);
+            const resultElement = document.getElementById('power-result');
+            
+            let power = 0;
+            let resultText = '';
+            
+            if (circuitType === 'dc') {
+                // Cálculo para DC
+                power = voltage * current;
+                resultText = `Potencia: ${power.toFixed(2)} W`;
+            } else {
+                // Cálculo para AC
+                const powerFactor = parseFloat(document.getElementById('pf-input').value);
+                const activePower = voltage * current * powerFactor;
+                const apparentPower = voltage * current;
+                const reactivePower = Math.sqrt(apparentPower * apparentPower - activePower * activePower);
+                
+                resultText = `Potencia Activa (P): ${activePower.toFixed(2)} W<br>
+                             Potencia Aparente (S): ${apparentPower.toFixed(2)} VA<br>
+                             Potencia Reactiva (Q): ${reactivePower.toFixed(2)} VAr<br>
+                             Factor de Potencia: ${powerFactor}`;
+            }
+            
+            resultElement.innerHTML = resultText;
+            resultElement.classList.add('active');
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Activar el primer acordeón en cada sección
+            const firstAccordions = document.querySelectorAll('.accordion:not(.accordion-item) > .accordion-item:first-child');
+            firstAccordions.forEach(accordion => {
+                accordion.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

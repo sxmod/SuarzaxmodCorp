@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Notificaciones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #000;
+            --text-color: #ffffff;
+            --card-bg: #000;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --primary-color: #ffffff;
+            --secondary-color: #005l0;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --transition-speed: 0.3s;
+            --border-radius: 8px;
+            --modal-bg: rgba(0, 0, 0, 0.8);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            position: relative;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+        }
+
+        #notificationPanel {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 8px var(--shadow-color);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .notification {
+            background-color: var(--bg-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            transition: transform var(--transition-speed);
+            cursor: pointer;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .notification:hover {
+            transform: translateY(-2px);
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .notification-title {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .notification-date {
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+
+        .notification-description {
+            font-size: 0.9em;
+            color: var(--text-color);
+            margin-top: 5px;
+        }
+
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-button:hover {
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-bg);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-section {
+            margin-bottom: 15px;
+        }
+
+        .modal-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .modal-section ul {
+            padding-left: 20px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--secondary-color);
+            padding-top: 10px;
+            text-align: right;
+        }
+
+        .close {
+            cursor: pointer;
+            font-size: 1.5em;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            #notificationPanel {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>tocar y ver la notificacion.</h1>
+        <div class="controls">
+            <a href="go:inicio" id="backButton" class="control-button" aria-label="Regresar">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <button id="themeToggle" class="control-button" aria-label="Cambiar tema">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+        <div id="notificationPanel"></div>
+    </div>
+
+    <div id="notificationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle"></span>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <div class="modal-body" id="modalContent"></div>
+            <div class="modal-footer">
+                <span class="notification-date" id="modalDate"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const notificationPanel = document.getElementById('notificationPanel');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const backButton = document.getElementById('backButton');
+        const notificationModal = document.getElementById('notificationModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const closeModal = document.getElementById('closeModal');
+        const modalDate = document.getElementById('modalDate');
+
+        const notifications = [
+            {
+                id: 1,
+                title: 'Bienvenido al Panel de Notificaciones',
+                description: 'Toca para ver la notificación completa.',
+                fullContent: {
+                    summary: 'Aquí podrás ver todas las mejoras y actualizaciones del sistema.',
+                    details: [
+                        'Estamos comprometidos a brindarte la mejor experiencia y soporte posible.',
+                        'Revisa regularmente este panel para mantenerte informado sobre las últimas novedades.'
+                    ],
+                    impact: 'Mejora en la comunicación y transparencia con nuestros usuarios.'
+                },
+                date: '2023-06-01T10:00:00Z'
+            },
+            {
+                id: 2,
+                title: 'Nueva Funcionalidad: Libro Digital',
+                description: 'Toca para ver la notificación completa.',
+                fullContent: {
+                    summary: 'Se ha implementado un libro digital interactivo con animaciones de página.',
+                    features: [
+                        'Lectura más dinámica y envolvente',
+                        'Navegación intuitiva entre páginas',
+                        'Marcadores y notas personalizadas'
+                    ],
+                    howTo: [
+                        'Accede a la sección "Biblioteca" en el menú principal',
+                        'Selecciona el libro que deseas leer',
+                        'Utiliza los controles en pantalla para navegar y personalizar tu experiencia'
+                    ]
+                },
+                date: '2023-06-15T14:30:00Z'
+            },
+            {
+                id: 3,
+                title: 'Mejora: Tema Oscuro',
+                description: 'Toca para ver la notificación completa.',
+                fullContent: {
+                    summary: 'Ahora puedes cambiar entre tema claro y oscuro para una mejor experiencia de lectura.',
+                    benefits: [
+                        'Reduce la fatiga visual',
+                        'Mejora la legibilidad en diferentes condiciones de luz',
+                        'Ahorra batería en dispositivos con pantalla OLED'
+                    ],
+                    howToEnable: [
+                        'Ve a la configuración de tu perfil',
+                        'Busca la opción "Tema de la aplicación"',
+                        'Selecciona "Oscuro" o "Automático" para activar el tema oscuro'
+                    ]
+                },
+                date: '2023-07-01T09:15:00Z'
+            },
+            {
+                id: 4,
+                title: 'Actualización de Seguridad',
+                description: 'Toca para ver la notificación completa.',
+                fullContent: {
+                    summary: 'Hemos realizado una actualización crítica para mejorar la seguridad de la plataforma.',
+                    changes: [
+                        'Implementación de autenticación de dos factores',
+                        'Mejora en el cifrado de datos en tránsito',
+                        'Actualización de bibliotecas de seguridad'
+                    ],
+                    recommendations: [
+                        'Cambia tu contraseña regularmente',
+                        'Activa la autenticación de dos factores',
+                        'Mantén tu software y aplicaciones actualizados'
+                    ]
+                },
+                date: '2023-08-10T11:00:00Z'
+            },
+            {
+                id: 5,
+                title: 'Mantenimiento Programado',
+                description: 'Toca para ver la notificación completa.',
+                fullContent: {
+                    summary: 'Se programó un mantenimiento para el próximo fin de semana.',
+                    details: [
+                        'Algunos servicios pueden no estar disponibles durante el mantenimiento.',
+                        'Trabajamos para mejorar la estabilidad y rendimiento de nuestros sistemas.'
+                    ],
+                    schedule: 'El mantenimiento está programado para el sábado 18 de septiembre, de 00:00 a 04:00 GMT.',
+                    impact: 'Agradecemos tu comprensión y paciencia mientras trabajamos para mejorar nuestros servicios.'
+                },
+                date: '2023-09-15T14:00:00Z'
+            },
+            {
+                id: 6,
+                title: 'Actualización de Nuestras Políticas de Privacidad',
+                description: 'Toca para ver la notificación completa.',
+                fullContent: {
+                    summary: 'Hemos actualizado nuestras políticas de privacidad.',
+                    changes: [
+                        'Mayor claridad en cómo manejamos tus datos personales',
+                        'Nuevas opciones para controlar tu privacidad',
+                        'Cumplimiento con las últimas regulaciones de protección de datos'
+                    ],
+                    action: 'Te recomendamos revisar las nuevas políticas para entender mejor cómo manejamos tu información.',
+                    effectiveDate: 'Estos cambios entrarán en vigor el 1 de octubre de 2023.'
+                },
+                date: '2023-09-20T12:00:00Z'
+            },
+            {
+                id: 7,
+                title: 'Suarzaxmod Corporation y Delta Corporation',
+                description: 'Toca para ver la notificación completa.',
+                fullContent: {
+                    summary: 'Nos complace anunciar nuestra nueva afiliación con Delta Corporation.',
+                    benefits: [
+                        'Mejores servicios y productos para nuestros usuarios',
+                        'Fortalecimiento de nuestras capacidades tecnológicas',
+                        'Mayor valor para nuestros clientes'
+                    ],
+                    futureProspects: 'Esta colaboración nos permitirá innovar más rápidamente y ofrecer soluciones más completas.',
+                    commitment: 'Seguimos comprometidos con la calidad y la satisfacción del cliente que siempre nos ha caracterizado.'
+                },
+                date: '2023-09-25T10:00:00Z'
+            },
+            {
+                id: 8,
+                title: 'Cambio de Interfaz en Julio 2024',
+                description: 'Toca para ver la notificación completa.',
+                fullContent: {
+                    summary: 'Próxima actualización de la interfaz de usuario prevista para julio de 2024.',
+                    mainChanges: [
+                        'Modificación del slider para mostrar tres banners a la vez',
+                        'Ajuste del ancho de cada banner al 30% del contenedor',
+                        'Reducción de la altura del contenedor del slider a 300px',
+                        'Ajuste de los valores de translateX y scale para mejorar la visibilidad'
+                    ],
+                    additionalInfo: [
+                        'Se mantendrá el fondo negro del cajón del slider',
+                        'La estructura general de la página y sus otras secciones se conservarán',
+                        'El código seguirá funcionando sin conexión a Internet (excepto por las imágenes externas)',
+                        'Se mantendrá la funcionalidad de zoom al tocar o pasar el mouse sobre un banner'
+                    ]
+                },
+                date: '2024-07-01T10:00:00Z'
+            },
+            {
+                id: 9,
+                title: 'Sección de Libros',
+                description: 'Toca para ver la notificación completa.',
+                fullContent: {
+                    summary: 'Actualizaciones en la sección de libros para mejorar la navegabilidad y experiencia del usuario.',
+                    changes: [
+                        'Añadidos enlaces a cada elemento del slider',
+                        'Cambio de botones "Ver Más" por enlaces <a> en cada categoría',
+                        'Agregados enlaces a cada imagen de libro en las categorías',
+                        'Actualización de estilos CSS para mantener la apariencia consistente'
+                    ],
+                    impact: 'Estos cambios permiten que cada banner del slider y cada libro tengan un enlace asociado, mejorando la navegabilidad y la experiencia del usuario.'
+                },
+                date: '2024-07-01T10:00:00Z'
+            },
+            {
+                id: 10,
+                title: 'Sección de Aplicaciones',
+                description: 'Toca para ver la notificación completa.',
+                fullContent: {
+                    summary: 'Actualizaciones importantes en la sección de aplicaciones para mejorar la experiencia del usuario.',
+                    changes: [
+                        'El slider ahora muestra tres banners a la vez, con el del medio más grande',
+                        'Las categorías ahora son horizontales y se pueden desplazar',
+                        'Se ha preparado el código para incluir 50 elementos por categoría',
+                        'Cada elemento abre una nueva página al hacer clic'
+                    ],
+                    improvements: [
+                        'Se ha mantenido el diseño responsive',
+                        'Se ha mejorado la accesibilidad',
+                        'Se ha agregado navegación táctil para el slider',
+                        'Se ha implementado desplazamiento suave para las categorías'
+                    ],
+                    impact: 'Estas mejoras proporcionan una experiencia de usuario más fluida y atractiva en la sección de aplicaciones.'
+                },
+                date: '2024-07-01T10:00:00Z'
+            }
+        ];
+
+        function renderNotifications() {
+            notificationPanel.innerHTML = '';
+            notifications.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(notification => {
+                const notificationElement = document.createElement('div');
+                notificationElement.className = 'notification';
+                notificationElement.innerHTML = `
+                    <div class="notification-header">
+                        <span class="notification-title">${notification.title}</span>
+                        <span class="notification-date">${formatDate(notification.date)}</span>
+                    </div>
+                    <div class="notification-description">${notification.description}</div>
+                `;
+                notificationElement.addEventListener('click', () => {
+                    openModal(notification);
+                });
+                notificationPanel.appendChild(notificationElement);
+            });
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString('es-ES', options);
+        }
+
+        function openModal(notification) {
+            modalTitle.textContent = notification.title;
+            modalContent.innerHTML = formatFullContent(notification.fullContent);
+            modalDate.textContent = formatDate(notification.date);
+            notificationModal.style.display = 'flex';
+        }
+
+        function formatFullContent(content) {
+            let html = '';
+            for (const [key, value] of Object.entries(content)) {
+                if (Array.isArray(value)) {
+                    html += `
+                        <div class="modal-section">
+                            <h3>${capitalizeFirstLetter(key)}</h3>
+                            <ul>
+                                ${value.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="modal-section">
+                            <h3>${capitalizeFirstLetter(key)}</h3>
+                            <p>${value}</p>
+                        </div>
+                    `;
+                }
+            }
+            return html;
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        closeModal.addEventListener('click', () => {
+            notificationModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === notificationModal) {
+                notificationModal.style.display = 'none';
+            }
+        });
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            themeIcon.classList.toggle('fa-moon');
+            themeIcon.classList.toggle('fa-sun');
+            localStorage.setItem('darkTheme', document.body.classList.contains('dark-theme'));
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // Inicialización
+        renderNotifications();
+        // Establecer el tema oscuro por defecto
+        document.body.classList.add('dark-theme');
+        themeIcon.classList.add('fa-moon');
+    </script>
+</body>
+</html>

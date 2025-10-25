@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Suarzaxmod Corporation</title>
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome 6 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://drive.google.com/file/d/10cVuuRStQGJ1emuXyuRPlb4JHmqCuVU8/view?usp=sharing">
+
+</head>
+<body oncontextmenu="return false">
+    <!-- Animación de carga profesional y moderna -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="loading-logo-container">
+            <div class="loading-rings">
+                <div class="ring"></div>
+                <div class="ring"></div>
+                <div class="ring"></div>
+            </div>
+            <div class="loading-logo">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/picsar10.png" alt="Suarzaxmod Logo">
+            </div>
+        </div>
+        <div class="loading-text">Suarzaxmod S.A</div>
+        <div class="loading-subtitle">Todo a un solo clic</div>
+        <div class="loading-progress">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+    <!-- Welcome Banner con formulario integrado -->
+    <div class="welcome-banner" id="welcomeBanner">
+        <div class="welcome-content">
+            <div class="welcome-logo">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/photor11.png" alt="Suarzaxmod Logo">
+            </div>
+            <h1 class="welcome-title">¡Bienvenido!</h1>
+            <p class="welcome-subtitle">Suarzaxmod Corp S.A</p>
+            <p class="welcome-description">
+                Crea tu cuenta para acceder al Proyecto.
+            </p>
+            <!-- Accesos rápidos con iconos animados -->
+            <div class="welcome-quick-access">
+                <a href="https://notificacionradeial.blogspot.com/?m=0" onclick="app.uiManager.openCategoryFullscreen('radio');" class="quick-access-btn"> 
+
+                    <div class="quick-access-icon">
+                        <i class="fas fa-radio"></i>
+                    </div>
+                    <span class="quick-access-text"></span>
+                </a>
+                <a href="https://librosonlinesxm.blogspot.com/?m=0" onclick="app.uiManager.openCategoryFullscreen('radio');" class="quick-access-btn">
+                    <div class="quick-access-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <span class="quick-access-text"></span>
+                </a>
+            </div>
+            <!-- Advertencia -->
+            <div class="data-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>Importante:</strong> Si borras los datos del navegador o el caché, perderás tu cuenta y tendrás que registrarte nuevamente.
+                </div>
+            </div>
+            <!-- Pestañas de autenticación -->
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="registerTab">Registrarse</div>
+                <div class="auth-tab" id="loginTab">Iniciar Sesión</div>
+            </div>
+            <!-- Formulario de registro -->
+            <form class="welcome-register-form active" id="welcomeRegisterForm">
+                <input type="text" class="welcome-form-input" placeholder="Nombre completo" required id="welcomeName">
+                <input type="email" class="welcome-form-input" placeholder="Correo electrónico" required id="welcomeEmail">
+                <input type="password" class="welcome-form-input" placeholder="Contraseña" required id="welcomePassword">
+                <input type="number" class="welcome-form-input" placeholder="Edad" min="13" max="120" required id="welcomeAge">
+                <select class="welcome-form-select" required id="welcomeGender">
+                    <option value="">Selecciona tu género</option>
+                    <option value="male">Masculino</option>
+                    <option value="female">Femenino</option>
+                    <option value="other">Otro</option>
+                    <option value="prefer-not-to-say">Prefiero no decir</option>
+                </select>
+                <div class="welcome-form-checkbox">
+                    <input type="checkbox" id="welcomeTerms" required>
+                    <label for="welcomeTerms">
+                        Acepto los <a href="https://terminosycondicionesx.blogspot.com/?m=0" target="_blank">términos y condiciones</a>
+                    </label>
+                </div>
+                <button type="submit" class="welcome-btn welcome-btn-primary">
+                    <i class="fas fa-user-plus"></i> Crear cuenta
+                </button>
+            </form>
+            <!-- Formulario de inicio de sesión -->
+            <form class="welcome-login-form" id="welcomeLoginForm">
+                <input type="email" class="welcome-form-input" placeholder="Correo electrónico" required id="loginEmail">
+                <input type="password" class="welcome-form-input" placeholder="Contraseña" required id="loginPassword">
+                <button type="submit" class="welcome-btn welcome-btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Background elements - FONDO FIJO -->
+    <div class="background-container" id="backgroundContainer">
+        <div class="background-image" id="bg1"></div>
+        <div class="background-image" id="bg2"></div>
+        <div class="background-image" id="bg3"></div>
+        <div class="background-image" id="bg4"></div>
+        <div class="background-image" id="bg5"></div>
+        <div class="background-image" id="bg6"></div>
+        <div class="background-overlay"></div>
+    </div>
+    <div class="d-flex gap-2">
+    <!-- ========================================
+     SECCIÓN: NAVEGACIÓN PRINCIPAL
+     ======================================== -->
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <i class="more-menu-content"></i>
+            <span></span>
+       
+                 </li>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+        <header class="d-flex justify-content-between align-items-center py-2">
+            <img src="https://i30.servimg.com/u/f30/20/30/93/75/24632810.png" alt="Suarzaxmod Corporation Logo" class="logo">
+            <div class="d-flex gap-2">
+                <a href="javascript:void(0);" onclick="app.searchManager.toggleSearchUI();" class="header-button" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </a>
+                <button id="showRadioBtn" class="header-button" aria-label="Radio">
+                    <i class="fas fa-radio fa-bounce"></i>
+                  
+                <div class="more-menu">
+                    <button id="moreMenuBtn" class="header-button" aria-label="Más opciones">
+                        <i class="fas fa-tasks"></i>
+                    </button>
+                    <div class="more-menu-content" id="moreMenuContent">
+                        <a href="javascript:void(0);" onclick="app.uiManager.openCategoryFullscreen('notificaciones');" class="more-menu-item">
+                            <i class="fas fa-bell fa-bounce"></i> Notificaciones
+                        </a>
+                        <div class="more-menu-item" id="showProfileBtn">
+                            <i class="fa-solid fa-id-badge fa-bounce"></i> Perfil
+                            <div class="" id="userStatusIndicator"></div>
+                        </div>
+                        <div class="more-menu-item" id="toggleThemeBtn">
+                            <i class="fas fa-moon"></i> tema
+                          <div class="" id="toggleFullscreenBtn">
+                            <i class=""></i>
+                          </div>
+                          </div>
+                       <div class="more-menu-item" id="moreMenuContent">
+                       <a class="nav-link" href="#" onclick="showModal('homeModal')">
+                        <i class="fa-solid fa-cog fa-spin"></i>Inicio
+                         </a>
+                         </div>
+                      <div class="more-menu-item">
+                    <a class="nav-link" href="#" onclick="showModal('aboutModal')">
+                        <i class="fas fa-info-circle me-1"></i>Acerca de
+                        </a>
+                       </div>
+                <li class="more-menu-item">
+                    <a class="nav-link" href="#" onclick="showModal('servicesModal')">
+                        <i class="fas fa-cogs me-1"></i>Servicios
+                    </a>
+                </li>
+                <!-- Agregado icono de calendario -->
+                      </div class="header-button">
+                    <a class="header-button" href="#" onclick="showModal('calendarModal')">
+                      <i class="fas fa-calendar-alt me-1"></i>
+                   </a>
+                <div>
+              <div>
+            </header>
+        <main>
+            <!-- Main Search UI (New) -->
+            <div id="mainSearchUI">
+                <button class="close-search-ui-btn" id="closeMainSearchUIBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <p>Ingresa tu búsqueda a continuación:</p>
+                <input type="text" class="welcome-form-input" placeholder="Buscar..." id="searchInput">
+                <div id="searchResultsContainer">
+                    <!-- Search suggestions will go here -->
+                </div>
+                <button class="btn" id="searchButton">Buscar</button>
+                <div id="finalSearchResults"></div>
+            </div>
+            <h2 class="section-title" data-aos="fade-right"></h2>
+            <div class="swiper" data-aos="fade-up">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a href="javascript:void(0);" onclick="app.uiManager.openCategoryFullscreen('Suarzaxmpod-App');">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/apk10.png" alt="Apks">
+                            <div class="swiper-slide-content">
+                                <h3 class="swiper-slide-title">Suarzaxmmmod Apps</h3>
+                                <p class="swiper-slide-description">Originales de Suarzaxmod nuestra tienda oficial</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="javascript:void(0);" onclick="app.uiManager.openCategoryFullscreen('espacio-apk');">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/image54.png" alt="Espacio APK">
+                            <div class="swiper-slide-content">
+                                <h3 class="swiper-slide-title">Espacio APK</h3>
+                                <p class="swiper-slide-description">Descarga aplicaciones premium</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="javascript:void(0);" onclick="app.uiManager.openCategoryFullscreen('modi-limitado');">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/com_na10.jpg" alt="Modi Limitado">
+                            <div class="swiper-slide-content">
+                                <h3 class="swiper-slide-title">Modi Limitado</h3>
+                                <p class="swiper-slide-description">Mods sin límites</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="javascript:void(0);" onclick="app.uiManager.openCategoryFullscreen('all-mod-apk');">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/allmod10.jpg" alt="All Mod APK">
+                            <div class="swiper-slide-content">
+                                <h3 class="swiper-slide-title">All Mod APK</h3>
+                                <p class="swiper-slide-description">Todos los mods en un solo lugar</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="javascript:void(0);" onclick="app.uiManager.openCategoryFullscreen('apk-gstore');">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/image53.png" alt="APK GStore">
+                            <div class="swiper-slide-content">
+                                <h3 class="swiper-slide-title">apk gstore</h3>
+                                <p class="swiper-slide-description">Tienda de socio.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="go:123-online" onclick="app.uiManager.openCategoryFullscreen('123-juegos');">
+                            <img src="https://i30.servimg.com/u/f30/20/30/93/75/image12.jpg" alt="Get Mods APK">
+                            <div class="swiper-slide-content">
+                                <h3 class="swiper-slide-title">Juegos online</h3>
+                                <p class="swiper-slide-description">Juega sin descargar juegos.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+            <h2 class="section-title" data-aos="fade-right">Redes sociales</h2>
+            <div class="social-icons" data-aos="fade-up">
+                <a href="https://www.facebook.com/profile.php?id=61561075081390&mibextid=ZbWKwL" class="social-icon" aria-label="Facebook" target="_blank">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/facebo12.png" alt="Facebook">
+                </a>
+                <a href="https://youtube.com/@plcbysuarzaxmod" class="social-icon" aria-label="YouTube" target="_blank">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/youtub11.png" alt="YouTube">
+                </a>
+                <a href="https://whatsapp.com/channel/0029Va51eKi1yT21v2cFE13P" class="social-icon" aria-label="WhatsApp" target="_blank">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/social10.png" alt="WhatsApp">
+                </a>
+                <a href="javascript:void(0);" onclick="app.uiManager.openCategoryFullscreen('donaciones');" class="social-icon" aria-label="donaciones">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/donaci10.png" alt="Donaciones">
+                </a>
+            </div>
+            <h2 class="section-title" data-aos="fade-right">Categorías</h2>
+            <div class="category-grid" data-aos="fade-up">
+                <div class="category-card" onclick="app.uiManager.openCategoryFullscreen('libros');">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/tenor-10.gif" alt="Libros" class="category-image">
+                    <h3 class="category-title">Libros</h3>
+                </div>
+                <div class="category-card" onclick="app.uiManager.openCategoryFullscreen('aplicacion');">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/softwa10.gif" alt="Aplicación" class="category-image">
+                    <h3 class="category-title">Aplicación</h3>
+                </div>
+                <div class="category-card" onclick="app.uiManager.openCategoryFullscreen('electricidad');">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/dc-aut10.gif" alt="Electricidad" class="category-image">
+                    <h3 class="category-title">Electricidad</h3>
+                </div>
+                <div class="category-card" onclick="app.uiManager.openCategoryFullscreen('pelisx');">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/cartel10.gif" alt="Pelisx" class="category-image">
+                    <h3 class="category-title">pelisx</h3>
+                </div>
+                <div class="category-card" onclick="app.uiManager.openCategoryFullscreen('videos-plc');">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/gf7c7510.jpg" alt="Videos PLC" class="category-image">
+                    <h3 class="category-title">Videos PLC</h3>
+                </div>
+                <div class="category-card" onclick="app.uiManager.openCategoryFullscreen('sistema');">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/softwa10.jpg" alt="Sistema" class="category-image">
+                    <h3 class="category-title">Sistema</h3>
+                </div>
+                <div class="category-card" onclick="app.uiManager.openCategoryFullscreen('simuladores');">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/87099510.jpg" alt="Simuladores" class="category-image">
+                    <h3 class="category-title">Simuladores</h3>
+                </div>
+                <div class="category-card" onclick="app.uiManager.openCategoryFullscreen('program-for-windows');">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/image25.png" alt="Más" class="category-image">
+                    <h3 class="category-title">Program for Windows</h3>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>Todos los derechos reservados por Suarzaxmod Corporation ™</p>
+        </footer>
+    </div>
+    <!-- Radio Player Mini -->
+    <div class="radio-player" id="radioPlayer">
+        <div class="radio-player-mini">
+            <img src="/placeholder.svg" alt="Estación actual" class="station-logo" id="stationLogo">
+            <div class="station-info">
+                <h4 class="station-name" id="stationName">Selecciona una estación</h4>
+                <p class="station-meta" id="stationMeta">Posición: - | Clasificación: -</p>
+            </div>
+            <div class="player-controls">
+                <button class="control-button play-button" id="playButton">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-button" id="expandPlayerBtn">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button class="control-button" id="closePlayerBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Radio Player Fullscreen -->
+    <div class="radio-player-fullscreen" id="radioPlayerFullscreen">
+        <div class="fullscreen-header">
+            <h2 class="fullscreen-title"><i class="fas fa-broadcast-tower"></i> Radio Suarzaxmod</h2>
+            <button class="close-fullscreen" id="closeFullscreenBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="fullscreen-content">
+            <img src="/placeholder.svg" alt="Estación actual" class="fullscreen-station-logo" id="fullscreenStationLogo">
+            <div>
+                <h3 class="fullscreen-station-name" id="fullscreenStationName">Selecciona una estación</h3>
+                <p class="fullscreen-station-meta" id="fullscreenStationMeta">Posición: - | Clasificación: -</p>
+            </div>
+            <div class="fullscreen-controls">
+                <button class="fullscreen-control" id="prevStationBtn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="fullscreen-control fullscreen-play" id="fullscreenPlayBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="fullscreen-control" id="nextStationBtn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            <div class="station-list-container">
+                <h4 class="station-list-title">Todas las estaciones</h4>
+                <div class="station-list" id="stationList"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Profile Modal -->
+    <div class="modal-custom" id="profileModal">
+        <div class="modal-content-custom">
+            <button class="modal-close" id="closeProfileBtn">
+                <!-- Cambiar X por flecha para volver a pantalla principal -->
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="modal-header-custom">
+                <h3 style="color: white; margin: 0; font-size: 1.3rem;">
+                    <i class="fas fa-user-circle"></i> Mi Perfil
+                </h3>
+            </div>
+            <div class="modal-body-custom">
+                <div class="user-info-display" id="userInfoDisplay">
+                    <h4 style="margin-bottom: 15px; color: var(--primary-color);">
+                        <i class="fas fa-user-check"></i> Información del Usuario
+                    </h4>
+                    <div class="user-info-item">
+                        <span class="user-info-label">Nombre:</span>
+                        <span class="user-info-value" id="displayName">-</span>
+                    </div>
+                    <div class="user-info-item">
+                        <span class="user-info-label">Email:</span>
+                        <span class="user-info-value" id="displayEmail">-</span>
+                    </div>
+                    <div class="user-info-item">
+                        <span class="user-info-label">Edad:</span>
+                        <span class="user-info-value" id="displayAge">-</span>
+                    </div>
+                    <div class="user-info-item">
+                        <span class="user-info-label">Género:</span>
+                        <span class="user-info-value" id="displayGender">-</span>
+                    </div>
+                    <div class="user-info-item">
+                        <span class="user-info-label">Estado:</span>
+                        <span class="user-info-value" style="color: #28a745;">
+                            <i class="fas fa-circle" style="font-size: 0.7rem;"></i> Conectado
+                        </span>
+                    </div>
+                    <button class="btn-logout" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="notification-content">
+            <h4 class="notification-title">Notificación</h4>
+            <p class="notification-message">Mensaje de notificación</p>
+        </div>
+    </div>
+
+    <!-- Category Fullscreen Modal (Generic) -->
+    <div class="category-fullscreen-modal" id="categoryFullscreenModal">
+        <div class="category-fullscreen-content">
+            <button class="close-fullscreen-overlay" id="closeCategoryFullscreenBtn">
+                <!-- Cambiar X por flecha para volver a pantalla principal -->
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <!-- Dynamic content will be injected here -->
+            <div id="categoryDynamicContent" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;"></div>
+        </div>
+    </div>
+
+    <!-- Audio Player -->
+    <audio id="audioPlayer" crossorigin="anonymous">
+        <source src="/placeholder.svg" type="audio/mpeg">
+    </audio>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- ========================================
+         SECCIÓN: MODALES Y VENTANAS EMERGENTES
+         ======================================== -->
+
+<!-- Modal de Inicio -->
+<div class="modal fade" id="homeModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+                <!-- Cambiar X por flecha para volver a pantalla principal -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- Cambiado X por flecha y agregado icono oficial -->
+                <button type="button" class="btn-close-custom" data-bs-dismiss="modal">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h4 class="modal-title">
+                    <i class="fas fa-building me-2"></i>Inicio - Suarzaxmod Corporation
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="fas fa-building display-1 text-primary mb-3"></i>
+                    <h2>Bienvenido a Suarzaxmod Corporation</h2>
+                    <p class="lead">Tu socio tecnológico de confianza</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="feature-card">
+                            <i class="fas fa-rocket text-primary mb-3"></i>
+                            <h4>Innovación</h4>
+                            <p>Soluciones tecnológicas de vanguardia para impulsar tu negocio.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-card">
+                            <i class="fas fa-shield-alt text-success mb-3"></i>
+                            <h4>Seguridad</h4>
+                            <p>Protección avanzada para tus datos y sistemas críticos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Acerca de -->
+      <i class="fas fa-arrow-left"></i>             
+<div class="modal fade" id="aboutModal" tabindex="-1">
+                <!-- Cambiar X por flecha para volver a pantalla principal -->
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- Cambiado X por flecha y agregado icono oficial -->
+                <button type="button" class="btn-close-custom" data-bs-dismiss="modal">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h4 class="modal-title">
+                    <i class="fas fa-building me-2"></i>Acerca de - Suarzaxmod Corporation
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 text-center mb-4">
+                        <i class="fas fa-building display-1 text-primary mb-3"></i>
+                    </div>
+                    <div class="col-md-8">
+                        <h3>Nuestra Historia</h3>
+                        <p>Suarzaxmod Corporation nació con la visión de transformar el panorama tecnológico empresarial. Desde nuestros inicios, nos hemos dedicado a proporcionar soluciones innovadoras que impulsan el crecimiento y la eficiencia de nuestros clientes.</p>
+                        
+                        <h4>Nuestra Misión</h4>
+                        <p>Empoderar a las empresas con tecnología de vanguardia, ofreciendo soluciones personalizadas que generen valor real y sostenible.</p>
+                        
+                        <h4>Nuestros Valores</h4>
+                        <ul>
+                            <li><strong>Innovación:</strong> Buscamos constantemente nuevas formas de resolver problemas.</li>
+                            <li><strong>Calidad:</strong> Nos comprometemos con la excelencia en cada proyecto.</li>
+                            <li><strong>Integridad:</strong> Actuamos con transparencia y honestidad.</li>
+                            <li><strong>Colaboración:</strong> Trabajamos como socios estratégicos de nuestros clientes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Servicios -->
+<div class="modal fade" id="servicesModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+                <!-- Cambiar X por flecha para volver a pantalla principal -->
+            <div class="modal-header">
+                <!-- Cambiado X por flecha y agregado icono oficial -->
+                <button type="button" class="btn-close-custom" data-bs-dismiss="modal">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h4 class="modal-title">
+                    <i class="fas fa-building"></i>Servicios-Suarzaxmod Corporation
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="service-card">
+                            <i class="fas fa-code text-primary mb-3"></i>
+                            <h4>Desarrollo de Software</h4>
+                            <p>Aplicaciones web y móviles personalizadas utilizando las últimas tecnologías.</p>
+                            <ul>
+                                <li>Aplicaciones Web Responsivas</li>
+                                <li>Aplicaciones Móviles Nativas</li>
+                                <li>APIs y Microservicios</li>
+                                <li>Sistemas de Gestión</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="service-card">
+                            <i class="fas fa-cloud text-info mb-3"></i>
+                            <h4>Soluciones en la Nube</h4>
+                            <p>Migración y optimización de infraestructura en plataformas cloud.</p>
+                            <ul>
+                                <li>Migración a AWS/Azure/GCP</li>
+                                <li>Arquitecturas Serverless</li>
+                                <li>DevOps y CI/CD</li>
+                                <li>Monitoreo y Optimización</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="service-card">
+                            <i class="fas fa-shield-alt text-success mb-3"></i>
+                            <h4>Ciberseguridad</h4>
+                            <p>Protección integral de sistemas y datos empresariales.</p>
+                            <ul>
+                                <li>Auditorías de Seguridad</li>
+                                <li>Implementación de Firewalls</li>
+                                <li>Gestión de Identidades</li>
+                                <li>Respuesta a Incidentes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Nuevo Modal de Calendario -->
+<div class="modal fade" id="calendarModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close-custom" data-bs-dismiss="modal">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h4 class="modal-title">
+                    <i class="fas fa-building"></i>Calendario_Suarzaxmod
+                </h4>
+            </div>
+            <div class="modal-body p-0">
+                <iframe src="https://calendarioventana.blogspot.com/?m=0" 
+                        style="border: 0" 
+                        width="100%" 
+                        height="600" 
+                        frameborder="0" 
+                        scrolling="no">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Contacto -->
+<div class="modal fade" id="contactModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- Cambiado X por flecha y agregado icono oficial -->
+                <button type="button" class="btn-close-custom" data-bs-dismiss="modal">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h5 class="modal-title">
+                    <i class="fas fa-building me-2"></i>Contacto - Suarzaxmod Corporation
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Información de Contacto</h4>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt text-primary"></i>
+                                <div>
+                                    <strong>Dirección:</strong><br>
+                                    Av. Tecnológica 123<br>
+                                    Ciudad de México, México
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone text-success"></i>
+                                <div>
+                                    <strong>Teléfono:</strong><br>
+                                    +52 55 1234 5678
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope text-info"></i>
+                                <div>
+                                    <strong>Email:</strong><br>
+                                    contacto@suarzaxmod.com
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-clock text-warning"></i>
+                                <div>
+                                    <strong>Horario:</strong><br>
+                                    Lun - Vie: 9:00 AM - 6:00 PM<br>
+                                    Sáb: 9:00 AM - 2:00 PM
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Envíanos un Mensaje</h4>
+                        <form id="contactForm">
+                            <div class="mb-3">
+                                <label for="contactName" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="contactName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contactEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="contactEmail" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contactSubject" class="form-label">Asunto</label>
+                                <input type="text" class="form-control" id="contactSubject" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contactMessage" class="form-label">Mensaje</label>
+                                <textarea class="form-control" id="contactMessage" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Enviar Mensaje
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Inicio de Sesión -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h5 class="modal-title">
+                        <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginUsername" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="loginUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt me-2"></i>Ingresar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://drive.google.com/file/d/1MK_w0vsFLrDIh-TKoPYTbUqsmWw5-Jmk/view?usp=drive_link"></script>
+</body>
+</html>

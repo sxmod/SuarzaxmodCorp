@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libro Digital - Electricidad</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: white;
+            --text-color: black;
+            --book-bg: #e0e0e0;
+            --page-bg: white;
+            --shadow-color: rgba(0,0,0,0.1);
+            --transition-speed: 0.3s;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            overflow: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        .book-container {
+            width: 100vw;
+            height: 100vh;
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color var(--transition-speed);
+            background-color: var(--book-bg);
+        }
+        .book {
+            width: 90%;
+            height: 90%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(0deg);
+            transition: transform 0.5s;
+        }
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: var(--page-bg);
+            transform-origin: left center;
+            transition: transform 0.5s, background-color var(--transition-speed), color var(--transition-speed);
+            overflow: hidden;
+            box-shadow: 0 0 10px var(--shadow-color);
+        }
+        .page-content {
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            height: 100%;
+        }
+        .page img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+        }
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+            outline: none;
+        }
+        #themeToggle:hover {
+            transform: scale(1.1);
+        }
+        .dark-theme {
+            --bg-color: #222;
+            --text-color: white;
+            --book-bg: #333;
+            --page-bg: #222;
+            --shadow-color: rgba(255,255,255,0.1);
+        }
+        #tableOfContents {
+            position: fixed;
+            top: 60px;
+            left: 20px;
+            background-color: var(--bg-color);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px var(--shadow-color);
+            z-index: 1000;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        #tableOfContents h3 {
+            margin-top: 0;
+        }
+        #tableOfContents ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #tableOfContents li {
+            margin-bottom: 5px;
+        }
+        #tableOfContents a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+        #tableOfContents a:hover {
+            color: #007bff;
+        }
+        #bookmarkButton {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+            outline: none;
+        }
+        #bookmarkButton:hover {
+            transform: scale(1.1);
+        }
+        #fontSizeControls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+        #fontSizeControls button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+            outline: none;
+        }
+        #fontSizeControls button:hover {
+            transform: scale(1.1);
+        }
+        @media (max-width: 768px) {
+            .book {
+                width: 100%;
+                height: 100%;
+            }
+            #themeToggle, #bookmarkButton {
+                top: 10px;
+                font-size: 20px;
+            }
+            #tableOfContents {
+                top: 40px;
+                left: 10px;
+                max-width: 80vw;
+            }
+            #fontSizeControls {
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+        @keyframes pageFlip {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(-180deg); }
+        }
+    </style>
+</head>
+<body>
+    <button id="themeToggle" aria-label="Cambiar tema">
+        <i class="fas fa-moon"></i>
+    </button>
+    <button id="bookmarkButton" aria-label="Marcar página">
+        <i class="fas fa-bookmark"></i>
+    </button>
+    <div id="tableOfContents">
+        <h3>Tabla de Contenidos</h3>
+        <ul>
+            <!-- Se llenará dinámicamente -->
+        </ul>
+    </div>
+    <div class="book-container">
+        <div class="book" id="book">
+            <!-- Las páginas se agregarán dinámicamente aquí -->
+        </div>
+    </div>
+    <div id="fontSizeControls">
+        <button id="decreaseFontSize" aria-label="Disminuir tamaño de fuente">
+            <i class="fas fa-minus"></i>
+        </button>
+        <button id="increaseFontSize" aria-label="Aumentar tamaño de fuente">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <script>
+        const book = document.getElementById('book');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const bookmarkButton = document.getElementById('bookmarkButton');
+        const tableOfContents = document.getElementById('tableOfContents');
+        const decreaseFontSizeBtn = document.getElementById('decreaseFontSize');
+        const increaseFontSizeBtn = document.getElementById('increaseFontSize');
+        let pages = [];
+        let currentPage = 0;
+        let startX;
+        let isSwiping = false;
+        let isDarkTheme = false;
+        let currentFontSize = 16; // Tamaño de fuente inicial en píxeles
+
+        function addPage(title, content) {
+            const page = document.createElement('div');
+            page.className = 'page';
+            page.innerHTML = `
+                <div class="page-content">
+                    <h2>${title}</h2>
+                    ${content}
+                </div>
+            `;
+            book.appendChild(page);
+            pages.push(page);
+            updatePagePositions();
+            addToTableOfContents(title, pages.length - 1);
+        }
+
+        function addToTableOfContents(title, pageIndex) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = title;
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToPage(pageIndex);
+            });
+            li.appendChild(a);
+            tableOfContents.querySelector('ul').appendChild(li);
+        }
+
+        function updatePagePositions() {
+            pages.forEach((page, index) => {
+                if (index < currentPage) {
+                    page.style.transform = 'rotateY(-180deg)';
+                } else {
+                    page.style.transform = 'rotateY(0deg)';
+                }
+                page.style.zIndex = pages.length - Math.abs(currentPage - index);
+            });
+        }
+
+        function turnPage(direction) {
+            if (direction === 'next' && currentPage < pages.length - 1) {
+                pages[currentPage].style.animation = 'pageFlip 0.5s forwards';
+                currentPage++;
+            } else if (direction === 'prev' && currentPage > 0) {
+                currentPage--;
+                pages[currentPage].style.animation = 'pageFlip 0.5s reverse forwards';
+            }
+            setTimeout(updatePagePositions, 500); // Esperar a que termine la animación
+        }
+
+        function goToPage(pageIndex) {
+            while (currentPage < pageIndex) {
+                turnPage('next');
+            }
+            while (currentPage > pageIndex) {
+                turnPage('prev');
+            }
+        }
+
+        book.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isSwiping = true;
+        });
+
+        book.addEventListener('touchmove', (e) => {
+            if (!isSwiping) return;
+            const currentX = e.touches[0].clientX;
+            const diff = startX - currentX;
+            const currentPageElement = pages[currentPage];
+            
+            if (diff > 0 && currentPage < pages.length - 1) {
+                // Swipe left (next page)
+                currentPageElement.style.transform = `rotateY(${-diff / 5}deg)`;
+            } else if (diff < 0 && currentPage > 0) {
+                // Swipe right (previous page)
+                pages[currentPage - 1].style.transform = `rotateY(${180 + diff / 5}deg)`;
+            }
+        });
+
+        book.addEventListener('touchend', (e) => {
+            if (!isSwiping) return;
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentPage < pages.length - 1) {
+                    turnPage('next');
+                } else if (diff < 0 && currentPage > 0) {
+                    turnPage('prev');
+                }
+            } else {
+                updatePagePositions(); // Reset page positions if swipe was not far enough
+            }
+
+            isSwiping = false;
+        });
+
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle('dark-theme');
+            themeIcon.classList.toggle('fa-moon');
+            themeIcon.classList.toggle('fa-sun');
+            themeToggle.setAttribute('aria-label', isDarkTheme ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+        }
+
+        function toggleBookmark() {
+            const bookmarkIcon = bookmarkButton.querySelector('i');
+            bookmarkIcon.classList.toggle('fas');
+            bookmarkIcon.classList.toggle('far');
+            // Aquí puedes agregar la lógica para guardar el marcador
+            alert(`Página ${currentPage + 1} ${bookmarkIcon.classList.contains('fas') ? 'marcada' : 'desmarcada'}`);
+        }
+
+        function changeFontSize(change) {
+            currentFontSize += change;
+            document.querySelectorAll('.page-content').forEach(content => {
+                content.style.fontSize = `${currentFontSize}px`;
+            });
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+        bookmarkButton.addEventListener('click', toggleBookmark);
+        decreaseFontSizeBtn.addEventListener('click', () => changeFontSize(-1));
+        increaseFontSizeBtn.addEventListener('click', () => changeFontSize(1));
+
+        // Agregar páginas de ejemplo
+        addPage("Introducción a la Electricidad", `
+            <p>La electricidad es una forma de energía basada en el movimiento de cargas eléctricas. Es fundamental en nuestra vida cotidiana y en la tecnología moderna.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Imagen de circuito eléctrico">
+        `);
+
+        addPage("Conceptos Básicos", `
+            <ul>
+                <li><strong>Voltaje:</strong> La diferencia de potencial eléctrico entre dos puntos.</li>
+                <li><strong>Corriente:</strong> El flujo de cargas eléctricas a través de un conductor.</li>
+                <li><strong>Resistencia:</strong> La oposición que ofrece un material al paso de la corriente eléctrica.</li>
+            </ul>
+            <img src="https://via.placeholder.com/600x400" alt="Diagrama de conceptos eléctricos">
+        `);
+
+        addPage("Ley de Ohm", `
+            <p>La Ley de Ohm establece que la corriente que circula por un conductor eléctrico es directamente proporcional a la tensión e inversamente proporcional a la resistencia.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Diagrama de la Ley de Ohm">
+        `);
+
+        addPage("Circuitos Eléctricos", `
+            <p>Un circuito eléctrico es un conjunto de elementos conectados por los que puede circular una corriente eléctrica. Los circuitos pueden ser en serie, paralelo o mixtos.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Ejemplos de circuitos eléctricos">
+        `);
+
+        addPage("Seguridad Eléctrica", `
+            <p>La seguridad es fundamental cuando se trabaja con electricidad. Algunas medidas importantes incluyen:</p>
+            <ul>
+                <li>Usar equipo de protección personal</li>
+                <li>Desconectar la fuente de energía antes de trabajar en un circuito</li>
+                <li>Utilizar herramientas con aislamiento</li>
+                <li>Conocer los procedimientos de emergencia</li>
+            </ul>
+            <img src="https://via.placeholder.com/600x400" alt="Equipo de seguridad eléctrica">
+        `);
+    </script>
+</body>
+</html>

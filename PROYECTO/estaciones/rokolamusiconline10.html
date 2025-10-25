@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio App Suarzaxmod</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #121212;
+            --secondary-bg: #1e1e1e;
+            --accent-color: #1db954;
+            --text-color: #ffffff;
+            --text-secondary: #b3b3b3;
+            --header-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+
+        .header {
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            height: var(--header-height);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 0 10px var(--accent-color));
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .station-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .station-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .station-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .station-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .station-logo:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .station-details {
+            flex: 1;
+        }
+
+        .station-name {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .station-meta {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .station-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating-icon {
+            color: var(--accent-color);
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .play-button, .favorite-button {
+            transition: all 0.3s ease;
+        }
+
+        .play-button:active, .favorite-button:active {
+            transform: scale(0.95);
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-bg);
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+        }
+
+        .favorite-button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .rhythm-effect {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 80px;
+            margin: 2rem auto 0;
+            gap: 4px;
+            width: 90%;
+        }
+
+        .bar {
+            width: 6px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+            transition: height 0.2s ease;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px var(--accent-color); }
+            50% { box-shadow: 0 0 20px var(--accent-color), 0 0 30px var(--accent-color); }
+            100% { box-shadow: 0 0 5px var(--accent-color); }
+        }
+
+        .playing .bar {
+            animation: glow 2s infinite;
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: auto;
+        }
+
+        .floating-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .floating-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(29, 185, 84, 0.7);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary-bg);
+            transition: all 0.3s ease;
+        }
+
+        .floating-button:hover {
+            background-color: rgba(29, 185, 84, 0.9);
+            transform: scale(1.1);
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .folders-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .folder {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .folder:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .folder-name {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+
+        .station-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .station-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .station-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .station-item-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .station-card {
+                padding: 1rem;
+            }
+
+            .station-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .station-meta {
+                justify-content: center;
+            }
+
+            .player-controls {
+                justify-content: center;
+            }
+
+            .rhythm-effect {
+                margin-top: 2rem;
+            }
+
+            .station-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Suarzaxmod%20Logo-eV9udwVIOCvvnOVWFdv2pTmQ55nwbv.png" alt="Suarzaxmod Logo">
+            <h1>Radio App <span style="color: var(--accent-color)">Suarzaxmod</span></h1>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <main class="station-card">
+            <div class="station-info">
+                <img src="/placeholder.svg" alt="Estación actual" class="station-logo" id="stationLogo">
+                <div class="station-details">
+                    <h2 class="station-name" id="stationName">Nombre de la estación</h2>
+                    <div class="station-meta">
+                        <div class="station-rating">
+                            <i class="fas fa-signal rating-icon"></i>
+                            <span id="stationPosition">Posición: -</span>
+                        </div>
+                        <div class="station-rating">
+                            <i class="fas fa-star rating-icon"></i>
+                            <span id="stationRating">Clasificación: -</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-controls">
+                <button class="play-button" id="playButton">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="favorite-button">
+                    <i class="far fa-heart"></i>
+                </button>
+                <audio id="audioPlayer" style="display: none;">
+                    <source src="/placeholder.svg" type="audio/mpeg">
+                </audio>
+            </div>
+            <div class="rhythm-effect" id="rhythmEffect">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </main>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar estaciones o carpetas...">
+        </div>
+
+        <div class="folders-container" id="foldersContainer"></div>
+
+        <div class="station-list" id="stationList"></div>
+    </div>
+
+    <div class="floating-controls">
+        <button class="floating-button" id="floatingPrevButton">
+            <i class="fas fa-step-backward"></i>
+        </button>
+        <button class="floating-button" id="floatingPlayButton">
+            <i class="fas fa-play"></i>
+        </button>
+        <button class="floating-button" id="floatingNextButton">
+            <i class="fas fa-step-forward"></i>
+        </button>
+    </div>
+
+    <script>
+        let stations = [
+            { id: 23, name: "Olímpica Stereo", city: "Nacional" },
+            { id: 2470, name: "Mix Radio", city: "Bogotá" },
+            { id: 2123, name: "Radio Potente", city: "Medellín" },
+            { id: 1210, name: "RADIO GRACIA Y AMOR", city: "Cali" },
+            { id: 682, name: "Carbon Stereo", city: "Barranquilla" },
+            { id: 163, name: "Radio Fantástica", city: "Cartagena" },
+            { id: 157, name: "La Reina", city: "Bucaramanga" },
+            { id: 1624, name: "BPM Electro", city: "Nacional" },
+            { id: 103, name: "RadioAcktiva", city: "Bogotá" },
+            { id: 28, name: "Olímpica Stereo - 93.7 FM", city: "Valledupar" },
+            { id: 18, name: "Olímpica Stereo - 90.5 FM", city: "Cartagena" },
+            { id: 158, name: "La Reina - 95.5 FM", city: "Cartagena" },
+            { id: 1153, name: "Cristiana Radio", city: "Nacional" },
+            { id: 643, name: "Planeta FM", city: "Medellín" },
+            { id: 1467, name: "Flow Galapa Radio", city: "Barranquilla" },
+            { id: 361, name: "Colombia Crossover", city: "Nacional" },
+            { id: 751, name: "Vallenato FM", city: "Valledupar" }
+        ];
+
+        let currentStation = null;
+        let isPlaying = false;
+        let rhythmAnimationFrame;
+        let retryCount = 0;
+        const MAX_RETRIES = 3;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playButton = document.getElementById('playButton');
+            const playIcon = playButton.querySelector('i');
+            const stationList = document.getElementById('stationList');
+            const rhythmEffect = document.getElementById('rhythmEffect');
+            const floatingPlayButton = document.getElementById('floatingPlayButton');
+            const floatingPrevButton = document.getElementById('floatingPrevButton');
+            const floatingNextButton = document.getElementById('floatingNextButton');
+            const searchInput = document.getElementById('searchInput');
+            const foldersContainer = document.getElementById('foldersContainer');
+
+            function updateMediaSession(station) {
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: station.title || 'Emisora en vivo',
+                        artist: station.frequency ? `${station.frequency} ${station.city}` : 'Radio Suarzaxmod',
+                        album: 'Radio App Suarzaxmod',
+                        artwork: [
+                            { src: station.image, sizes: '96x96', type: 'image/png' },
+                            { src: station.image, sizes: '128x128', type: 'image/png' },
+                            { src: station.image, sizes: '192x192', type: 'image/png' },
+                            { src: station.image, sizes: '256x256', type: 'image/png' },
+                            { src: station.image, sizes: '384x384', type: 'image/png' },
+                            { src: station.image, sizes: '512x512', type: 'image/png' }
+                        ]
+                    });
+                }
+            }
+
+            function setPlayingState(playing) {
+                isPlaying = playing;
+                playIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+                floatingPlayButton.innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+                rhythmEffect.classList.toggle('playing', isPlaying);
+                
+                if (isPlaying) {
+                    audioPlayer.play().catch(error => {
+                        console.error("Error al reproducir:", error);
+                        setTimeout(() => {
+                            audioPlayer.play().catch(e => console.error("Error al reintentar reproducción:", e));
+                        }, 1000);
+                    });
+                    startRhythmAnimation();
+                    updateMediaSession(currentStation);
+                } else {
+                    audioPlayer.pause();
+                    stopRhythmAnimation();
+                }
+
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+                }
+            }
+
+            function startRhythmAnimation() {
+                const bars = document.querySelectorAll('.bar');
+                let lastTime = 0;
+                
+                function animate(currentTime) {
+                    if (currentTime - lastTime > 100) {
+                        bars.forEach(bar => {
+                            const height = Math.random() * 80 + 20;
+                            bar.style.height = `${height}px`;
+                            
+                            const hue = Math.random() * 60 + 30;
+                            bar.style.backgroundColor = `hsl(${hue}, 100%, 50%)`;
+                        });
+                        lastTime = currentTime;
+                    }
+                    
+                    if (isPlaying) {
+                        rhythmAnimationFrame = requestAnimationFrame(animate);
+                    }
+                }
+                
+                rhythmAnimationFrame = requestAnimationFrame(animate);
+            }
+
+            function stopRhythmAnimation() {
+                if (rhythmAnimationFrame) {
+                    cancelAnimationFrame(rhythmAnimationFrame);
+                }
+                document.querySelectorAll('.bar').forEach(bar => {
+                    bar.style.height = '2px';
+                    bar.style.backgroundColor = 'var(--accent-color)';
+                });
+            }
+
+            playButton.addEventListener('click', function() {
+                setPlayingState(!isPlaying);
+            });
+
+            floatingPlayButton.addEventListener('click', function() {
+                setPlayingState(!isPlaying);
+            });
+
+            floatingPrevButton.addEventListener('click', function() {
+                const currentIndex = stations.findIndex(s => s.id === currentStation.id);
+                const prevIndex = (currentIndex - 1 + stations.length) % stations.length;
+                loadStation(stations[prevIndex].id);
+            });
+
+            floatingNextButton.addEventListener('click', function() {
+                const currentIndex = stations.findIndex(s => s.id === currentStation.id);
+                const nextIndex = (currentIndex + 1) % stations.length;
+                loadStation(stations[nextIndex].id);
+            });
+
+            async function loadStation(id) {
+                try {
+                    const data = await postData("https://emisorasenvivo.com.co/api-backend.php", { 
+                        id: id, 
+                        action: "station-for-widget" 
+                    });
+
+                    if (data && data.data.station) {
+                        currentStation = data.data.station;
+                        document.getElementById('stationLogo').src = currentStation.image;
+                        audioPlayer.src = currentStation.stream;
+                        
+                        let title = currentStation.title;
+                        if (currentStation.frequency) {
+                            title = `${currentStation.title} - ${currentStation.frequency} ${currentStation.city}`;
+                        }
+                        document.getElementById('stationName').textContent = title;
+                        document.getElementById('stationPosition').textContent = `Posición: ${currentStation.position || '-'}`;
+                        document.getElementById('stationRating').textContent = `Clasificación: ${currentStation.rating || '0'}`;
+                        updateMediaSession(currentStation);
+                        
+                        setPlayingState(true);
+                        retryCount = 0;
+                    }
+                } catch (error) {
+                    console.error("Error al cargar la estación:", error);
+                    if (retryCount < MAX_RETRIES) {
+                        retryCount++;
+                        setTimeout(() => loadStation(id), 2000);
+                    }
+                }
+            }
+
+            function renderFolders() {
+                const cities = [...new Set(stations.map(station => station.city))];
+                foldersContainer.innerHTML = cities.map(city => `
+                    <div class="folder" data-city="${city}">
+                        <div class="folder-name">${city}</div>
+                    </div>
+                `).join('');
+
+                foldersContainer.addEventListener('click', (e) => {
+                    const folder = e.target.closest('.folder');
+                    if (folder) {
+                        const city = folder.dataset.city;
+                        renderStations(city);
+                    }
+                });
+            }
+
+            function renderStations(city = null) {
+                const filteredStations = city 
+                    ? stations.filter(station => station.city === city)
+                    : stations;
+
+                stationList.innerHTML = filteredStations.map(station => `
+                    <div class="station-item" data-id="${station.id}">
+                        <div class="station-item-name">${station.name}</div>
+                        <div class="station-item-city">${station.city}</div>
+                    </div>
+                `).join('');
+            }
+
+            function setupSearch() {
+                searchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const filteredStations = stations.filter(station => 
+                        station.name.toLowerCase().includes(searchTerm) || 
+                        station.city.toLowerCase().includes(searchTerm)
+                    );
+
+                    if (searchTerm === '') {
+                        renderFolders();
+                        renderStations();
+                    } else {
+                        foldersContainer.innerHTML = '';
+                        stationList.innerHTML = filteredStations.map(station => `
+                            <div class="station-item" data-id="${station.id}">
+                                <div class="station-item-name">${station.name}</div>
+                                <div class="station-item-city">${station.city}</div>
+                            </div>
+                        `).join('');
+                    }
+                });
+            }
+
+            stationList.addEventListener('click', (e) => {
+                const stationItem = e.target.closest('.station-item');
+                if (stationItem) {
+                    const stationId = parseInt(stationItem.dataset.id);
+                    loadStation(stationId);
+                }
+            });
+
+            audioPlayer.addEventListener('error', function(e) {
+                console.error('Error en la reproducción:', e);
+                if (retryCount < MAX_RETRIES) {
+                    retryCount++;
+                    setTimeout(() => {
+                        if (currentStation) {
+                            loadStation(currentStation.id);
+                        }
+                    }, 2000);
+                }
+            });
+
+            audioPlayer.addEventListener('playing', function() {
+                retryCount = 0;
+            });
+
+            audioPlayer.addEventListener('pause', function() {
+                if (isPlaying) {
+                    audioPlayer.play().catch(error => {
+                        console.error("Error al reanudar la reproducción:", error);
+                    });
+                }
+            });
+
+            window.addEventListener('online', function() {
+                if (isPlaying && currentStation) {
+                    loadStation(currentStation.id);
+                }
+            });
+
+            renderFolders();
+            renderStations();
+            setupSearch();
+            loadStation(stations[0].id);
+        });
+
+        async function postData(url = "", data = {}) {
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(data)
+                });
+                return await response.json();
+            } catch (error) {
+                console.error("Error en la petición:", error);
+                return null;
+            }
+        }
+    </script>
+    <footer class="footer">
+        Todos los derechos reservados por Suarzaxmod
+    </footer>
+</body>
+</html>

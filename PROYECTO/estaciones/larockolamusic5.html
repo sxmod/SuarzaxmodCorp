@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Suarzaxmod Corporation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #056;
+            --secondary-color: #ff00ff;
+            --background-color: #000000;
+            --text-color: #ffffff;
+            --card-bg-color: rgba(0, 0, 0, 0.7);
+            --card-hover-color: rgba(0, 0, 0, 0.9);
+        }
+        * {
+            margin: 0;
+            padding: 1;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.1;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .logo {
+            max-width: 70px;
+            height: auto;
+            filter: drop-shadow(0 0 10px var(--primary-color));
+        }
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .header-button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.1s ease, transform 0.1s ease;
+        }
+        .header-button:hover {
+            color: var(--primary-color);
+        }
+        .header-button:active {
+            transform: scale(0.5);
+        }
+        .radio-icon {
+            animation: moveRadio 0s infinite alternate;
+        }
+        @keyframes moveRadio {
+            0% { transform: translateX(-1px); }
+            100% { transform: translateX(1px); }
+        }
+        h4 {
+            text-align: center;
+            margin: 10px 0 10px;
+            color: var(--primary-color);
+            font-size: 1.0rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .social-icon:hover, .social-icon:focus {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px var(--secondary-color);
+        }
+        .social-icon:active {
+            transform: scale(0.95);
+        }
+        .social-icon img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+        }
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 60px;
+        }
+        .category {
+            background-color: var(--card-bg-color);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+        .category:hover, .category:focus {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+            background-color: var(--card-hover-color);
+        }
+        .category:active {
+            transform: translateY(0);
+        }
+        .category img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .category h3 {
+            padding: 5px;
+            text-align: center;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .category:hover h3, .category:focus h3 {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+        }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            background-color: rgba(255,255, 255, 0.05);
+            border-top: 1px solid var(--primary-color);
+        }
+        #slider-root {
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 1.9rem;
+            }
+            .social-icon {
+                width: 50px;
+                height: 50px;
+            }
+            .categories {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+            .category img {
+                height: 120px;
+            }
+            .category h3 {
+                font-size: 0.5rem;
+            }
+        }
+
+        /* Estilos para el reproductor de radio */
+        #radioPlayer {
+            position: fixed;
+            bottom: 60px;
+            right: 30px;
+            background: rgba(5, 102, 255, .1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            box-shadow: 0 0 20px rgba(5, 102, 255, 0.1);
+            z-index: 1000;
+            width: 300px;
+            transition: all 0.1s ease;
+            display: none;
+        }
+        #radioPlayer.minimized {
+            width: 90px;
+            height: 90px;
+            padding: 15px;
+            overflow: hidden;
+        }
+        #radioPlayer .station-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 19px;
+        }
+        #radioPlayer .station-logo {
+            width: 80px;
+            height: 60px;
+            border-radius: 10px;
+            margin-right: 20px;
+            object-fit: cover;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        #radioPlayer .station-details {
+            flex: 5;
+        }
+        #radioPlayer .station-name {
+            font-weight: bold;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+        #radioPlayer .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        #radioPlayer .control-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        #radioPlayer .control-button:hover {
+            color: var(--primary-color);
+            transform: scale(1.5);
+        }
+        #radioPlayer .play-button {
+            font-size: 1.5em;
+        }
+        #radioPlayer .rhythm-effect {
+            height: 30px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 0 10px;
+            margin-top: 15px;
+        }
+        #radioPlayer .bar {
+            width: 9px;
+            background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
+            transition: height 0.1s ease;
+            border-radius: 5px;
+        }
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px var(--primary-color); }
+            60% { box-shadow: 0 0 15px var(--primary-color), 0 0 30px var(--secondary-color); }
+            100% { box-shadow: 0 0 5px var(--primary-color); }
+        }
+        #radioPlayer.playing .bar {
+            animation: glow 5s infinite;
+        }
+        #fullscreenPlayer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--background-color), #001);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+        #fullscreenPlayer .station-logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 40px rgba(5, 102, 255, 0.1);
+        }
+        #fullscreenPlayer .station-name {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        #fullscreenPlayer .controls {
+            margin: 40px 0;
+        }
+        #fullscreenPlayer .control-button {
+            font-size: 2.5rem;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 25, 25, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        #fullscreenPlayer .control-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+        #fullscreenPlayer .rhythm-effect {
+            height: 120px;
+            width: 80%;
+            max-width: 800px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+        #fullscreenPlayer .bar {
+            width: 10px;
+            background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
+            transition: height 0.1s ease;
+            border-radius: 4px;
+        }
+        #closeFullscreen {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+        /* Station list styling */
+        #stationList {
+            margin-top: 25px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+        #stationList::-webkit-scrollbar {
+            width: 5px;
+        }
+        #stationList::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+        }
+        #stationList::-webkit-scrollbar-thumb {
+            background: rgba(0, 100, 255, 0.5);
+            border-radius: 8px;
+        }
+        .station-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .station-item:hover {
+            background: rgba(0, 100, 255, 0.2);
+            transform: translateX(5px);
+        }
+        .station-item.active {
+            background: rgba(0, 100, 255, 0.3);
+            border-left: 3px solid #00f;
+        }
+        #connectionStatus {
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            padding: 5px 1px;
+            border-radius: 25px;
+            font-size: 0.3em;
+            transition: all 0.1s ease;
+        }
+        
+        #connectionStatus.good {
+            background-color: rgba(0, 255, 0, 0.5);
+            color: #00ff00;
+        }
+        #connectionStatus.medium {
+            background-color: rgba(255, 255, 0, 0.5);
+            color: #ffff00;
+        }
+        #connectionStatus.poor {
+            background-color: rgba(255, 0, 0, 0.5);
+            color: #ff0000;
+        
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://i30.servimg.com/u/f30/20/30/93/75/24632810.png" alt="Suarzaxmod Corporation Logo" class="logo">
+            <div class="header-buttons">
+                <a href="go:notif" class="header-button" aria-label="Notificaciones">
+                    <i class="fas fa-bell"></i>
+                </a>
+                <a href="http://action_search" class="header-button" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </a>
+                <a href="go:T&C" class="header-button" aria-label="Política y Privacidad">
+                    <i class="fas fa-shield-alt"></i>
+                </a>
+                <button id="showRadio" class="header-button" aria-label="Radio">
+                    <i class="fas fa-radio radio-icon"></i>
+                </button>
+            </div>
+        </header>
+
+        <h4>Socios recomendados</h4>
+        <div id="slider-root"></div>
+
+        <h4>Redes sociales</h4>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=61561075081390&mibextid=ZbWKwL" class="social-icon" aria-label="Facebook">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/facebo12.png" alt="Facebook">
+            </a>
+            <a href="https://youtube.com/@plcbysuarzaxmod" class="social-icon" aria-label="YouTube">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/youtub11.png" alt="YouTube">
+            </a>
+            <a href="https://whatsapp.com/channel/0029Va51eKi1yT21v2cFE13P" class="social-icon" aria-label="WhatsApp">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/social10.png" alt="WhatsApp">
+            </a>
+            <a href="index.com" class="social-icon" aria-label="donaciones">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/donaci10.png" alt="Donaciones">
+            </a>
+        </div>
+
+        <div class="categories">
+            <a href="go:Libros" class="category">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/tenor-10.gif" alt="Libros">
+                <h3>Libros</h3>
+            </a>
+            <a href="go:Apks" class="category">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/softwa10.gif" alt="Aplicación">
+                <h3>Aplicación</h3>
+            </a>
+            <a href="go:Electricid" class="category">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/dc-aut10.gif" alt="Electricidad">
+                <h3>Electricidad</h3>
+            </a>
+            <a href="go:Lista" class="category">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/iptv10.gif" alt="M3U">
+                <h3>M3U</h3>
+            </a>
+            <a href="go:videosplc" class="category">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/gf7c7510.jpg" alt="Videos PLC">
+                <h3>Videos PLC</h3>
+            </a>
+            <a href="#sistema" class="category">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/softwa10.jpg" alt="Sistema">
+                <h3>Sistema</h3>
+            </a>
+            <a href="#simuladores" class="category">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/87099510.jpg" alt="Simuladores">
+                <h3>Simuladores</h3>
+            </a>
+            <a href="#mas" class="category">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/24632810.png" alt="Más">
+                <h3>Más</h3>
+            </a>
+        </div>
+    </div>
+
+    <div id="radioPlayer">
+        <button id="minimizeRadio"><i class="fas fa-minus"></i></button>
+        <button id="expandRadio"><i class="fas fa-expand"></i></button>
+        <div class="station-info">
+            <img src="" alt="Estación actual" class="station-logo" id="stationLogo">
+            <div class="station-details">
+                <div class="station-name" id="stationName">Selecciona una estación</div>
+                <div id="stationPosition" style="font-size: 0.8em; opacity: 0.8;">Posición: -</div>
+                <div id="stationRating" style="font-size: 0.8em; opacity: 0.8;">Clasificación: -</div>
+            </div>
+        </div>
+        <div class="rhythm-effect" id="rhythmEffect">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="controls">
+            <button class="control-button" id="previousButton"><i class="fas fa-step-backward"></i></button>
+            <button class="control-button play-button" id="playButton"><i class="fas fa-play"></i></button>
+            <button class="control-button" id="nextButton"><i class="fas fa-step-forward"></i></button>
+        </div>
+        <div id="stationList"></div>
+        <div id="connectionStatus">Conexión: Buena</div>
+    </div>
+
+    <div id="fullscreenPlayer">
+        <button id="closeFullscreen"><i class="fas fa-times"></i></button>
+        <img src="" alt="Estación actual" class="station-logo" id="fullscreenStationLogo">
+        <div class="station-name" id="fullscreenStationName">Nombre de la estación</div>
+        <div class="rhythm-effect" id="fullscreenRhythmEffect">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="controls">
+            <button class="control-button" id="fullscreenPreviousButton"><i class="fas fa-step-backward"></i></button>
+            <button class="control-button play-button" id="fullscreenPlayButton"><i class="fas fa-play"></i></button>
+            <button class="control-button" id="fullscreenNextButton"><i class="fas fa-step-forward"></i></button>
+        </div>
+        <div id="fullscreenConnectionStatus">Conexión: Buena</div>
+    </div>
+
+    <audio id="audioPlayer">
+        <source src="" type="audio/mpeg">
+    </audio>
+
+    <footer>
+        <p>Todos los derechos reservados por Suarzaxmod Corporation ™</p>
+    </footer>
+
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        function Slider() {
+            const [currentIndex, setCurrentIndex] = React.useState(0);
+            const [touchStart, setTouchStart] = React.useState(0);
+            const [touchEnd, setTouchEnd] = React.useState(0);
+            const [isDragging, setIsDragging] = React.useState(false);
+            const [startX, setStartX] = React.useState(0);
+            const [currentX, setCurrentX] = React.useState(0);
+
+            const slides = [
+                { id: 1, image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjguqgHtRCzHj-227IPIZorftpybavFzRQXkXHaEW5i7NOAwME7HuLbgpi5gTzK6H1gZTILb1vzjLMu5iWawckV6J8PGCy4f56eHJdM6-tkV5b-bvh7llSNbIMGkiLgd11hFcoXH6E-F5nLdAiGmLWSwXi96Y4jSWuN1tevWvciE4IZmhs8LkLX7wwISkc/s400/MP4_20240901_012253VLOG.gif', link: 'go:Apks' },
+                { id: 2, image: 'https://i30.servimg.com/u/f30/20/30/93/75/whatsa10.jpg', link: 'https://espacioapk.com/' },
+                { id: 3, image: 'https://i30.servimg.com/u/f30/20/30/93/75/com_na10.jpg', link: 'https://modilimitado.io/' },
+                { id: 4, image: 'https://i30.servimg.com/u/f30/20/30/93/75/all-mo10.png', link: 'https://allmodapk.de/' },
+                { id: 5, image: 'https://i30.servimg.com/u/f30/20/30/93/75/apkgst11.jpg', link: 'https://apkgstore.com/' },
+                { id: 6, image: 'https://i30.servimg.com/u/f30/20/30/93/75/how-to10.jpg', link: 'https://getmodsapk.com/' },
+            ];
+
+            React.useEffect(() => {
+                const timer = setInterval(() => {
+                    if (!isDragging) {
+                        setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+                    }
+                }, 4000);
+
+                return () => clearInterval(timer);
+            }, [isDragging, slides.length]);
+
+            const handleTouchStart = (e) => {
+                setTouchStart(e.targetTouches[0].clientX);
+                setStartX(e.targetTouches[0].clientX - currentX);
+                setIsDragging(true);
+            };
+
+            const handleTouchMove = (e) => {
+                setTouchEnd(e.targetTouches[0].clientX);
+                const x = e.targetTouches[0].clientX - startX;
+                setCurrentX(x);
+            };
+
+            const handleTouchEnd = () => {
+                setIsDragging(false);
+                if (touchStart - touchEnd > 5) {
+                    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+                } else if (touchStart - touchEnd < -5) {
+                    setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
+                }
+                setCurrentX(0);
+            };
+
+            const getSlideStyle = (index) => {
+                const offset = (index - currentIndex + slides.length) % slides.length;
+                let translateX, scale, zIndex, opacity;
+
+                if (offset === 0) {
+                    translateX = currentX;
+                    scale = 1.1;
+                    zIndex = 0;
+                    opacity = 60;
+                } else if (offset === 1 || offset === slides.length - 1) {
+                    translateX = offset === 1 ? 100 + currentX : -100 + currentX;
+                    scale = 0.8;
+                    zIndex = 1;
+                    opacity = 50;
+                } else {
+                    translateX = offset > 1 ? 200 + currentX : -200 + currentX;
+                    scale = 0.9;
+                    zIndex = 0;
+                    opacity = 0.0;
+                }
+
+                return {
+                    transform: `translateX(${translateX}%) scale(${scale})`,
+                    opacity,
+                    zIndex,
+                    transition: isDragging ? 'none' : 'all 0.2s ease-in-out',
+                };
+            };
+
+            return (
+                <div 
+                    style={{ 
+                        position: 'relative', 
+                        width: '100%', 
+                        height: '300px', 
+                        overflow: 'hidden', 
+                        background: 'rgba(0, 0, 0, 0.5)', 
+                        borderRadius: '10px',
+                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+                        touchAction: 'pan-y'
+                    }}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                >
+                    <div style={{ 
+                        position: 'absolute', 
+                        bottom: '1px', 
+                        left: '50%', 
+                        transform: 'translateX(-50%)', 
+                        display: 'flex', 
+                        gap: '10px', 
+                        zIndex: 4 
+                    }}>
+                        {slides.map((_, index) => (
+                            <div
+                                key={index}
+                                style={{
+                                    width: '10px',
+                                    height: '10px',
+                                    borderRadius: '90%',
+                                    backgroundColor: index === currentIndex ? '#ffffff' : 'rgba(255, 255, 255, 0.5)',
+                                    transition: 'background-color 0.1s ease'
+                                }}
+                            ></div>
+                        ))}
+                    </div>
+                    <div style={{ position: 'relative', width: '100%', height: '110%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        {slides.map((slide, index) => (
+                            <a
+                                key={slide.id}
+                                href={slide.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                    position: 'absolute',
+                                    width: '35.5%',
+                                    height: '70%',
+                                    ...getSlideStyle(index),
+                                }}
+                            >
+                                <img
+                                    src={slide.image}
+                                    alt={`Slide ${slide.id}`}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                        borderRadius: '15px',
+                                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                                    }}
+                                />
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<Slider ></Slider>, document.getElementById('slider-root'));
+    </script>
+    <script>
+        let stations = [
+            { id: 23, name: "Olímpica Stereo" },
+            { id: 2470, name: "Mix Radio" },
+            { id: 2123, name: "Radio Potente" },
+            { id: 1210, name: "RADIO GRACIA Y AMOR" },
+            { id: 682, name: "Carbon Stereo" },
+            { id: 163, name: "Radio Fantástica" },
+            { id: 157, name: "La Reina" },
+            { id: 1624, name: "BPM Electro" },
+            { id: 103, name: "RadioAcktiva" },
+            { id: 28, name: "Olímpica Stereo - 93.7 FM Valledupar" },
+            { id: 18, name: "Olímpica Stereo - 90.5 FM Cartagena de Indias" },
+            { id: 158, name: "La Reina - 95.5 FM Cartagena de Indias" },
+            { id: 1153, name: "Cristiana Radio" },
+            { id: 643, name: "Planeta FM" },
+            { id: 1467, name: "Flow Galapa Radio" },
+            { id: 361, name: "Colombia Crossover" },
+            { id: 751, name: "Vallenato FM" },
+            { id: 1, name: "RCN Radio" },
+            { id: 2, name: "Caracol Radio" },
+            { id: 3, name: "La Kalle" }
+        ];
+
+        async function postData(url = "", data = {}) {
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(data)
+                });
+                return await response.json();
+            } catch (error) {
+                console.error("Error en la petición:", error);
+                return null;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playButton = document.getElementById('playButton');
+            const previousButton = document.getElementById('previousButton');
+            const nextButton = document.getElementById('nextButton');
+            const showRadioButton = document.getElementById('showRadio');
+            const minimizeRadioButton = document.getElementById('minimizeRadio');
+            const expandRadioButton = document.getElementById('expandRadio');
+            const radioPlayer = document.getElementById('radioPlayer');
+            const fullscreenPlayer = document.getElementById('fullscreenPlayer');
+            const closeFullscreenButton = document.getElementById('closeFullscreen');
+            const stationList = document.getElementById('stationList');
+            const playIcon = playButton.querySelector('i');
+            const rhythmEffect = document.getElementById('rhythmEffect');
+            const fullscreenRhythmEffect = document.getElementById('fullscreenRhythmEffect');
+            const connectionStatus = document.getElementById('connectionStatus');
+            const fullscreenConnectionStatus = document.getElementById('fullscreenConnectionStatus');
+            let isPlaying = false;
+            let currentStation = null;
+            let currentStationIndex = 0;
+            let retryCount = 0;
+            const MAX_RETRIES = 5;
+            let keepAliveInterval;
+            let bufferingTimeout;
+            let lastPlaybackTime = 0;
+            let stuckCount = 0;
+
+            showRadioButton.addEventListener('click', () => {
+                radioPlayer.style.display = 'block';
+            });
+
+            minimizeRadioButton.addEventListener('click', () => {
+                radioPlayer.classList.toggle('minimized');
+            });
+
+            expandRadioButton.addEventListener('click', () => {
+                fullscreenPlayer.style.display = 'flex';
+                radioPlayer.style.display = 'none';
+            });
+
+            closeFullscreenButton.addEventListener('click', () => {
+                fullscreenPlayer.style.display = 'none';
+                radioPlayer.style.display = 'block';
+            });
+
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.setActionHandler('play', function() {
+                    audioPlayer.play();
+                    setPlayingState(true);
+                });
+                navigator.mediaSession.setActionHandler('pause', function() {
+                    audioPlayer.pause();
+                    setPlayingState(false);
+                });
+                navigator.mediaSession.setActionHandler('stop', function() {
+                    audioPlayer.pause();
+                    audioPlayer.currentTime = 0;
+                    setPlayingState(false);
+                });
+                navigator.mediaSession.setActionHandler('previoustrack', function() {
+                    playPreviousStation();
+                });
+                navigator.mediaSession.setActionHandler('nexttrack', function() {
+                    playNextStation();
+                });
+            }
+
+            function updateMediaSession(station) {
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: station.title || 'Emisora en vivo',
+                        artist: station.frequency ? `${station.frequency} ${station.city}` : 'Radio Suarzaxmod',
+                        album: 'Radio App Suarzaxmod',
+                        artwork: [
+                            { src: station.image, sizes: '96x96', type: 'image/png' },
+                            { src: station.image, sizes: '128x128', type: 'image/png' },
+                            { src: station.image, sizes: '192x192', type: 'image/png' },
+                            { src: station.image, sizes: '256x256', type: 'image/png' },
+                            { src: station.image, sizes: '384x384', type: 'image/png' },
+                            { src: station.image, sizes: '512x512', type: 'image/png' }
+                        ]
+                    });
+                }
+            }
+
+            function setPlayingState(playing) {
+                isPlaying = playing;
+                playIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+                document.getElementById('fullscreenPlayButton').querySelector('i').className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+                
+                rhythmEffect.classList.toggle('playing', isPlaying);
+                fullscreenRhythmEffect.classList.toggle('playing', isPlaying);
+                
+                if (isPlaying) {
+                    audioPlayer.play().catch(error => {
+                        console.error("Error al reproducir:", error);
+                        retryPlayback();
+                    });
+                    startRhythmAnimation();
+                    updateMediaSession(currentStation);
+                    startKeepAlive();
+                    showNotification('Reproduciendo', currentStation.title);
+                } else {
+                    audioPlayer.pause();
+                    stopRhythmAnimation();
+                    stopKeepAlive();
+                }
+
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+                }
+            }
+
+            function startRhythmAnimation() {
+                const bars = document.querySelectorAll('.bar');
+                const fullscreenBars = document.querySelectorAll('#fullscreenRhythmEffect .bar');
+                
+                function animate() {
+                    const frequencyData = new Uint8Array(20);
+                    for (let i = 0; i < 20; i++) {
+                        frequencyData[i] = Math.random() * 255;
+                    }
+                    
+                    bars.forEach((bar, index) => {
+                        const height = (frequencyData[index] / 255) * 100;
+                        bar.style.height = `${height}%`;
+                        bar.style.backgroundColor = `hsl(${height * 2}, 100%, 50%)`;
+                    });
+                    
+                    fullscreenBars.forEach((bar, index) => {
+                        const height = (frequencyData[index] / 255) * 100;
+                        bar.style.height = `${height}%`;
+                        bar.style.backgroundColor = `hsl(${height * 2}, 100%, 50%)`;
+                    });
+                    
+                    if (isPlaying) {
+                        requestAnimationFrame(animate);
+                    }
+                }
+                
+                animate();
+            }
+
+            function stopRhythmAnimation() {
+                const bars = document.querySelectorAll('.bar');
+                const fullscreenBars = document.querySelectorAll('#fullscreenRhythmEffect .bar');
+                
+                bars.forEach(bar => {
+                    bar.style.height = '0%';
+                    bar.style.backgroundColor = 'var(--primary-color)';
+                });
+                
+                fullscreenBars.forEach(bar => {
+                    bar.style.height = '0%';
+                    bar.style.backgroundColor = 'var(--primary-color)';
+                });
+            }
+
+            function startKeepAlive() {
+                stopKeepAlive();
+                keepAliveInterval = setInterval(() => {
+                    if (audioPlayer.paused && isPlaying) {
+                        retryPlayback();
+                    }
+                    checkStuckPlayback();
+                }, 5000);
+            }
+
+            function stopKeepAlive() {
+                if (keepAliveInterval) {
+                    clearInterval(keepAliveInterval);
+                }
+            }
+
+            function retryPlayback() {
+                if (retryCount < MAX_RETRIES) {
+                    retryCount++;
+                    console.log(`Reintentando reproducción (intento ${retryCount})...`);
+                    audioPlayer.load();
+                    audioPlayer.play().catch(error => {
+                        console.error(`Error en el reintento ${retryCount}:`, error);
+                        setTimeout(retryPlayback, 2000 * retryCount);
+                    });
+                } else {
+                    console.error("Número máximo de reintentos alcanzado. Cambiando de estación...");
+                    playNextStation();
+                }
+            }
+
+            function checkStuckPlayback() {
+                if (isPlaying && !audioPlayer.paused) {
+                    if (audioPlayer.currentTime === lastPlaybackTime) {
+                        stuckCount++;
+                        if (stuckCount >= 3) {
+                            console.log("Reproducción estancada detectada. Reiniciando...");
+                            retryPlayback();
+                            stuckCount = 0;
+                        }
+                    } else {
+                        stuckCount = 0;
+                    }
+                    lastPlaybackTime = audioPlayer.currentTime;
+                }
+            }
+
+            playButton.addEventListener('click', function() {
+                setPlayingState(!isPlaying);
+            });
+
+            document.getElementById('fullscreenPlayButton').addEventListener('click', function() {
+                setPlayingState(!isPlaying);
+            });
+
+            previousButton.addEventListener('click', playPreviousStation);
+            nextButton.addEventListener('click', playNextStation);
+            document.getElementById('fullscreenPreviousButton').addEventListener('click', playPreviousStation);
+            document.getElementById('fullscreenNextButton').addEventListener('click', playNextStation);
+
+            function playPreviousStation() {
+                currentStationIndex = (currentStationIndex - 1 + stations.length) % stations.length;
+                loadStation(stations[currentStationIndex].id);
+            }
+
+            function playNextStation() {
+                currentStationIndex = (currentStationIndex + 1) % stations.length;
+                loadStation(stations[currentStationIndex].id);
+            }
+
+            async function loadStation(id) {
+                try {
+                    const data = await postData("https://emisorasenvivo.com.co/api-backend.php", { 
+                        id: id, 
+                        action: "station-for-widget" 
+                    });
+
+                    if (data && data.data.station) {
+                        currentStation = data.data.station;
+                        document.getElementById('stationLogo').src = currentStation.image;
+                        document.getElementById('fullscreenStationLogo').src = currentStation.image;
+                        audioPlayer.src = currentStation.stream;
+                        
+                        let title = currentStation.title;
+                        if (currentStation.frequency) {
+                            title = `${currentStation.title} - ${currentStation.frequency} ${currentStation.city}`;
+                        }
+                        document.getElementById('stationName').textContent = title;
+                        document.getElementById('fullscreenStationName').textContent = title;
+                        document.getElementById('stationPosition').textContent = `Posición: ${currentStation.position || '-'}`;
+                        document.getElementById('stationRating').textContent = `Clasificación: ${currentStation.rating || '0'}`;
+                        updateMediaSession(currentStation);
+                        
+                        setPlayingState(true);
+                        retryCount = 0;
+                        stuckCount = 0;
+                        lastPlaybackTime = 0;
+
+                        showNotification('Nueva estación', title);
+                    }
+                } catch (error) {
+                    console.error("Error al cargar la estación:", error);
+                    retryPlayback();
+                }
+            }
+
+            stations.forEach(station => {
+                const stationElement = document.createElement('div');
+                stationElement.className = 'station-item';
+                stationElement.textContent = station.name;
+                stationElement.addEventListener('click', () => {
+                    loadStation(station.id);
+                });
+                stationList.appendChild(stationElement);
+            });
+
+            audioPlayer.addEventListener('error', function(e) {
+                console.error('Error en la reproducción:', e);
+                retryPlayback();
+            });
+
+            audioPlayer.addEventListener('playing', function() {
+                retryCount = 0;
+                updateConnectionStatus('good');
+            });
+
+            audioPlayer.addEventListener('waiting', function() {
+                updateConnectionStatus('medium');
+                if (bufferingTimeout) clearTimeout(bufferingTimeout);
+                bufferingTimeout = setTimeout(() => {
+                    updateConnectionStatus('poor');
+                    retryPlayback();
+                }, 10000);
+            });
+
+            audioPlayer.addEventListener('canplay', function() {
+                if (bufferingTimeout) clearTimeout(bufferingTimeout);
+                updateConnectionStatus('good');
+            });
+
+            function updateConnectionStatus(status) {
+                connectionStatus.className = status;
+                fullscreenConnectionStatus.className = status;
+                let statusText = 'Conexión: ';
+                switch (status) {
+                    case 'good':
+                        statusText += 'Full señal';
+                        break;
+                    case 'medium':
+                        statusText += 'Reconectando';
+                        break;
+                    case 'poor':
+                        statusText += 'Mala señal';
+                        break;
+                }
+                connectionStatus.textContent = statusText;
+                fullscreenConnectionStatus.textContent = statusText;
+            }
+
+            window.addEventListener('online', function() {
+                if (isPlaying && currentStation) {
+                    loadStation(currentStation.id);
+                }
+            });
+
+            function showNotification(title, body) {
+                if ('Notification' in window && Notification.permission=== 'granted') {
+                    new Notification(title, { body: body });
+                }
+            }
+
+            if ('Notification' in window) {
+                Notification.requestPermission(yes);
+            }
+
+            loadStation(stations[0].id);
+        });
+    </script>
+</body>
+</html>

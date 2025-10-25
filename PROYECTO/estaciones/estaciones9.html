@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Player</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #056;
+            --secondary-color: #ff00ff;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        /* Estilos para el reproductor de radio */
+        #radioPlayer {
+            position: fixed;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: rgba(5, 102, 255, .1);
+            backdrop-filter: blur(10px);
+            color: white;
+            z-index: 2000;
+            transition: all 0.3s ease;
+            display: none;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeInDown 0.5s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        @keyframes fadeOutUp {
+            from {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+        }
+
+        #radioPlayer.hiding {
+            animation: fadeOutUp 0.5s ease-out;
+        }
+
+        #radioPlayer .station-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        #radioPlayer .station-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        #radioPlayer .station-details {
+            flex: 1;
+        }
+
+        #radioPlayer .station-name {
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 2px;
+        }
+
+        #radioPlayer .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        #radioPlayer .control-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #radioPlayer .control-button:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        #hideRadio {
+            margin-left: 10px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Estilos para el reproductor de pantalla completa */
+        #fullscreenPlayer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(5, 102, 255, .1);
+            backdrop-filter: blur(10px);
+            color: white;
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #fullscreenPlayer .station-info {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        #fullscreenPlayer .station-logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        #fullscreenPlayer .station-name {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        #fullscreenPlayer .controls {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        #fullscreenPlayer .control-button {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #fullscreenPlayer .control-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        #closeFullscreen {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        #closeFullscreen:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Estilos para la lista de estaciones */
+        #fullscreenStationList {
+            width: 100%;
+            max-width: 400px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+            padding: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+        }
+
+        #fullscreenStationList::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #fullscreenStationList::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #fullscreenStationList::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .station-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .station-item:hover {
+            background: rgba(0, 100, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .station-item.active {
+            background: rgba(0, 100, 255, 0.3);
+            border-left: 3px solid #00f;
+        }
+
+        /* Estilos para el efecto rítmico */
+        .rhythm-effect {
+            height: 60px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-top: 20px;
+            gap: 4px;
+        }
+
+        .bar {
+            width: 8px;
+            height: 20px;
+            background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
+            transition: height 0.1s ease;
+            border-radius: 4px;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px var(--primary-color); }
+            50% { box-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--secondary-color); }
+            100% { box-shadow: 0 0 5px var(--primary-color); }
+        }
+
+        .playing .bar {
+            animation: glow 5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="radioPlayer">
+        <div class="station-info">
+            <img src="https://via.placeholder.com/40" alt="Estación actual" class="station-logo" id="stationLogo">
+            <div class="station-details">
+                <div class="station-name" id="stationName">Selecciona una estación</div>
+                <div id="stationMeta" style="font-size: 0.7em; opacity: 0.8;">Posición: - | Clasificación: -</div>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="control-button play-button" id="playButton">
+                <i class="fas fa-play"></i>
+            </button>
+        </div>
+        <button id="hideRadio">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div id="fullscreenPlayer">
+        <button id="closeFullscreen">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="station-info">
+            <img src="https://via.placeholder.com/200" alt="Estación actual" class="station-logo" id="fullscreenStationLogo">
+            <div class="station-name" id="fullscreenStationName">Nombre de la estación</div>
+            <div id="fullscreenStationMeta" style="font-size: 1em; opacity: 0.8;">Posición: - | Clasificación: -</div>
+        </div>
+        <div class="rhythm-effect" id="fullscreenRhythmEffect">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="controls">
+            <button class="control-button" id="fullscreenPreviousButton">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="control-button play-button" id="fullscreenPlayButton">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="control-button" id="fullscreenNextButton">
+                <i class="fas fa-step-forward"></i>
+            </button>
+        </div>
+        <div id="fullscreenStationList"></div>
+    </div>
+
+    <audio id="audioPlayer">
+        <source src="/placeholder.svg" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <script>
+        const stations = [
+            { id: 23, name: "Olímpica Stereo", frequency: "105.9 FM", city: "Bogotá" },
+            { id: 2470, name: "Mix Radio", frequency: "96.3 FM", city: "Medellín" },
+            { id: 2123, name: "Radio Potente", frequency: "98.7 FM", city: "Cali" },
+            { id: 1210, name: "RADIO GRACIA Y AMOR", frequency: "103.5 FM", city: "Barranquilla" },
+            { id: 682, name: "Carbon Stereo", frequency: "94.1 FM", city: "Bucaramanga" },
+            { id: 163, name: "Radio Fantástica", frequency: "100.7 FM", city: "Cartagena" },
+            { id: 157, name: "La Reina", frequency: "98.5 FM", city: "Santa Marta" },
+            { id: 1624, name: "BPM Electro", frequency: "101.3 FM", city: "Pereira" }
+        ];
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Referencias a elementos del DOM
+            const hideRadioButton = document.getElementById('hideRadio');
+            const radioPlayer = document.getElementById('radioPlayer');
+            const fullscreenPlayer = document.getElementById('fullscreenPlayer');
+            const closeFullscreenButton = document.getElementById('closeFullscreen');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playButton = document.getElementById('playButton');
+            const fullscreenPlayButton = document.getElementById('fullscreenPlayButton');
+            const fullscreenPreviousButton = document.getElementById('fullscreenPreviousButton');
+            const fullscreenNextButton = document.getElementById('fullscreenNextButton');
+            const fullscreenStationList = document.getElementById('fullscreenStationList');
+            const rhythmEffect = document.getElementById('fullscreenRhythmEffect');
+
+            // Variables de estado
+            let isPlaying = false;
+            let currentStation = null;
+            let currentStationIndex = 0;
+            let isRadioVisible = false;
+            let animationFrame = null;
+
+            // Funciones principales
+            async function loadStation(id) {
+                try {
+                    const response = await fetch("https://emisorasenvivo.com.co/api-backend.php", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id: id,
+                            action: "station-for-widget"
+                        })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data?.data?.station) {
+                        currentStation = data.data.station;
+                        updatePlayerUI(currentStation);
+                        audioPlayer.src = currentStation.stream;
+                        if (isPlaying) {
+                            audioPlayer.play();
+                        }
+                        updateActiveStation(id);
+                    }
+                } catch (error) {
+                    console.error("Error cargando la estación:", error);
+                }
+            }
+
+            function updatePlayerUI(station) {
+                const stationLogo = station.image || 'https://via.placeholder.com/40';
+                document.getElementById('stationLogo').src = stationLogo;
+                document.getElementById('fullscreenStationLogo').src = stationLogo;
+                
+                const title = `${station.title || station.name} - ${station.frequency} ${station.city}`;
+                document.getElementById('stationName').textContent = title;
+                document.getElementById('fullscreenStationName').textContent = title;
+                
+                const meta = `Posición: ${station.position || '-'} | Clasificación: ${station.rating || '-'}`;
+                document.getElementById('stationMeta').textContent = meta;
+                document.getElementById('fullscreenStationMeta').textContent = meta;
+            }
+
+            function togglePlay() {
+                if (isPlaying) {
+                    audioPlayer.pause();
+                } else {
+                    audioPlayer.play();
+                }
+                isPlaying = !isPlaying;
+                updatePlayButton();
+                if (isPlaying) {
+                    startRhythmAnimation();
+                } else {
+                    stopRhythmAnimation();
+                }
+            }
+
+            function updatePlayButton() {
+                const icon = isPlaying ? 'fa-pause' : 'fa-play';
+                playButton.querySelector('i').className = `fas ${icon}`;
+                fullscreenPlayButton.querySelector('i').className = `fas ${icon}`;
+            }
+
+            function createStationList() {
+                fullscreenStationList.innerHTML = '';
+                stations.forEach((station, index) => {
+                    const element = document.createElement('div');
+                    element.className = 'station-item';
+                    element.textContent = `${station.name} - ${station.frequency} ${station.city}`;
+                    element.addEventListener('click', () => {
+                        currentStationIndex = index;
+                        loadStation(station.id);
+                    });
+                    fullscreenStationList.appendChild(element);
+                });
+            }
+
+            function updateActiveStation(id) {
+                document.querySelectorAll('.station-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.textContent.includes(stations.find(s => s.id === id)?.name)) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+            function startRhythmAnimation() {
+                const bars = rhythmEffect.querySelectorAll('.bar');
+                
+                function animate() {
+                    bars.forEach(bar => {
+                        const height = Math.random() * 100;
+                        bar.style.height = `${height}%`;
+                    });
+                    
+                    if (isPlaying) {
+                        animationFrame = requestAnimationFrame(animate);
+                    }
+                }
+                
+                animate();
+            }
+
+            function stopRhythmAnimation() {
+                if (animationFrame) {
+                    cancelAnimationFrame(animationFrame);
+                }
+                rhythmEffect.querySelectorAll('.bar').forEach(bar => {
+                    bar.style.height = '20%';
+                });
+            }
+
+            // Event Listeners
+            hideRadioButton.addEventListener('click', () => {
+                radioPlayer.classList.add('hiding');
+                setTimeout(() => {
+                    radioPlayer.style.display = 'none';
+                    radioPlayer.classList.remove('hiding');
+                    isRadioVisible = false;
+                }, 500);
+            });
+
+            playButton.addEventListener('click', togglePlay);
+            fullscreenPlayButton.addEventListener('click', togglePlay);
+
+            radioPlayer.addEventListener('click', (e) => {
+                if (e.target === radioPlayer || e.target.closest('.station-info')) {
+                    fullscreenPlayer.style.display = 'flex';
+                    radioPlayer.style.display = 'none';
+                }
+            });
+
+            closeFullscreenButton.addEventListener('click', () => {
+                fullscreenPlayer.style.display = 'none';
+                if (isRadioVisible) {
+                    radioPlayer.style.display = 'flex';
+                }
+            });
+
+            fullscreenPreviousButton.addEventListener('click', () => {
+                currentStationIndex = (currentStationIndex - 1 + stations.length) % stations.length;
+                loadStation(stations[currentStationIndex].id);
+            });
+
+            fullscreenNextButton.addEventListener('click', () => {
+                currentStationIndex = (currentStationIndex + 1) % stations.length;
+                loadStation(stations[currentStationIndex].id);
+            });
+
+            // Manejo de errores de audio
+            audioPlayer.addEventListener('error', () => {
+                console.error('Error en la reproducción');
+                isPlaying = false;
+                updatePlayButton();
+                stopRhythmAnimation();
+            });
+
+            // Inicialización automática
+            createStationList();
+            // Mostrar el reproductor automáticamente y cargar la primera estación
+            setTimeout(() => {
+                radioPlayer.style.display = 'flex';
+                isRadioVisible = true;
+                if (!currentStation && stations.length > 0) {
+                    loadStation(stations[0].id);
+                }
+            }, 1000); // Pequeño retraso para asegurar que todo esté cargado
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino - Conceptos Básicos</title>
+    <style>
+        /* Variables globales */
+        :root {
+            --color-primary: #4caf50;
+            --color-secondary: #2e7d32;
+            --color-accent: #ff9800;
+            --color-text: #333;
+            --color-bg: #f8f9fa;
+            --color-card: #fff;
+            --color-border: #ddd;
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --radius: 0.375rem;
+            --transition: all 0.3s ease;
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Encabezado */
+        .header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1553406830-ef2513450d76');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Contenido */
+        .content {
+            background-color: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 2rem;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            border: 1px solid var(--color-border);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Acordeón */
+        .accordion {
+            margin: 20px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid var(--color-border);
+            margin-bottom: 5px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 15px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background-color: #e0e0e0;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+        }
+
+        .accordion-item.active .accordion-header::after {
+            content: '-';
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 15px;
+            max-height: 1000px;
+        }
+
+        /* Elementos comunes */
+        .info-box {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--color-primary);
+            padding: 15px;
+            margin: 20px 0;
+            transition: var(--transition);
+        }
+
+        .info-box:hover {
+            transform: translateX(5px);
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .flex-col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 250px;
+        }
+
+        /* Card */
+        .card {
+            background-color: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        /* Código */
+        .code-block {
+            background-color: #f5f5f5;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background-color: #e9ecef;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .code-content {
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .code-explanation {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-left: 4px solid var(--color-accent);
+            margin: 1rem 0;
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #d63384;
+            background-color: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+        }
+
+        /* Navegación */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .nav-btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background-color: var(--color-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                margin-bottom: 5px;
+                border-radius: 5px;
+                border: 1px solid var(--color-border);
+            }
+
+            .flex-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>Arduino</h1>
+                <p class="subtitle">Introducción, códigos básicos y aplicaciones prácticas</p>
+            </div>
+        </header>
+
+        <div class="nav-buttons">
+            <a href="terminos.html" class="nav-btn">← Anterior: Términos Claves</a>
+            <a href="index.html" class="nav-btn">Volver al Inicio</a>
+        </div>
+
+        <div class="content">
+            <img src="https://images.unsplash.com/photo-1553406830-ef2513450d76" alt="Placa Arduino con componentes" class="banner-image">
+            
+            <p>Arduino es una plataforma de hardware y software de código abierto, basada en una placa con un microcontrolador y un entorno de desarrollo, diseñada para facilitar el uso de la electrónica en proyectos multidisciplinares.</p>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="changeTab('arduino-tab1', this)">Introducción</div>
+                <div class="tab" onclick="changeTab('arduino-tab2', this)">Hardware</div>
+                <div class="tab" onclick="changeTab('arduino-tab3', this)">Programación</div>
+                <div class="tab" onclick="changeTab('arduino-tab4', this)">Ejemplos</div>
+            </div>
+            
+            <div id="arduino-tab1" class="tab-content active">
+                <h3>Introducción a Arduino</h3>
+                
+                <p>Arduino es una plataforma de creación de electrónica de código abierto, la cual está basada en hardware y software libre, flexible y fácil de utilizar para los creadores y desarrolladores.</p>
+                
+                <div class="info-box">
+                    <p><strong>¿Qué es Arduino?</strong> Arduino es una plataforma de desarrollo basada en una placa electrónica con un microcontrolador y un entorno de desarrollo (IDE), diseñada para facilitar el uso de la electrónica en proyectos multidisciplinares.</p>
+                </div>
+                
+                <h4>Características Principales</h4>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <ul>
+                            <li><strong>Hardware libre:</strong> Los diseños de las placas están disponibles bajo licencia de código abierto</li>
+                            <li><strong>Software libre:</strong> El IDE y las bibliotecas son de código abierto</li>
+                            <li><strong>Multiplataforma:</strong> El software funciona en Windows, macOS y Linux</li>
+                            <li><strong>Entorno sencillo:</strong> Fácil de usar para principiantes, pero flexible para usuarios avanzados</li>
+                            <li><strong>Bajo costo:</strong> Las placas Arduino son relativamente económicas</li>
+                        </ul>
+                    </div>
+                    <div class="flex-col">
+                        <ul>
+                            <li><strong>Comunidad activa:</strong> Gran comunidad de usuarios que comparten conocimientos y proyectos</li>
+                            <li><strong>Extensible:</strong> Posibilidad de añadir shields (placas de expansión)</li>
+                            <li><strong>Variedad de placas:</strong> Diferentes modelos para distintas necesidades</li>
+                            <li><strong>Programación sencilla:</strong> Basada en C/C++, pero simplificada</li>
+                            <li><strong>Documentación amplia:</strong> Tutoriales, ejemplos y referencias disponibles</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h4>Historia y Evolución</h4>
+                
+                <p>Arduino nació en 2005 en el Instituto de Diseño Interactivo de Ivrea (Italia) como un proyecto para estudiantes. Sus creadores, Massimo Banzi, David Cuartielles, Tom Igoe, Gianluca Martino y David Mellis, buscaban una herramienta sencilla y económica para que los estudiantes pudieran crear proyectos de electrónica sin necesidad de conocimientos avanzados.</p>
+                
+                <p>Desde entonces, Arduino ha evolucionado considerablemente:</p>
+                
+                <ul>
+                    <li><strong>2005:</strong> Primera placa Arduino (Serial)</li>
+                    <li><strong>2008:</strong> Arduino Duemilanove, una de las primeras placas ampliamente adoptadas</li>
+                    <li><strong>2010:</strong> Arduino Uno, que se convirtió en la placa estándar</li>
+                    <li><strong>2012:</strong> Arduino Leonardo, con capacidades USB mejoradas</li>
+                    <li><strong>2014:</strong> Arduino Yún, con conectividad WiFi</li>
+                    <li><strong>2015:</strong> Arduino MKR1000, enfocada en IoT</li>
+                    <li><strong>2018:</strong> Arduino Nano 33 IoT, con Bluetooth y WiFi en formato compacto</li>
+                    <li><strong>2020:</strong> Arduino Portenta H7, para aplicaciones industriales</li>
+                </ul>
+                
+                <h4>¿Por qué usar Arduino?</h4>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Ventajas</h5>
+                                <ul>
+                                    <li>Facilidad de aprendizaje</li>
+                                    <li>Gran comunidad y soporte</li>
+                                    <li>Amplia compatibilidad con sensores y actuadores</li>
+                                    <li>Ideal para prototipado rápido</li>
+                                    <li>Bajo costo de entrada</li>
+                                    <li>Flexibilidad para proyectos diversos</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Aplicaciones Comunes</h5>
+                                <ul>
+                                    <li>Domótica y automatización del hogar</li>
+                                    <li>Robótica educativa</li>
+                                    <li>Internet de las Cosas (IoT)</li>
+                                    <li>Instrumentación y medición</li>
+                                    <li>Arte interactivo</li>
+                                    <li>Proyectos educativos</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="arduino-tab2" class="tab-content">
+                <h3>Hardware de Arduino</h3>
+                
+                <p>El ecosistema de hardware Arduino incluye diversas placas con diferentes características, capacidades y formatos, adaptadas a distintas necesidades y aplicaciones.</p>
+                
+                <h4>Placas Arduino Más Comunes</h4>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Arduino UNO</div>
+                        <div class="accordion-content">
+                            <div class="flex-row">
+                                <div class="flex-col" style="flex: 0 0 30%;">
+                                    <img src="/placeholder.svg?height=200&width=200&text=Arduino+UNO" alt="Arduino UNO" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col" style="flex: 0 0 70%;">
+                                    <p>El Arduino UNO es la placa más popular y utilizada, ideal para principiantes y proyectos generales. Se basa en el microcontrolador ATmega328P.</p>
+                                    
+                                    <h5>Características principales:</h5>
+                                    <ul>
+                                        <li>Microcontrolador: ATmega328P</li>
+                                        <li>Voltaje de operación: 5V</li>
+                                        <li>Voltaje de entrada (recomendado): 7-12V</li>
+                                        <li>Pines digitales I/O: 14 (6 con PWM)</li>
+                                        <li>Pines analógicos de entrada: 6</li>
+                                        <li>Memoria Flash: 32 KB</li>
+                                        <li>SRAM: 2 KB</li>
+                                        <li>EEPROM: 1 KB</li>
+                                        <li>Frecuencia de reloj: 16 MHz</li>
+                                    </ul>
+                                    
+                                    <h5>Usos comunes:</h5>
+                                    <ul>
+                                        <li>Proyectos de iniciación</li>
+                                        <li>Control de luces y displays</li>
+                                        <li>Lectura de sensores</li>
+                                        <li>Automatización básica</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Arduino NANO</div>
+                        <div class="accordion-content">
+                            <div class="flex-row">
+                                <div class="flex-col" style="flex: 0 0 30%;">
+                                    <img src="/placeholder.svg?height=200&width=200&text=Arduino+NANO" alt="Arduino NANO" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col" style="flex: 0 0 70%;">
+                                    <p>El Arduino NANO es una versión compacta del Arduino UNO, ideal para proyectos donde el espacio es limitado. También se basa en el microcontrolador ATmega328P.</p>
+                                    
+                                    <h5>Características principales:</h5>
+                                    <ul>
+                                        <li>Microcontrolador: ATmega328P</li>
+                                        <li>Voltaje de operación: 5V</li>
+                                        <li>Voltaje de entrada (límite): 6-20V</li>
+                                        <li>Pines digitales I/O: 14 (6 con PWM)</li>
+                                        <li>Pines analógicos de entrada: 8</li>
+                                        <li>Memoria Flash: 32 KB</li>
+                                        <li>SRAM: 2 KB</li>
+                                        <li>EEPROM: 1 KB</li>
+                                        <li>Frecuencia de reloj: 16 MHz</li>
+                                    </ul>
+                                    
+                                    <h5>Usos comunes:</h5>
+                                    <ul>
+                                        <li>Wearables</li>
+                                        <li>Proyectos embebidos</li>
+                                        <li>Robótica móvil</li>
+                                        <li>Sensores remotos</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Arduino MEGA</div>
+                        <div class="accordion-content">
+                            <div class="flex-row">
+                                <div class="flex-col" style="flex: 0 0 30%;">
+                                    <img src="/placeholder.svg?height=200&width=200&text=Arduino+MEGA" alt="Arduino MEGA" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col" style="flex: 0 0 70%;">
+                                    <p>El Arduino MEGA es una placa con mayor capacidad de procesamiento y más pines I/O que el Arduino UNO, ideal para proyectos complejos que requieren muchas conexiones. Se basa en el microcontrolador ATmega2560.</p>
+                                    
+                                    <h5>Características principales:</h5>
+                                    <ul>
+                                        <li>Microcontrolador: ATmega2560</li>
+                                        <li>Voltaje de operación: 5V</li>
+                                        <li>Voltaje de entrada (recomendado): 7-12V</li>
+                                        <li>Pines digitales I/O: 54 (15 con PWM)</li>
+                                        <li>Pines analógicos de entrada: 16</li>
+                                        <li>Memoria Flash: 256 KB</li>
+                                        <li>SRAM: 8 KB</li>
+                                        <li>EEPROM: 4 KB</li>
+                                        <li>Frecuencia de reloj: 16 MHz</li>
+                                    </ul>
+                                    
+                                    <h5>Usos comunes:</h5>
+                                    <ul>
+                                        <li>Impresoras 3D</li>
+                                        <li>Robótica avanzada</li>
+                                        <li>Sistemas de control complejos</li>
+                                        <li>Proyectos con muchos sensores y actuadores</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Shields (Placas de Expansión)</h4>
+                
+                <p>Los shields son placas que se conectan directamente a las placas Arduino para añadir funcionalidades específicas, como:</p>
+                
+                <ul>
+                    <li><strong>Shield Ethernet:</strong> Conexión a redes Ethernet</li>
+                    <li><strong>Shield WiFi:</strong> Conexión a redes WiFi</li>
+                    <li><strong>Shield Motor Driver:</strong> Control de motores DC y paso a paso</li>
+                    <li><strong>Shield LCD:</strong> Interfaz con pantallas LCD</li>
+                    <li><strong>Shield Sensor:</strong> Integración de múltiples sensores</li>
+                    <li><strong>Shield Relé:</strong> Control de dispositivos de alta potencia</li>
+                </ul>
+            </div>
+            
+            <div id="arduino-tab3" class="tab-content">
+                <h3>Programación de Arduino</h3>
+                
+                <p>La programación de Arduino se realiza mediante el entorno de desarrollo (IDE) de Arduino, que proporciona un editor de código, un compilador y herramientas para cargar el programa en la placa.</p>
+                
+                <h4>Entorno de Desarrollo (IDE)</h4>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <img src="/placeholder.svg?height=250&width=400&text=Arduino+IDE" alt="Arduino IDE" style="max-width:100%;">
+                    </div>
+                    <div class="flex-col">
+                        <p>El IDE de Arduino es una aplicación multiplataforma escrita en Java que incluye:</p>
+                        <ul>
+                            <li>Editor de código con resaltado de sintaxis</li>
+                            <li>Compilador integrado</li>
+                            <li>Herramienta de carga de programas a la placa</li>
+                            <li>Monitor serial para comunicación con la placa</li>
+                            <li>Gestor de bibliotecas y placas</li>
+                            <li>Ejemplos preinstalados</li>
+                        </ul>
+                        <p>Existen dos versiones principales del IDE:</p>
+                        <ul>
+                            <li><strong>IDE 1.x:</strong> La versión clásica y más utilizada</li>
+                            <li><strong>IDE 2.x:</strong> La nueva versión con interfaz modernizada y más funcionalidades</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h4>Estructura Básica de un Programa</h4>
+                
+                <div class="code-block">
+                    <div class="code-header">Estructura básica de un sketch de Arduino</div>
+                    <div class="code-content">
+                        <pre>
+// Declaraciones globales
+int ledPin = 13;  // Variable global
+
+// Función de configuración - se ejecuta una vez al inicio
+void setup() {
+  // Inicialización de pines, comunicación serial, etc.
+  pinMode(ledPin, OUTPUT);  // Configura el pin como salida
+  Serial.begin(9600);       // Inicia comunicación serial a 9600 baudios
+}
+
+// Función principal - se ejecuta continuamente en bucle
+void loop() {
+  // Código que se ejecuta repetidamente
+  digitalWrite(ledPin, HIGH);  // Enciende el LED
+  delay(1000);                 // Espera 1 segundo
+  digitalWrite(ledPin, LOW);   // Apaga el LED
+  delay(1000);                 // Espera 1 segundo
+}
+
+// Funciones adicionales definidas por el usuario
+void miFuncion() {
+  // Código de la función
+}
+</pre>
+                    </div>
+                </div>
+                
+                <div class="code-explanation">
+                    <p>Todo programa de Arduino (llamado "sketch") debe contener al menos dos funciones:</p>
+                    <ul>
+                        <li><strong>setup():</strong> Se ejecuta una sola vez al inicio y se utiliza para configurar pines, inicializar comunicaciones, etc.</li>
+                        <li><strong>loop():</strong> Se ejecuta continuamente después de setup() y contiene el código principal del programa.</li>
+                    </ul>
+                </div>
+                
+                <h4>Funciones Básicas</h4>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Entrada/Salida Digital</div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><code>pinMode(pin, mode)</code>: Configura un pin como entrada o salida</li>
+                                <li><code>digitalWrite(pin, value)</code>: Escribe un valor HIGH o LOW en un pin digital</li>
+                                <li><code>digitalRead(pin)</code>: Lee el valor de un pin digital (HIGH o LOW)</li>
+                            </ul>
+                            <div class="code-block">
+                                <div class="code-content">
+                                    <pre>
+// Ejemplo de uso
+pinMode(13, OUTPUT);       // Configura el pin 13 como salida
+digitalWrite(13, HIGH);    // Establece el pin 13 en estado alto (5V)
+int valor = digitalRead(7); // Lee el estado del pin 7
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Entrada/Salida Analógica</div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><code>analogRead(pin)</code>: Lee el valor de un pin analógico (0-1023)</li>
+                                <li><code>analogWrite(pin, value)</code>: Escribe un valor PWM en un pin (0-255)</li>
+                            </ul>
+                            <div class="code-block">
+                                <div class="code-content">
+                                    <pre>
+// Ejemplo de uso
+int sensorValue = analogRead(A0);  // Lee el valor del sensor en A0 (0-1023)
+analogWrite(9, 128);               // Establece el pin 9 al 50% del ciclo de trabajo
+</pre>
+                                </div>
+                            </div>
+                            <p>Nota: La función analogWrite() no genera una verdadera salida analógica, sino una señal PWM (Modulación por Ancho de Pulso).</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Tiempo</div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><code>delay(ms)</code>: Pausa el programa durante los milisegundos especificados</li>
+                                <li><code>millis()</code>: Devuelve el número de milisegundos desde que el programa comenzó a ejecutarse</li>
+                                <li><code>micros()</code>: Devuelve el número de microsegundos desde que el programa comenzó a ejecutarse</li>
+                                <li><code>delayMicroseconds(us)</code>: Pausa el programa durante los microsegundos especificados</li>
+                            </ul>
+                            <div class="code-block">
+                                <div class="code-content">
+                                    <pre>
+// Ejemplo de uso
+delay(1000);                  // Pausa el programa durante 1 segundo
+unsigned long tiempo = millis(); // Obtiene el tiempo actual en milisegundos
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Comunicación Serial</div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><code>Serial.begin(baudRate)</code>: Inicia la comunicación serial a la velocidad especificada</li>
+                                <li><code>Serial.print(data)</code>: Envía datos al puerto serial</li>
+                                <li><code>Serial.println(data)</code>: Envía datos al puerto serial y añade un salto de línea</li>
+                                <li><code>Serial.available()</code>: Devuelve el número de bytes disponibles para leer</li>
+                                <li><code>Serial.read()</code>: Lee un byte de datos entrantes</li>
+                            </ul>
+                            <div class="code-block">
+                                <div class="code-content">
+                                    <pre>
+// Ejemplo de uso
+Serial.begin(9600);           // Inicia comunicación a 9600 baudios
+Serial.println("Hola Mundo"); // Envía texto con salto de línea
+if (Serial.available() > 0) {
+  int incomingByte = Serial.read(); // Lee un byte entrante
+}
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Bibliotecas</h4>
+                
+                <p>Las bibliotecas extienden la funcionalidad de Arduino, proporcionando código reutilizable para interactuar con hardware específico o implementar funcionalidades complejas.</p>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <h5>Bibliotecas Estándar</h5>
+                        <ul>
+                            <li><strong>EEPROM:</strong> Para leer y escribir en la memoria EEPROM</li>
+                            <li><strong>SPI:</strong> Para comunicación con dispositivos SPI</li>
+                            <li><strong>Wire:</strong> Para comunicación I2C</li>
+                            <li><strong>Servo:</strong> Para control de servomotores</li>
+                            <li><strong>LiquidCrystal:</strong> Para pantallas LCD</li>
+                            <li><strong>SD:</strong> Para tarjetas SD</li>
+                        </ul>
+                    </div>
+                    <div class="flex-col">
+                        <h5>Uso de Bibliotecas</h5>
+                        <div class="code-block">
+                            <div class="code-content">
+                                <pre>
+// Incluir biblioteca
+#include &lt;Servo.h&gt;
+
+// Crear objeto
+Servo miServo;
+
+void setup() {
+  // Asociar servo al pin 9
+  miServo.attach(9);
+}
+
+void loop() {
+  // Mover servo a 90 grados
+  miServo.write(90);
+  delay(1000);
+}
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="arduino-tab4" class="tab-content">
+                <h3>Ejemplos Prácticos</h3>
+                
+                <p>A continuación se presentan algunos ejemplos básicos para comenzar a programar con Arduino.</p>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Parpadeo de LED (Blink)</div>
+                        <div class="accordion-content">
+                            <p>Este es el ejemplo más básico y sirve como "Hola Mundo" en Arduino. Hace parpadear un LED conectado al pin 13 (que en muchas placas Arduino tiene un LED integrado).</p>
+                            
+                            <div class="code-block">
+                                <div class="code-header">Blink.ino</div>
+                                <div class="code-content">
+                                    <pre>
+/*
+  Blink
+  Enciende un LED durante un segundo, luego lo apaga durante un segundo, repetidamente.
+*/
+
+// El LED está conectado al pin 13 en la mayoría de placas Arduino
+const int ledPin = 13;
+
+// La función setup se ejecuta una vez cuando presionas reset o enciendes la placa
+void setup() {
+  // Inicializa el pin digital como una salida
+  pinMode(ledPin, OUTPUT);
+}
+
+// La función loop se ejecuta repetidamente para siempre
+void loop() {
+  digitalWrite(ledPin, HIGH);   // Enciende el LED (HIGH es el nivel de voltaje)
+  delay(1000);                  // Espera un segundo
+  digitalWrite(ledPin, LOW);    // Apaga el LED haciendo el voltaje LOW
+  delay(1000);                  // Espera un segundo
+}
+</pre>
+                                </div>
+                            </div>
+                            
+                            <div class="flex-row">
+                                <div class="flex-col">
+                                    <h5>Diagrama de Conexión</h5>
+                                    <img src="/placeholder.svg?height=200&width=300&text=Diagrama+Blink" alt="Diagrama de conexión Blink" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col">
+                                    <h5>Explicación</h5>
+                                    <ul>
+                                        <li>Definimos el pin 13 como salida en la función setup()</li>
+                                        <li>En el loop(), alternamos entre encender (HIGH) y apagar (LOW) el LED</li>
+                                        <li>Usamos delay() para crear pausas de 1 segundo entre cada cambio</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Lectura de Sensor Analógico</div>
+                        <div class="accordion-content">
+                            <p>Este ejemplo lee el valor de un sensor analógico (como un potenciómetro o un sensor de luz) conectado al pin A0 y muestra el valor en el Monitor Serial.</p>
+                            
+                            <div class="code-block">
+                                <div class="code-header">AnalogRead.ino</div>
+                                <div class="code-content">
+                                    <pre>
+/*
+  Lectura Analógica
+  Lee el valor de un pin analógico y lo muestra en el Monitor Serial.
+*/
+
+const int sensorPin = A0;  // Pin analógico para el sensor
+int sensorValue = 0;       // Variable para almacenar el valor del sensor
+
+void setup() {
+  // Inicializa la comunicación serial a 9600 bits por segundo
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Lee el valor del sensor
+  sensorValue = analogRead(sensorPin);
+  
+  // Imprime el valor en el Monitor Serial
+  Serial.print("Valor del sensor: ");
+  Serial.println(sensorValue);
+  
+  // Pequeña pausa para no saturar el Monitor Serial
+  delay(100);
+}
+</pre>
+                                </div>
+                            </div>
+                            
+                            <div class="flex-row">
+                                <div class="flex-col">
+                                    <h5>Diagrama de Conexión</h5>
+                                    <img src="/placeholder.svg?height=200&width=300&text=Diagrama+AnalogRead" alt="Diagrama de conexión AnalogRead" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col">
+                                    <h5>Explicación</h5>
+                                    <ul>
+                                        <li>Inicializamos la comunicación serial a 9600 baudios</li>
+                                        <li>Leemos el valor del sensor con analogRead(), que devuelve un valor entre 0 y 1023</li>
+                                        <li>Enviamos el valor al Monitor Serial para visualizarlo</li>
+                                        <li>Esperamos 100ms antes de la siguiente lectura</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Control de Servo</div>
+                        <div class="accordion-content">
+                            <p>Este ejemplo muestra cómo controlar un servomotor utilizando la biblioteca Servo. El servo se moverá de 0 a 180 grados y viceversa.</p>
+                            
+                            <div class="code-block">
+                                <div class="code-header">ServoSweep.ino</div>
+                                <div class="code-content">
+                                    <pre>
+/*
+  Servo Sweep
+  Mueve un servomotor de 0 a 180 grados y viceversa.
+*/
+
+#include &lt;Servo.h&gt;  // Incluye la biblioteca Servo
+
+Servo miServo;  // Crea un objeto servo para controlar el servomotor
+int pos = 0;    // Variable para almacenar la posición del servo
+
+void setup() {
+  miServo.attach(9);  // Asocia el servo al pin 9
+}
+
+void loop() {
+  // Mueve el servo de 0 a 180 grados
+  for (pos = 0; pos <= 180; pos += 1) {
+    miServo.write(pos);  // Establece la posición del servo
+    delay(15);           // Espera 15ms para que el servo llegue a la posición
+  }
+  
+  // Mueve el servo de 180 a 0 grados
+  for (pos = 180; pos >= 0; pos -= 1) {
+    miServo.write(pos);  // Establece la posición del servo
+    delay(15);           // Espera 15ms para que el servo llegue a la posición
+  }
+}
+</pre>
+                                </div>
+                            </div>
+                            
+                            <div class="flex-row">
+                                <div class="flex-col">
+                                    <h5>Diagrama de Conexión</h5>
+                                    <img src="/placeholder.svg?height=200&width=300&text=Diagrama+ServoSweep" alt="Diagrama de conexión ServoSweep" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col">
+                                    <h5>Explicación</h5>
+                                    <ul>
+                                        <li>Incluimos la biblioteca Servo y creamos un objeto Servo</li>
+                                        <li>Asociamos el servo al pin 9 en setup()</li>
+                                        <li>Usamos dos bucles for para mover el servo de 0 a 180 grados y viceversa</li>
+                                        <li>La función write() establece la posición del servo en grados</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Sensor de Temperatura con LCD</div>
+                        <div class="accordion-content">
+                            <p>Este ejemplo más avanzado lee la temperatura de un sensor LM35 y la muestra en una pantalla LCD.</p>
+                            
+                            <div class="code-block">
+                                <div class="code-header">TemperaturaLCD.ino</div>
+                                <div class="code-content">
+                                    <pre>
+/*
+  Sensor de Temperatura con LCD
+  Lee la temperatura de un sensor LM35 y la muestra en una pantalla LCD.
+*/
+
+#include &lt;LiquidCrystal.h&gt;  // Incluye la biblioteca LCD
+
+// Inicializa la biblioteca LCD con los números de los pines de interfaz
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+// Pin analógico para el sensor de temperatura LM35
+const int sensorPin = A0;
+
+void setup() {
+  // Configura el LCD con 16 columnas y 2 filas
+  lcd.begin(16, 2);
+  
+  // Muestra un mensaje inicial
+  lcd.print("Temperatura:");
+}
+
+void loop() {
+  // Lee el valor del sensor
+  int sensorValue = analogRead(sensorPin);
+  
+  // Convierte la lectura analógica (0-1023) a voltaje (0-5V)
+  float voltage = sensorValue * (5.0 / 1023.0);
+  
+  // Convierte el voltaje a temperatura en grados Celsius (LM35: 10mV por grado)
+  float temperature = voltage * 100.0;
+  
+  // Posiciona el cursor en la primera columna, segunda fila
+  lcd.setCursor(0, 1);
+  
+  // Muestra la temperatura
+  lcd.print(temperature);
+  lcd.print(" C        ");  // Espacios para borrar caracteres anteriores
+  
+  // Espera un segundo
+  delay(1000);
+}
+</pre>
+                                </div>
+                            </div>
+                            
+                            <div class="flex-row">
+                                <div class="flex-col">
+                                    <h5>Diagrama de Conexión</h5>
+                                    <img src="/placeholder.svg?height=200&width=300&text=Diagrama+TemperaturaLCD" alt="Diagrama de conexión TemperaturaLCD" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col">
+                                    <h5>Explicación</h5>
+                                    <ul>
+                                        <li>Incluimos la biblioteca LiquidCrystal y configuramos los pines</li>
+                                        <li>Inicializamos el LCD con 16 columnas y 2 filas</li>
+                                        <li>Leemos el valor del sensor y lo convertimos a voltaje</li>
+                                        <li>Convertimos el voltaje a temperatura (el LM35 proporciona 10mV por grado Celsius)</li>
+                                        <li>Mostramos la temperatura en la segunda fila del LCD</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <p><strong>Consejo:</strong> El IDE de Arduino incluye muchos más ejemplos en el menú Archivo > Ejemplos. Estos ejemplos cubren desde conceptos básicos hasta funcionalidades avanzadas y son una excelente manera de aprender.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="terminos.html" class="nav-btn">← Anterior: Términos Claves</a>
+            <a href="index.html" class="nav-btn">Volver al Inicio</a>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2025 - Conceptos Básicos de Electricidad y Electrónica</p>
+        </footer>
+    </div>
+
+    <script>
+        // Función para cambiar entre pestañas
+        function changeTab(tabId, tabElement) {
+            // Ocultar todos los contenidos de pestañas
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Desactivar todas las pestañas
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activar la pestaña seleccionada y su contenido
+            document.getElementById(tabId).classList.add('active');
+            tabElement.classList.add('active');
+        }
+        
+        // Función para alternar acordeones
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Cerrar todos los acordeones
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(accordionItem => {
+                accordionItem.classList.remove('active');
+            });
+            
+            // Si el acordeón no estaba activo, abrirlo
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Activar el primer acordeón en cada sección
+            const firstAccordions = document.querySelectorAll('.accordion:not(.accordion-item) > .accordion-item:first-child');
+            firstAccordions.forEach(accordion => {
+                accordion.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

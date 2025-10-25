@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suarzaxmod - Pagina Oficial Suarzaxmod S.A</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #00ffff;
+            --secondary-color: #ff00ff;
+            --background-color: #000033;
+            --text-color: #ffffff;
+            --accent-color: #ff9900;
+        }
+        
+        .light {
+            --background-color: #f0f0f0;
+            --text-color: #000033;
+            --primary-color: #0066cc;
+            --secondary-color: #cc00cc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        header {
+            background: rgba(0, 0, 51, 0.8);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.5s ease;
+        }
+        
+        header.scrolled {
+            background: rgba(0, 0, 51, 0.95);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            width: 100px;
+            height: auto;
+            filter: drop-shadow(0 0 5px var(--primary-color));
+        }
+        
+        .radio-icon {
+            margin-left: 20px;
+            font-size: 24px;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .radio-icon:hover {
+            color: var(--secondary-color);
+            text-shadow: 0 0 15px var(--secondary-color);
+            transform: scale(1.1);
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: space-around;
+            width: 60%;
+        }
+        
+        .nav-links li {
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+        
+        .nav-links a:hover {
+            background: var(--primary-color);
+            color: var(--background-color);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+        
+        .theme-switch {
+            position: relative;
+            width: 60px;
+            height: 34px;
+            margin-left: 20px;
+        }
+        
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 51, 0.7), rgba(0, 0, 51, 0.7)), url('https://index-servidor1-universal.on.drv.tw/www.suarzaxmod.sites/estaciones.com.htm') no-repeat center center/cover;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle, transparent 20%, var(--background-color) 20%, var(--background-color) 80%, transparent 80%, transparent),
+                radial-gradient(circle, transparent 20%, var(--background-color) 20%, var(--background-color) 80%, transparent 80%, transparent) 50px 50px,
+                linear-gradient(var(--primary-color) 8px, transparent 8px) 0 -4px,
+                linear-gradient(90deg, var(--primary-color) 8px, transparent 8px) -4px 0;
+            background-color: var(--background-color);
+            background-size: 100px 100px, 100px 100px, 50px 50px, 50px 50px;
+            animation: bgAnimation 10s linear infinite;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        @keyframes bgAnimation {
+            0% {
+                background-position: 0 0, 50px 50px, 0 0, 0 0;
+            }
+            100% {
+                background-position: 100px 100px, 150px 150px, 50px 50px, 50px 50px;
+            }
+        }
+        
+        .hero-content {
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px var(--primary-color);
+            animation: glowText 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glowText {
+            from {
+                text-shadow: 0 0 20px var(--primary-color);
+            }
+            to {
+                text-shadow: 0 0 30px var(--secondary-color), 0 0 40px var(--primary-color);
+            }
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px var(--secondary-color);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--primary-color);
+            color: var(--background-color);
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            box-shadow: 0 0 30px var(--secondary-color);
+            transform: translateY(-3px) scale(1.05);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        section {
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px var(--primary-color);
+        }
+        
+        .about-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .about-text {
+            flex: 1;
+            padding-right: 2rem;
+        }
+        
+        .about-image {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.1);
+        }
+        
+        .services {
+            background: rgba(0, 0, 51, 0.8);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+        
+        .service-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px var(--primary-color);
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: var(--background-color);
+            border: 4px solid var(--primary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid var(--primary-color);
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent var(--primary-color);
+        }
+        
+        .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid var(--primary-color);
+            border-width: 10px 10px 10px 0;
+            border-color: transparent var(--primary-color) transparent transparent;
+        }
+        
+        .right::after {
+            left: -16px;
+        }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: rgba(0, 255, 255, 0.1);
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        .youtube-channels {
+            background: rgba(0, 0, 51, 0.8);
+        }
+        
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .channel-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        .channel-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.4);
+        }
+        
+        .channel-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px var(--primary-color);
+        }
+        
+        footer {
+            background: rgba(0, 0, 51, 0.9);
+            color: var(--text-color);
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(0, 255, 255, 0.1) 0%,
+                rgba(0, 255, 255, 0.05) 25%,
+                transparent 50%
+            );
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+        
+        .social-links {
+            margin-bottom: 1rem;
+        }
+        
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 15px var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-text {
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::before {
+                left: 60px;
+                border: medium solid var(--primary-color);
+                border-width: 10px 10px 10px 0;
+                border-color: transparent var(--primary-color) transparent transparent;
+            }
+            
+            .left::after, .right::after {
+                left: 15px;
+            }
+            
+            .right {
+                left: 0%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo-container">
+                <img src="https://i30.servimg.com/u/f30/20/30/93/75/24632810.png" alt="Suarzaxmod Logo" class="logo">
+                <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/estaciones/estacion12.html" target="_blank" class="radio-icon">
+                    <i class="fas fa-radio"></i>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#about">Nosotros</a></li>
+                <li><a href="#services">Servicios</a></li>
+                <li><a href="#timeline">Trayectoria</a></li>
+                <li><a href="#youtube">YouTube</a></li>
+            </ul>
+            <label class="theme-switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Bienvenido a Suarzaxmod</h1>
+            <p>Innovación Digital Futurista desde 2014</p>
+            <a href="https://i30.servimg.com/u/f30/20/30/93/75/electr10.jpg" class="btn">Descubre el Futuro</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">Sobre Nosotros</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Suarzaxmod es una empresa digital líder fundada por Dairo Suarez, el visionario creador de Suarzaxmod Corporation. Desde 2014, hemos estado a la vanguardia de la innovación digital, ofreciendo una amplia gama de servicios y recursos gratuitos de alta calidad.</p>
+                    <p>Nuestra misión es democratizar el acceso a herramientas y conocimientos de vanguardia, proporcionando aplicaciones premium, libros digitales, cuentas IPTV, y recursos educativos en áreas como electricidad, PLC, sistemas y simuladores. Con un equipo de expertos apasionados por la tecnología, continuamos expandiendo nuestros servicios para crear la plataforma más completa y accesible en el mundo digital del mañana.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/screen10.png" alt="Suarzaxmod Innovación">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Nuestros Servicios Futuristas</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <a href="#" class="service-link">
+                        <i class="fas fa-mobile-alt service-icon"></i>
+                        <h3>Aplicaciones Premium</h3>
+                        <p>Accede a aplicaciones de última generación totalmente gratis.</p>
+                    </a>
+                </div>
+                <div class="service-card">
+                    <a href="#" class="service-link">
+                        <i class="fas fa-book service-icon"></i>
+                        <h3>Libros Digitales</h3>
+                        <p>Una biblioteca virtual con conocimientos del futuro a tu disposición.</p>
+                    </a>
+                </div>
+                <div class="service-card">
+                    <a href="#" class="service-link">
+                        <i class="fas fa-tv service-icon"></i>
+                        <h3>Cuentas IPTV</h3>
+                        <p>Explora el entretenimiento del mañana con nuestra selección de canales.</p>
+                    </a>
+                </div>
+                <div class="service-card">
+                    <a href="#" class="service-link">
+                        <i class="fas fa-bolt service-icon"></i>
+                        <h3>Recursos de Electricidad</h3>
+                        <p>Materiales educativos y herramientas para los ingenieros eléctricos del futuro.</p>
+                    </a>
+                </div>
+                <div class="service-card">
+                    <a href="#" class="service-link">
+                        <i class="fas fa-microchip service-icon"></i>
+                        <h3>Recursos PLC</h3>
+                        <p>Información y herramientas para Controladores Lógicos Programables avanzados.</p>
+                    </a>
+                </div>
+                <div class="service-card">
+                    <a href="#" class="service-link">
+                        <i class="fas fa-cogs service-icon"></i>
+                        <h3>Sección de Sistema</h3>
+                        <p>Recursos y guías para optimización y mantenimiento de sistemas del futuro.</p>
+                    </a>
+                </div>
+                <div class="service-card">
+                    <a href="#" class="service-link">
+                        <i class="fas fa-vr-cardboard service-icon"></i>
+                        <h3>Simuladores</h3>
+                        <p>Acceso a simuladores de realidad virtual para diferentes campos técnicos.</p>
+                    </a>
+                </div>
+                <div class="service-card">
+                    <a href="#" class="service-link">
+                        <i class="fas fa-graduation-cap service-icon"></i>
+                        <h3>Sección de Aprendizaje</h3>
+                        <p>Cursos y materiales educativos para las profesiones del mañana.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="timeline">
+        <div class="container">
+            <h2 class="section-title">Nuestra Trayectoria Innovadora</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h2>2014</h2>
+                        <p>Fundación de Suarzaxmod por Dairo Suarez como plataforma digital revolucionaria</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h2>2016</h2>
+                        <p>Lanzamiento de la primera aplicación premium gratuita con tecnología de punta</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h2>2018</h2>
+                        <p>Expansión de servicios: inclusión de libros digitales interactivos y cuentas IPTV de alta definición</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h2>2020</h2>
+                        <p>Introducción de recursos educativos en electricidad y PLC con realidad aumentada</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h2>2022</h2>
+                        <p>Lanzamiento de simuladores de realidad virtual y sección de aprendizaje con IA</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h2>2024</h2>
+                        <p>Celebración de 10 años ofreciendo innovación digital gratuita y lanzamiento de tecnología cuántica</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="youtube" class="youtube-channels">
+        <div class="container">
+            <h2 class="section-title">Nuestros Canales de YouTube Futuristas</h2>
+            <div class="channel-grid">
+                <div class="channel-card">
+                    <i class="fab fa-youtube channel-icon"></i>
+                    <h3>Suarzaxmod Tecnologi</h3>
+                    <p>Tutoriales, noticias y actualizaciones sobre tecnología del futuro</p>
+                    <a href="https://youtube.com/@suarzaxmodtecnologitm6287?si=5dNvGD8NJcjUdCcy" class="btn" target="_blank">Visitar Canal</a>
+                </div>
+                <div class="channel-card">
+                    <i class="fas fa-microchip channel-icon"></i>
+                    <h3>PLC by Suarzaxmod</h3>
+                    <p>Contenido especializado en Controladores Lógicos Programables de próxima generación</p>
+                    <a href="https://youtube.com/@plcbysuarzaxmod?si=YxpANlZxynF8GME3" class="btn" target="_blank">Visitar Canal</a>
+                </div>
+                <div class="channel-card">
+                    <i class="fas fa-music channel-icon"></i>
+                    <h3>Lion Black Discotte Music</h3>
+                    <p>Canal de música y entretenimiento con sonidos del mañana</p>
+                    <a href="https://youtube.com/@lionblackdiscottemusic3?si=YvQ4F84Wif029Ibj" class="btn" target="_blank">Visitar Canal</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <p>&copy; 2024 Suarzaxmod. Innovando para el futuro.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Change header background on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 0);
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+            } else {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+            }
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', function() {
+            const heroSection = document.querySelector('.hero');
+            const scrollPosition = window.pageYOffset;
+            heroSection.style.backgroundPositionY = scrollPosition * 0.7 + 'px';
+        });
+
+        // Add animation to service cards
+        const serviceCards = document.querySelectorAll('.service-card');
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0) scale(1)';
+                }
+            });
+        }, observerOptions);
+
+        serviceCards.forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(50px) scale(0.9)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

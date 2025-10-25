@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecnologías de Iluminación</title>
+    <style>
+        :root {
+            --primary-color: #ffb74d;
+            --secondary-color: #ff9800;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-color: #fff;
+            --border-color: #ddd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background-color: var(--card-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .subcategory {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .subcategory:hover {
+            background-color: #fff3e0;
+        }
+
+        .subcategory h3 {
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .subcategory p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Banner para subcategorías */
+        .subcategory-banner {
+            width: 100%;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalopen 0.4s;
+        }
+
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-60px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-body h3 {
+            color: var(--secondary-color);
+            margin: 20px 0 10px;
+            font-size: 1.4rem;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .info-box {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-left: 4px solid var(--primary-color);
+            margin: 20px 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: #f2f2f2;
+            color: var(--secondary-color);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .example {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .example h4 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .diagram {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .color-temp {
+            height: 50px;
+            background: linear-gradient(to right, #ff6b6b, #ffb74d, #fff176, #90caf9, #81d4fa);
+            border-radius: 5px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .color-temp-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pros, .cons {
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .pros {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+
+        .cons {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+
+        .pros h4, .cons h4 {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+                margin: 20px auto;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Tecnologías de Iluminación</h1>
+            <p class="subtitle">Evolución, características y tendencias futuras</p>
+        </header>
+
+        <div class="categories">
+            <div class="category-card">
+                <h2>Tipos de Iluminación</h2>
+                
+                <div class="subcategory" onclick="openModal('incandescente')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1529310399831-ed472b81d589')"></div>
+                    <h3>Bombillas Incandescentes</h3>
+                    <p>La tecnología clásica de iluminación y su funcionamiento.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('tipos')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1565814329452-e1efa11c5b89')"></div>
+                    <h3>Tipos de Luces</h3>
+                    <p>Diferentes tecnologías de iluminación disponibles en el mercado.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('bases')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1550434280-9e9f13439323')"></div>
+                    <h3>Bases y Casquillos</h3>
+                    <p>Tipos de conectores y compatibilidad entre sistemas.</p>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <h2>Características Técnicas</h2>
+                
+                <div class="subcategory" onclick="openModal('lumenes')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1555663823-23471187ea3a')"></div>
+                    <h3>Lúmenes y Luz</h3>
+                    <p>Medición de la intensidad luminosa y eficiencia energética.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('temperatura')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1516796181074-bf453fbfa3e6')"></div>
+                    <h3>Temperatura de Color</h3>
+                    <p>Calidez y frialdad en la iluminación y sus aplicaciones.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('tiras')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1586473219010-2ffc57b0d282')"></div>
+                    <h3>Tiras LED</h3>
+                    <p>Características, instalación y aplicaciones decorativas.</p>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <h2>Tecnologías Avanzadas</h2>
+                
+                <div class="subcategory" onclick="openModal('futuro')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1558346490-a72e53ae2d4f')"></div>
+                    <h3>Luces del Futuro</h3>
+                    <p>Tendencias y desarrollos en investigación de iluminación.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('ultimas')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1535378917042-10a22c95931a')"></div>
+                    <h3>Últimas Tecnologías</h3>
+                    <p>Innovaciones recientes en el campo de la iluminación.</p>
+                </div>
+                
+                <div class="subcategory" onclick="openModal('inteligente')">
+                    <div class="subcategory-banner" style="background-image: url('https://images.unsplash.com/photo-1558002038-1055e2dae2d7')"></div>
+                    <h3>Iluminación Inteligente</h3>
+                    <p>Sistemas conectados y control mediante aplicaciones.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 - Tecnologías de Iluminación</p>
+        </footer>
+    </div>
+
+    <!-- Modales para cada subcategoría -->
+    
+    <!-- Bombillas Incandescentes -->
+    <div id="incandescente" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('incandescente')">&times;</span>
+            <div class="modal-header">
+                <h2>Bombillas Incandescentes</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1529310399831-ed472b81d589" alt="Bombilla incandescente con filamento visible" class="banner-image">
+                
+                <p>Las bombillas incandescentes fueron la primera forma de iluminación eléctrica práctica, inventadas por Thomas Edison en 1879 (aunque otros inventores como Joseph Swan también desarrollaron versiones similares). Durante más de un siglo, fueron la principal fuente de iluminación artificial en hogares y negocios de todo el mundo.</p>
+                
+                <h3>Principio de Funcionamiento</h3>
+                <p>El funcionamiento de una bombilla incandescente se basa en un principio físico simple:</p>
+                
+                <div class="info-box">
+                    <p>Cuando la electricidad pasa a través de un conductor con alta resistencia (filamento), parte de la energía eléctrica se convierte en calor. Si el filamento alcanza temperaturas muy altas (aproximadamente 2700°C), emite luz visible además de calor.</p>
+                </div>
+                
+                <h3>Componentes Principales</h3>
+                <ul>
+                    <li><strong>Filamento:</strong> Generalmente fabricado de tungsteno, un metal con alto punto de fusión (3422°C)</li>
+                    <li><strong>Ampolla de vidrio:</strong> Contiene el filamento y está llena de un gas inerte (argón, nitrógeno)</li>
+                    <li><strong>Base:</strong> Generalmente de tipo Edison (E27, E14) para la conexión eléctrica</li>
+                    <li><strong>Soporte:</strong> Estructura interna que mantiene el filamento en posición</li>
+                </ul>
+                
+                <h3>Características Técnicas</h3>
+                <ul>
+                    <li><strong>Eficiencia luminosa:</strong> 10-15 lúmenes/vatio (muy baja)</li>
+                    <li><strong>Temperatura de color:</strong> 2700-3000K (luz cálida amarillenta)</li>
+                    <li><strong>Vida útil:</strong> 1,000-2,000 horas</li>
+                    <li><strong>Índice de reproducción cromática (IRC):</strong> 100 (excelente)</li>
+                    <li><strong>Tiempo de encendido:</strong> Instantáneo</li>
+                </ul>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Ventajas</h4>
+                        <ul>
+                            <li>Encendido instantáneo</li>
+                            <li>Excelente reproducción de colores</li>
+                            <li>Bajo costo inicial</li>
+                            <li>Compatibilidad con dimmers (reguladores)</li>
+                            <li>No contienen materiales tóxicos</li>
+                            <li>Funcionan en cualquier posición</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Desventajas</h4>
+                        <ul>
+                            <li>Muy baja eficiencia energética (95% de la energía se convierte en calor)</li>
+                            <li>Vida útil corta</li>
+                            <li>Fragilidad del filamento y la ampolla</li>
+                            <li>Generan mucho calor</li>
+                            <li>Prohibidas en muchos países por su ineficiencia</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Evolución y Variantes</h3>
+                <p>A lo largo de su historia, las bombillas incandescentes experimentaron diversas mejoras:</p>
+                
+                <ul>
+                    <li><strong>Bombillas halógenas:</strong> Una variante mejorada que utiliza gases halógenos para aumentar la vida útil y la eficiencia</li>
+                    <li><strong>Bombillas de bajo voltaje:</strong> Diseñadas para funcionar con transformadores</li>
+                    <li><strong>Bombillas reflectoras:</strong> Con recubrimiento interno reflectante para dirigir la luz</li>
+                </ul>
+                
+                <h3>Prohibición y Desaparición Gradual</h3>
+                <p>Debido a su baja eficiencia energética, muchos países han implementado legislaciones para eliminar gradualmente las bombillas incandescentes:</p>
+                
+                <ul>
+                    <li>Unión Europea: Prohibición gradual desde 2009</li>
+                    <li>Estados Unidos: Estándares de eficiencia desde 2012</li>
+                    <li>China: Prohibición desde 2016</li>
+                    <li>Muchos otros países han seguido políticas similares</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tipos de Luces -->
+    <div id="tipos" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('tipos')">&times;</span>
+            <div class="modal-header">
+                <h2>Tipos de Luces</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89" alt="Variedad de diferentes tipos de bombillas y luces" class="banner-image">
+                
+                <p>El campo de la iluminación ha evolucionado significativamente desde la invención de la bombilla incandescente. Actualmente existen diversas tecnologías que ofrecen diferentes características en términos de eficiencia, calidad de luz, vida útil y aplicaciones específicas.</p>
+                
+                <h3>Principales Tecnologías de Iluminación</h3>
+                
+                <h4>1. Iluminación Incandescente</h4>
+                <p>La tecnología más antigua de iluminación eléctrica.</p>
+                <ul>
+                    <li><strong>Bombillas tradicionales:</strong> Filamento de tungsteno en ampolla de vidrio</li>
+                    <li><strong>Bombillas halógenas:</strong> Versión mejorada con gases halógenos que aumentan la vida útil y eficiencia</li>
+                </ul>
+                
+                <h4>2. Iluminación Fluorescente</h4>
+                <p>Basada en la descarga de gases y recubrimientos de fósforo que convierten la radiación UV en luz visible.</p>
+                <ul>
+                    <li><strong>Tubos fluorescentes:</strong> Formato lineal, común en oficinas y comercios</li>
+                    <li><strong>Lámparas fluorescentes compactas (CFL):</strong> Versión compacta diseñada para reemplazar incandescentes</li>
+                </ul>
+                
+                <h4>3. Iluminación LED (Diodo Emisor de Luz)</h4>
+                <p>La tecnología más avanzada y eficiente actualmente disponible.</p>
+                <ul>
+                    <li><strong>Bombillas LED:</strong> Reemplazo directo para formatos tradicionales</li>
+                    <li><strong>Paneles LED:</strong> Iluminación de superficie para techos</li>
+                    <li><strong>Tiras LED:</strong> Formato flexible para iluminación decorativa</li>
+                    <li><strong>Downlights LED:</strong> Para empotrar en techos</li>
+                </ul>
+                
+                <h4>4. Iluminación de Descarga de Alta Intensidad (HID)</h4>
+                <p>Tecnologías que generan luz mediante la descarga eléctrica en gases a alta presión.</p>
+                <ul>
+                    <li><strong>Lámparas de vapor de mercurio:</strong> Luz blanca azulada</li>
+                    <li><strong>Lámparas de vapor de sodio:</strong> Luz amarilla-anaranjada, común en alumbrado público</li>
+                    <li><strong>Lámparas de halogenuros metálicos:</strong> Mejor reproducción cromática, usadas en estadios</li>
+                </ul>
+                
+                <h3>Comparativa de Tecnologías</h3>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Tecnología</th>
+                        <th>Eficiencia (lm/W)</th>
+                        <th>Vida útil (horas)</th>
+                        <th>IRC</th>
+                        <th>Aplicaciones principales</th>
+                    </tr>
+                    <tr>
+                        <td>Incandescente</td>
+                        <td>10-15</td>
+                        <td>1,000-2,000</td>
+                        <td>100</td>
+                        <td>Residencial (en desuso)</td>
+                    </tr>
+                    <tr>
+                        <td>Halógena</td>
+                        <td>15-25</td>
+                        <td>2,000-4,000</td>
+                        <td>100</td>
+                        <td>Decorativa, acentuación</td>
+                    </tr>
+                    <tr>
+                        <td>Fluorescente</td>
+                        <td>60-100</td>
+                        <td>8,000-15,000</td>
+                        <td>70-90</td>
+                        <td>Oficinas, comercios</td>
+                    </tr>
+                    <tr>
+                        <td>CFL</td>
+                        <td>50-70</td>
+                        <td>6,000-15,000</td>
+                        <td>80-90</td>
+                        <td>Residencial, comercial</td>
+                    </tr>
+                    <tr>
+                        <td>LED</td>
+                        <td>80-150</td>
+                        <td>15,000-50,000</td>
+                        <td>70-98</td>
+                        <td>Universal</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bases y Casquillos -->
+    <div id="bases" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('bases')">&times;</span>
+            <div class="modal-header">
+                <h2>Bases y Casquillos de Bombillas</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1550434280-9e9f13439323" alt="Diferentes tipos de casquillos y bases de bombillas" class="banner-image">
+                
+                <p>Las bases o casquillos son los componentes que permiten la conexión eléctrica y mecánica entre la bombilla y la luminaria. Existen numerosos tipos de bases estandarizadas, cada una diseñada para aplicaciones específicas. Conocer estos estándares es esencial para garantizar la compatibilidad al reemplazar bombillas.</p>
+                
+                <h3>Sistemas de Nomenclatura</h3>
+                <p>Los casquillos se identifican mediante códigos estandarizados que indican su tipo y tamaño:</p>
+                
+                <ul>
+                    <li><strong>Letra inicial:</strong> Indica el tipo de base (E = Edison, G = Pin, B = Bayoneta, etc.)</li>
+                    <li><strong>Número:</strong> Generalmente indica el diámetro en milímetros</li>
+                    <li><strong>Sufijos adicionales:</strong> Pueden indicar características específicas</li>
+                </ul>
+                
+                <h3>Principales Tipos de Casquillos</h3>
+                
+                <h4>1. Casquillos tipo Edison (rosca)</h4>
+                <p>El tipo más común en iluminación residencial, con conexión mediante rosca.</p>
+                
+                <ul>
+                    <li><strong>E27:</strong> Estándar para bombillas de uso general (27 mm de diámetro)</li>
+                    <li><strong>E14:</strong> "Mignon" o pequeño Edison, para lámparas más pequeñas</li>
+                    <li><strong>E40:</strong> Para bombillas industriales de alta potencia</li>
+                    <li><strong>E10:</strong> Para bombillas miniatura y linternas</li>
+                </ul>
+                
+                <h4>2. Casquillos tipo Bayoneta</h4>
+                <p>Utilizan un sistema de conexión con pines laterales y giro para fijar la bombilla.</p>
+                
+                <ul>
+                    <li><strong>B22d:</strong> Estándar común en Reino Unido y algunos países de la Commonwealth (22 mm)</li>
+                    <li><strong>B15d:</strong> Versión más pequeña, similar al E14 en tamaño</li>
+                    <li><strong>BA15s/BA15d:</strong> Para luces de señalización y automóviles (s = un contacto, d = dos contactos)</li>
+                </ul>
+                
+                <h4>3. Casquillos tipo Pin (bipin)</h4>
+                <p>Utilizan pines rectos para la conexión eléctrica.</p>
+                
+                <ul>
+                    <li><strong>G4:</strong> Para bombillas halógenas de bajo voltaje (12V), 4 mm entre pines</li>
+                    <li><strong>G9:</strong> Para bombillas halógenas de voltaje de red (230V), 9 mm entre pines</li>
+                    <li><strong>GU10:</strong> Para bombillas reflectoras con bloqueo por giro, 10 mm entre pines</li>
+                    <li><strong>G13:</strong> Para tubos fluorescentes estándar T8/T12</li>
+                    <li><strong>G5:</strong> Para tubos fluorescentes T5 más delgados</li>
+                </ul>
+                
+                <div class="info-box">
+                    <p><strong>Advertencia:</strong> Los adaptadores pueden crear problemas de seguridad si no se consideran factores como el voltaje, la potencia y la disipación de calor. Siempre es preferible usar bombillas con el casquillo adecuado para cada luminaria.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lúmenes y Luz -->
+    <div id="lumenes" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('lumenes')">&times;</span>
+            <div class="modal-header">
+                <h2>Lúmenes y Luz</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1555663823-23471187ea3a" alt="Medición de intensidad luminosa con fotómetro" class="banner-image">
+                
+                <p>Los lúmenes son la unidad de medida del flujo luminoso, es decir, la cantidad total de luz visible emitida por una fuente. Entender esta y otras métricas relacionadas con la luz es fundamental para seleccionar la iluminación adecuada para cada espacio y aplicación.</p>
+                
+                <h3>Principales Unidades de Medida en Iluminación</h3>
+                
+                <h4>1. Lumen (lm)</h4>
+                <p>Mide la cantidad total de luz visible emitida por una fuente en todas direcciones.</p>
+                <div class="info-box">
+                    <p>Un lumen equivale a la cantidad de luz emitida por una vela estándar en un ángulo sólido de un estereorradián.</p>
+                </div>
+                
+                <h4>2. Candela (cd)</h4>
+                <p>Unidad básica de intensidad luminosa en una dirección específica.</p>
+                
+                <h4>3. Lux (lx)</h4>
+                <p>Mide la iluminancia, es decir, la cantidad de luz que incide sobre una superficie.</p>
+                <div class="info-box">
+                    <p>1 lux = 1 lumen por metro cuadrado (lm/m²)</p>
+                </div>
+                
+                <h4>4. Eficacia Luminosa (lm/W)</h4>
+                <p>Mide la eficiencia de una fuente de luz, indicando cuántos lúmenes produce por cada vatio de energía consumida.</p>
+                
+                <h3>Equivalencias de Lúmenes</h3>
+                <p>Con la transición de bombillas incandescentes a tecnologías más eficientes, es útil conocer las equivalencias aproximadas:</p>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Incandescente (W)</th>
+                        <th>Halógena (W)</th>
+                        <th>CFL (W)</th>
+                        <th>LED (W)</th>
+                        <th>Lúmenes (aprox.)</th>
+                    </tr>
+                    <tr>
+                        <td>25W</td>
+                        <td>18W</td>
+                        <td>6W</td>
+                        <td>3-4W</td>
+                        <td>250-300</td>
+                    </tr>
+                    <tr>
+                        <td>40W</td>
+                        <td>28W</td>
+                        <td>9-11W</td>
+                        <td>5-7W</td>
+                        <td>450-500</td>
+                    </tr>
+                    <tr>
+                        <td>60W</td>
+                        <td>42W</td>
+                        <td>13-15W</td>
+                        <td>8-10W</td>
+                        <td>800-900</td>
+                    </tr>
+                    <tr>
+                        <td>100W</td>
+                        <td>70W</td>
+                        <td>23-25W</td>
+                        <td>13-15W</td>
+                        <td>1600-1800</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Temperatura de Color -->
+    <div id="temperatura" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('temperatura')">&times;</span>
+            <div class="modal-header">
+                <h2>Temperatura de Color</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1516796181074-bf453fbfa3e6" alt="Espectro de temperatura de color desde cálido a frío" class="banner-image">
+                
+                <p>La temperatura de color es una característica fundamental de la luz que determina su apariencia visual en términos de calidez o frialdad. Se mide en grados Kelvin (K) y tiene un impacto significativo en la atmósfera de un espacio y en nuestro bienestar.</p>
+                
+                <h3>¿Qué es la Temperatura de Color?</h3>
+                <p>La temperatura de color se refiere al color aparente de una fuente de luz en comparación con el color que emitiría un "cuerpo negro" (un objeto teórico que absorbe toda la radiación) cuando se calienta a una temperatura específica.</p>
+                
+                <div class="info-box">
+                    <p>Curiosamente, en la escala Kelvin, las temperaturas más bajas (2000-3000K) corresponden a tonos cálidos (amarillos/rojos), mientras que las temperaturas más altas (5000K+) corresponden a tonos fríos (azulados).</p>
+                </div>
+                
+                <h3>Espectro de Temperatura de Color</h3>
+                
+                <div class="color-temp"></div>
+                <div class="color-temp-labels">
+                    <span>Cálido</span>
+                    <span>Neutro</span>
+                    <span>Frío</span>
+                </div>
+                
+                <ul>
+                    <li><strong>1500-2000K:</strong> Luz de vela, fuego</li>
+                    <li><strong>2700-3000K:</strong> Bombillas incandescentes tradicionales, "blanco cálido"</li>
+                    <li><strong>3500-4000K:</strong> "Blanco neutro", fluorescentes blancos</li>
+                    <li><strong>4000-5000K:</strong> Luz diurna en interiores, "blanco frío"</li>
+                    <li><strong>5000-6500K:</strong> Luz diurna directa, cielo despejado</li>
+                    <li><strong>6500K+:</strong> Cielo nublado, luz azulada</li>
+                </ul>
+                
+                <h3>Aplicaciones según Temperatura de Color</h3>
+                
+                <h4>Luz Cálida (2700-3000K)</h4>
+                <ul>
+                    <li><strong>Salas de estar:</strong> Crea ambientes acogedores y relajantes</li>
+                    <li><strong>Dormitorios:</strong> Favorece el descanso y la relajación</li>
+                    <li><strong>Restaurantes:</strong> Genera atmósferas íntimas y confortables</li>
+                </ul>
+                
+                <h4>Luz Neutra (3500-4000K)</h4>
+                <ul>
+                    <li><strong>Cocinas:</strong> Buena visibilidad sin ser demasiado fría</li>
+                    <li><strong>Oficinas:</strong> Equilibrio entre confort y productividad</li>
+                    <li><strong>Tiendas:</strong> Presentación natural de productos</li>
+                </ul>
+                
+                <h4>Luz Fría (4000-6500K)</h4>
+                <ul>
+                    <li><strong>Áreas de trabajo:</strong> Aumenta la concentración y reduce la fatiga visual</li>
+                    <li><strong>Talleres:</strong> Mejor percepción de detalles</li>
+                    <li><strong>Hospitales:</strong> Mayor precisión visual y estado de alerta</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tiras LED -->
+    <div id="tiras" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('tiras')">&times;</span>
+            <div class="modal-header">
+                <h2>Tiras LED</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1586473219010-2ffc57b0d282" alt="Tiras LED instaladas en un ambiente moderno" class="banner-image">
+                
+                <p>Las tiras LED representan una de las aplicaciones más versátiles y populares de la tecnología LED. Su flexibilidad, facilidad de instalación y múltiples opciones de control han revolucionado la iluminación decorativa y funcional en espacios residenciales y comerciales.</p>
+                
+                <h3>Componentes y Estructura</h3>
+                
+                <p>Una tira LED típica consta de:</p>
+                
+                <ul>
+                    <li><strong>Circuito flexible (PCB):</strong> Base flexible donde se montan los componentes</li>
+                    <li><strong>Diodos LED:</strong> Componentes que emiten luz, distribuidos a intervalos regulares</li>
+                    <li><strong>Resistencias:</strong> Regulan la corriente para proteger los LEDs</li>
+                    <li><strong>Adhesivo:</strong> Capa posterior para facilitar la instalación</li>
+                    <li><strong>Recubrimiento:</strong> Protección contra polvo y humedad (en modelos impermeables)</li>
+                </ul>
+                
+                <h3>Clasificación de Tiras LED</h3>
+                
+                <h4>1. Por Densidad de LEDs</h4>
+                <ul>
+                    <li><strong>Baja densidad:</strong> 30 LEDs/metro</li>
+                    <li><strong>Media densidad:</strong> 60 LEDs/metro</li>
+                    <li><strong>Alta densidad:</strong> 120-240 LEDs/metro</li>
+                </ul>
+                
+                <h4>2. Por Tipo de LED</h4>
+                <ul>
+                    <li><strong>SMD 3528:</strong> Pequeños, económicos, uso general</li>
+                    <li><strong>SMD 5050:</strong> Más brillantes, pueden incluir RGB</li>
+                    <li><strong>SMD 2835:</strong> Eficientes, buena disipación de calor</li>
+                    <li><strong>COB (Chip on Board):</strong> Superficie continua de luz</li>
+                </ul>
+                
+                <h4>3. Por Protección Ambiental</h4>
+                <ul>
+                    <li><strong>IP20:</strong> Sin protección, solo para interiores secos</li>
+                    <li><strong>IP65:</strong> Resistente a polvo y salpicaduras</li>
+                    <li><strong>IP67:</strong> Sumergible temporalmente</li>
+                    <li><strong>IP68:</strong> Sumergible permanentemente</li>
+                </ul>
+                
+                <div class="example">
+                    <h4>Proyecto de ejemplo: Iluminación ambiental para sala de estar</h4>
+                    <p>Componentes necesarios:</p>
+                    <ul>
+                        <li>10 metros de tira LED RGBW (60 LEDs/m)</li>
+                        <li>Fuente de alimentación de 24V, 150W</li>
+                        <li>Controlador WiFi compatible con asistentes de voz</li>
+                        <li>Perfiles de aluminio con difusor</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Luces del Futuro -->
+    <div id="futuro" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('futuro')">&times;</span>
+            <div class="modal-header">
+                <h2>Luces del Futuro</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f" alt="Iluminación futurista con efectos de luz avanzados" class="banner-image">
+                
+                <p>La iluminación está experimentando una transformación radical impulsada por avances tecnológicos, preocupaciones medioambientales y nuevos enfoques centrados en el bienestar humano. Las tecnologías emergentes prometen cambiar fundamentalmente nuestra relación con la luz artificial.</p>
+                
+                <h3>Tecnologías Emergentes</h3>
+                
+                <h4>1. OLED (Diodos Orgánicos Emisores de Luz)</h4>
+                <p>A diferencia de los LED convencionales, los OLED utilizan materiales orgánicos que emiten luz cuando se les aplica electricidad.</p>
+                
+                <ul>
+                    <li><strong>Características:</strong> Superficies extremadamente delgadas y flexibles que emiten luz difusa</li>
+                    <li><strong>Ventajas:</strong> Sin necesidad de difusores, posibilidad de transparencia cuando están apagados, flexibilidad</li>
+                    <li><strong>Aplicaciones futuras:</strong> Paredes y techos luminosos, ventanas que se transforman en fuentes de luz, muebles con iluminación integrada</li>
+                </ul>
+                
+                <h4>2. Micro-LED</h4>
+                <p>Evolución de la tecnología LED con diodos microscópicos que permiten mayor densidad y control.</p>
+                
+                <ul>
+                    <li><strong>Características:</strong> LEDs extremadamente pequeños (menos de 100 micrómetros)</li>
+                    <li><strong>Ventajas:</strong> Mayor brillo, contraste perfecto, eficiencia superior, mayor durabilidad</li>
+                    <li><strong>Aplicaciones futuras:</strong> Pantallas-pared con función dual de visualización e iluminación, iluminación arquitectónica de alta precisión</li>
+                </ul>
+                
+                <h4>3. LiFi (Light Fidelity)</h4>
+                <p>Tecnología de comunicación inalámbrica que utiliza la luz visible para transmitir datos.</p>
+                
+                <ul>
+                    <li><strong>Funcionamiento:</strong> Modulación imperceptible de la luz LED para transmitir información</li>
+                    <li><strong>Ventajas:</strong> Mayor seguridad que WiFi, velocidades potenciales de hasta 224 Gbps, sin interferencias de radiofrecuencia</li>
+                    <li><strong>Aplicaciones futuras:</strong> Iluminación que proporciona conectividad, sistemas de navegación interior, comunicaciones seguras</li>
+                </ul>
+                
+                <div class="info-box">
+                    <p>El LiFi podría revolucionar las comunicaciones en entornos donde las radiofrecuencias son problemáticas, como hospitales, aviones y plantas industriales, mientras proporciona iluminación simultáneamente.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Últimas Tecnologías -->
+    <div id="ultimas" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('ultimas')">&times;</span>
+            <div class="modal-header">
+                <h2>Últimas Tecnologías en Iluminación</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a" alt="Tecnologías de iluminación modernas e innovadoras" class="banner-image">
+                
+                <p>El campo de la iluminación está experimentando una rápida evolución con innovaciones que están llegando al mercado o se encuentran en las últimas etapas de desarrollo. Estas tecnologías están transformando no solo cómo iluminamos los espacios, sino también cómo interactuamos con la luz.</p>
+                
+                <h3>Avances Recientes en Tecnología LED</h3>
+                
+                <h4>1. LED COB (Chip on Board)</h4>
+                <p>Una evolución de los LED tradicionales donde múltiples chips se integran en un solo módulo.</p>
+                
+                <ul>
+                    <li><strong>Características:</strong> Apariencia de superficie luminosa continua sin puntos individuales visibles</li>
+                    <li><strong>Ventajas:</strong> Mayor densidad de luz, mejor disipación térmica, ángulo de emisión más amplio</li>
+                    <li><strong>Aplicaciones:</strong> Downlights de alto rendimiento, focos, iluminación comercial</li>
+                </ul>
+                
+                <h4>2. Filamentos LED</h4>
+                <p>Tecnología que imita la apariencia de bombillas incandescentes tradicionales.</p>
+                
+                <ul>
+                    <li><strong>Estructura:</strong> Pequeños LED montados en un sustrato transparente en forma de filamento</li>
+                    <li><strong>Ventajas:</strong> Estética vintage con eficiencia moderna, distribución omnidireccional de la luz</li>
+                    <li><strong>Evolución reciente:</strong> Filamentos curvos, espirales y artísticos; temperaturas de color ultra-cálidas (1800-2200K)</li>
+                </ul>
+                
+                <h4>3. LED de Espectro Completo</h4>
+                <p>LEDs diseñados para emitir luz que se aproxima al espectro solar natural.</p>
+                
+                <ul>
+                    <li><strong>Tecnología:</strong> Combinación precisa de fósforos o múltiples chips para cubrir todo el espectro visible</li>
+                    <li><strong>Beneficios:</strong> Reproducción cromática superior (IRC>95), mejor percepción de texturas y materiales</li>
+                    <li><strong>Aplicaciones:</strong> Museos, galerías de arte, fotografía, espacios donde la calidad de color es crítica</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Iluminación Inteligente -->
+    <div id="inteligente" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('inteligente')">&times;</span>
+            <div class="modal-header">
+                <h2>Iluminación Inteligente</h2>
+            </div>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1558002038-1055e2dae2d7" alt="Control de iluminación inteligente mediante dispositivo móvil" class="banner-image">
+                
+                <p>La iluminación inteligente representa la convergencia de la tecnología LED, la conectividad inalámbrica y los sistemas de control avanzados. Estos sistemas van mucho más allá del simple encendido y apagado, ofreciendo personalización, automatización y eficiencia sin precedentes.</p>
+                
+                <h3>Componentes de un Sistema de Iluminación Inteligente</h3>
+                
+                <h4>1. Fuentes de Luz Inteligentes</h4>
+                <ul>
+                    <li><strong>Bombillas inteligentes:</strong> Unidades independientes con conectividad integrada</li>
+                    <li><strong>Luminarias conectadas:</strong> Sistemas completos con funcionalidades avanzadas</li>
+                    <li><strong>Tiras LED inteligentes:</strong> Iluminación flexible con control individual de segmentos</li>
+                </ul>
+                
+                <h4>2. Dispositivos de Control</h4>
+                <ul>
+                    <li><strong>Hubs/Bridges:</strong> Centralizan la comunicación entre dispositivos y aplicaciones</li>
+                    <li><strong>Interruptores inteligentes:</strong> Reemplazan interruptores tradicionales con funcionalidad avanzada</li>
+                    <li><strong>Sensores:</strong> Detectan movimiento, presencia, luz ambiental, temperatura</li>
+                    <li><strong>Controladores:</strong> Dispositivos específicos para gestionar múltiples luminarias</li>
+                </ul>
+                
+                <h4>3. Software y Aplicaciones</h4>
+                <ul>
+                    <li><strong>Apps móviles:</strong> Interfaces de usuario para control directo</li>
+                    <li><strong>Plataformas en la nube:</strong> Almacenamiento de configuraciones y datos</li>
+                    <li><strong>Sistemas de automatización:</strong> Programación de rutinas y escenas</li>
+                    <li><strong>Interfaces de voz:</strong> Control mediante asistentes como Alexa, Google Assistant, Siri</li>
+                </ul>
+                
+                <h3>Beneficios de la Iluminación Inteligente</h3>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Ventajas</h4>
+                        <ul>
+                            <li><strong>Ahorro energético:</strong> Reducción de 30-80% en consumo</li>
+                            <li><strong>Confort:</strong> Iluminación adaptada a necesidades específicas</li>
+                            <li><strong>Conveniencia:</strong> Control desde cualquier lugar</li>
+                            <li><strong>Personalización:</strong> Adaptación a preferencias individuales</li>
+                            <li><strong>Bienestar:</strong> Iluminación que apoya ritmos circadianos</li>
+                            <li><strong>Seguridad:</strong> Simulación de presencia, iluminación de emergencia</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Desafíos</h4>
+                        <ul>
+                            <li><strong>Costo inicial:</strong> Mayor inversión que sistemas tradicionales</li>
+                            <li><strong>Complejidad:</strong> Curva de aprendizaje para configuración</li>
+                            <li><strong>Compatibilidad:</strong> Fragmentación de estándares</li>
+                            <li><strong>Privacidad:</strong> Recopilación de datos de uso</li>
+                            <li><strong>Dependencia:</strong> Vulnerabilidad ante fallos de red</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir modal
+        function openModal(id) {
+            var modal = document.getElementById(id);
+            if (modal) {
+                modal.style.display = "block";
+                document.body.style.overflow = "hidden"; // Evita el desplazamiento del fondo
+            } else {
+                console.error("Modal con ID " + id + " no encontrado");
+            }
+        }
+        
+        // Función para cerrar modal
+        function closeModal(id) {
+            var modal = document.getElementById(id);
+            if (modal) {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto"; // Restaura el desplazamiento
+            } else {
+                console.error("Modal con ID " + id + " no encontrado");
+            }
+        }
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            if (event.target.classList.contains("modal")) {
+                event.target.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+        
+        // Cerrar modal con la tecla Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                var modals = document.getElementsByClassName("modal");
+                for (var i = 0; i < modals.length; i++) {
+                    if (modals[i].style.display === "block") {
+                        modals[i].style.display = "none";
+                        document.body.style.overflow = "auto";
+                    }
+                }
+            }
+        });
+
+        // Verificar que todos los modales existen
+        document.addEventListener('DOMContentLoaded', function() {
+            var modalIds = ['incandescente', 'tipos', 'bases', 'lumenes', 'temperatura', 'tiras', 'futuro', 'ultimas', 'inteligente'];
+            for (var i = 0; i < modalIds.length; i++) {
+                if (!document.getElementById(modalIds[i])) {
+                    console.error("Modal con ID " + modalIds[i] + " no encontrado");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

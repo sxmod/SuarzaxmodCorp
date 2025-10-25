@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libro Digital - Electricidad</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            overflow: hidden;
+        }
+        .book-container {
+            width: 100vw;
+            height: 100vh;
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        .book {
+            width: 90%;
+            height: 90%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(0deg);
+            transition: transform 0.5s;
+        }
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: white;
+            transform-origin: left center;
+            transition: transform 0.5s, background-color 0.3s, color 0.3s;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .page-content {
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            height: 100%;
+        }
+        .page img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+        }
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            outline: none;
+        }
+        #themeToggle:hover {
+            transform: scale(1.1);
+        }
+        .light-theme {
+            background-color: white;
+            color: black;
+        }
+        .dark-theme {
+            background-color: #222;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .book {
+                width: 100%;
+                height: 100%;
+            }
+            #themeToggle {
+                top: 10px;
+                right: 10px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <button id="themeToggle" aria-label="Cambiar tema">
+        <i class="fas fa-moon"></i>
+    </button>
+    <div class="book-container">
+        <div class="book" id="book">
+            <!-- Las páginas se agregarán dinámicamente aquí -->
+        </div>
+    </div>
+
+    <script>
+        const book = document.getElementById('book');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        let pages = [];
+        let currentPage = 0;
+        let startX;
+        let isSwiping = false;
+        let isDarkTheme = false;
+
+        function addPage(content) {
+            const page = document.createElement('div');
+            page.className = 'page';
+            page.innerHTML = `<div class="page-content">${content}</div>`;
+            book.appendChild(page);
+            pages.push(page);
+            updatePagePositions();
+        }
+
+        function updatePagePositions() {
+            pages.forEach((page, index) => {
+                if (index < currentPage) {
+                    page.style.transform = 'rotateY(-180deg)';
+                } else {
+                    page.style.transform = 'rotateY(0deg)';
+                }
+                page.style.zIndex = pages.length - Math.abs(currentPage - index);
+            });
+        }
+
+        function turnPage(direction) {
+            if (direction === 'next' && currentPage < pages.length - 1) {
+                pages[currentPage].style.transform = 'rotateY(-180deg)';
+                currentPage++;
+            } else if (direction === 'prev' && currentPage > 0) {
+                currentPage--;
+                pages[currentPage].style.transform = 'rotateY(0deg)';
+            }
+            updatePagePositions();
+        }
+
+        book.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isSwiping = true;
+        });
+
+        book.addEventListener('touchmove', (e) => {
+            if (!isSwiping) return;
+            const currentX = e.touches[0].clientX;
+            const diff = startX - currentX;
+            const currentPageElement = pages[currentPage];
+            
+            if (diff > 0 && currentPage < pages.length - 1) {
+                // Swipe left (next page)
+                currentPageElement.style.transform = `rotateY(${-diff / 5}deg)`;
+            } else if (diff < 0 && currentPage > 0) {
+                // Swipe right (previous page)
+                pages[currentPage - 1].style.transform = `rotateY(${180 + diff / 5}deg)`;
+            }
+        });
+
+        book.addEventListener('touchend', (e) => {
+            if (!isSwiping) return;
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentPage < pages.length - 1) {
+                    turnPage('next');
+                } else if (diff < 0 && currentPage > 0) {
+                    turnPage('prev');
+                }
+            } else {
+                updatePagePositions(); // Reset page positions if swipe was not far enough
+            }
+
+            isSwiping = false;
+        });
+
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('light-theme');
+            document.querySelector('.book-container').style.backgroundColor = isDarkTheme ? '#333' : '#e0e0e0';
+            pages.forEach(page => {
+                page.style.backgroundColor = isDarkTheme ? '#222' : 'white';
+                page.style.color = isDarkTheme ? 'white' : 'black';
+            });
+            themeIcon.classList.toggle('fa-moon');
+            themeIcon.classList.toggle('fa-sun');
+            themeToggle.setAttribute('aria-label', isDarkTheme ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // Agregar páginas de ejemplo
+        addPage(`
+            <center><h1>Voltaje</h1>
+            <p>La masa es una propiedad física fundamental de los objetos que se refiere a la cantidad de materia que poseen. Se mide en unidades de masa, como el kilogramo (kg) en el Sistema Internacional de Unidades (SI).
+
+La masa es diferente del peso, que es la fuerza gravitatoria que actúa sobre un objeto debido a su masa y a la atracción gravitatoria de la Tierra u otro cuerpo celeste. La masa se mantiene constante, independientemente de la gravedad o de la ubicación del objeto en el universo, mientras que el peso varía con la gravedad.
+
+La masa es una propiedad importante en la física y la ingeniería, ya que es necesaria para calcular muchas otras cantidades físicas, como la fuerza, la aceleración y la energía. La conservación de la masa es un principio fundamental en la física, que establece que la masa total de un sistema cerrado se mantiene constante en ausencia de cualquier entrada o salida de materia.
+El voltaje también se conoce como diferencia de potencial eléctrico, que es la cantidad de energía eléctrica necesaria para mover una carga eléctrica entre dos puntos en un circuito eléctrico o en un campo eléctrico. Se mide en voltios (V) y se representa por la letra "V".
+
+
+<br>"El voltaje también se conoce como diferencia de potencial eléctrico, que es la cantidad de energía eléctrica necesaria para mover una carga eléctrica entre dos puntos en un circuito eléctrico o en un campo eléctrico. Se mide en voltios (V) y se representa"<br>
+</p>
+            <img src="https://i30.servimg.com/u/f30/20/30/93/75/17327510.png" alt="Imagen de circuito eléctrico">
+            <p>Todos los derechos recevados por Dairo Suarez</p>
+        `);
+
+        addPage(`
+            <h1>Mas sobre informacion sobre voltaje</h1>
+            <ul>
+                <li><strong>Voltaje:</strong> La diferencia de potencial eléctrico entre dos puntos.</li>
+                <li><strong>Corriente:</strong> El flujo de cargas eléctricas a través de un conductor.</li>
+                <li><strong>Resistencia:</strong> La oposición que ofrece un material al paso de la corriente eléctrica.</li>
+                <p>El voltaje es una medida importante en la electricidad y la electrónica, ya que es necesario para diseñar y analizar circuitos eléctricos y sistemas eléctricos. El voltaje puede ser generado por una fuente de energía eléctrica, como una batería o un generador, o puede ser inducido por campos eléctricos y magnéticos que cambian con el tiempo.
+
+El voltaje es una medida relativa, lo que significa que el voltaje entre dos puntos depende de la referencia elegida. Por ejemplo, si se establece un punto como el "punto de tierra" o "referencia de tierra", se puede medir el voltaje entre ese punto y otros puntos del circuito. Este punto de tierra se define como un punto de referencia común para todas las mediciones de voltaje en un circuito.
+
+Además, el voltaje puede ser de corriente continua (DC) o corriente alterna (AC). En un circuito de corriente continua, el voltaje es constante, mientras que en un circuito de corriente alterna, el voltaje varía periódicamente en el tiempo. La frecuencia de la variación del voltaje en un circuito de corriente alterna se mide en Hertz (Hz), que representa el número de ciclos completos de voltaje que se producen en un segundo.</p>
+            </ul>
+            
+        `);
+
+        addPage(`
+           <center><h1>Calcular voltajes</h1>
+            <p>El voltaje V en voltios (V) es igual a la corriente I en amperios (A) multiplicada por la resistencia R en ohmios (Ω): Entonces, para un circuito con 5 ohmios (Ω) de una resistencia que necesita 3 amperios (A) de corriente para funcionar, el voltaje requerido sería de 15V.</p>
+<li><strong>como se mide: </strong>Actualmente, el voltaje eléctrico o tensión eléctrica se mide a través de un dispositivo o herramienta de medición conocido como voltímetro. La unidad de medida establecida para cuantificar el voltaje de un sistema eléctrico es el Voltio (V).Lo que hace que los electrones funcionen, es el voltaje o tensión eléctrica. Tomando como ejemplo un caso sencillo, en base a la ley de la gravedad, cuando tiramos un balón por una cuesta, esta rueda hasta una superficie llana, lo mismo ocurre con los electrones, sin el voltaje, este no funciona.El voltaje es la "presión", por así decirlo, que hace que fluya la electricidad. En física, el voltaje se puede calcular usando la Ley de Ohm, que nos dice que el voltaje es igual a la resistencia por la corriente. La resistencia indica la dificultad con la que fluye la electricidad.
+A continuación se menciona un conjunto de puntos que describen el uso de unidades o múltiplos de unidades de resistencia, corriente y voltaje. 1kV = 1 kilovoltio = 1.000 voltios . 1kΩ = 1 kiloohmio = 1 mil ohmios. 1mA = 1 miliamperio = una milésima (1/1000) de un amperio.
+            
+            <img src="https://i30.servimg.com/u/f30/20/30/93/75/17327511.png" alt="Diagrama de la Ley de Ohm">
+        `);
+
+        addPage(`
+            <center><h1>Circuitos Eléctricos</h1>
+            <p>Un circuito eléctrico es un conjunto de elementos conectados por los que puede circular una corriente eléctrica. Los circuitos pueden ser en serie, paralelo o mixtos, Un circuito eléctrico es el conjunto de elementos eléctricos conectados entre sí que permiten generar, transportar y utilizar la energía eléctrica con la finalidad de transformarla en otro tipo de energía como, por ejemplo, energía calorífica (estufa), energía lumínica (bombilla) o energía mecánica (motor), Hay cinco tipos principales de circuitos básicos: circuito cerrado, circuito abierto, cortocircuito, circuito en serie y circuito en paralelo. Cada uno de ellos está diseñado para crear un camino conductor para el flujo de corriente. En un circuito abierto no circula corriente.
+            Cómo calcular un circuito eléctrico?
+¿Qué es la ley de Ohm?
+La ley de Ohm se usa para determinar la relación entre tensión, corriente y resistencia en un circuito eléctrico.
+E = I x R.
+Cuando se enuncia en forma explícita, significa que tensión = corriente x resistencia, o voltios = amperios x ohmios, o V = A x Ω.
+Los circuitos eléctricos comienzan a funcionar cuando se enciende o activa el interruptor. La electricidad viaja desde la fuente de alimentación hasta las resistencias, piezas que permiten el flujo de electrones en su interior y, por ende, el paso de la corriente eléctrica, Se usa mayormente en los aparatos eléctricos que funcionan con baterías como puede ser una linterna. El cableado discurre de forma continua desde el borne positivo de la pila, pasando por la bombilla y el interruptor hasta el borne negativo. Con esta configuración todos los elementos forman parte del circuito.</p>
+            <img src="https://i30.servimg.com/u/f30/20/30/93/75/17327512.png" alt="Ejemplos de circuitos eléctricos">
+        `);
+
+        addPage(`
+            <center><h1>Seguridad Eléctrica</h1>
+            <p>La seguridad es fundamental cuando se trabaja con electricidad. Algunas medidas importantes incluyen:</p>
+            <ul>
+                <li>Usar equipo de protección personal</li>
+                <li>Desconectar la fuente de energía antes de trabajar en un circuito</li>
+                <li>Utilizar herramientas con aislamiento</li>
+                <li>Conocer los procedimientos de emergencia</li>
+            </ul>
+            <img src="https://i30.servimg.com/u/f30/20/30/93/75/17326711.jpg" alt="Equipo de seguridad eléctrica">
+        `);
+    </script>
+</body>
+</html>

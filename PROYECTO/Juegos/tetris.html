@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tetris Touch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .game-area {
+            position: relative;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 5px;
+            margin: 0 auto;
+            width: 95%;
+            height: 70%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .board {
+            position: relative;
+            background-color: #e5e7eb;
+            border: 1px solid #d1d5db;
+            display: grid;
+            border-radius: 4px;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            max-width: 350px;
+            max-height: 700px;
+        }
+
+        .cell {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 95%;
+            margin: 10px auto;
+            padding: 0 10px;
+        }
+
+        .score, .level {
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 0 10px;
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+        }
+
+        .btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            background-color: #1d4ed8;
+        }
+
+        .btn svg {
+            margin-right: 5px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 12px;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        .game-over.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .game-over button {
+            margin-top: 1rem;
+            padding: 12px 24px;
+            font-size: 1rem;
+        }
+
+        .completed-row {
+            animation: flash 0.5s;
+        }
+
+        .instructions {
+            position: fixed;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-align: center;
+            z-index: 100;
+            max-width: 90%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInUp 0.5s, fadeOut 0.5s 10s forwards;
+        }
+
+        .time-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+            z-index: 90;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: slideDown 0.3s;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .time-notification.active {
+            opacity: 1;
+        }
+
+        .time-notification svg {
+            margin-right: 8px;
+        }
+
+        .difficulty-selector {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 12px;
+            z-index: 20;
+            backdrop-filter: blur(4px);
+        }
+
+        .difficulty-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .difficulty-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .difficulty-btn {
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .difficulty-btn:active {
+            transform: scale(0.98);
+        }
+
+        .easy-btn {
+            background-color: #10b981;
+        }
+
+        .medium-btn {
+            background-color: #f59e0b;
+        }
+
+        .hard-btn {
+            background-color: #ef4444;
+        }
+
+        .next-piece {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 8px;
+            margin: 5px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .next-piece-title {
+            font-size: 0.8rem;
+            margin-bottom: 3px;
+            color: #666;
+        }
+
+        .next-piece-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 2px;
+        }
+
+        .next-piece-cell {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        .ghost-piece {
+            opacity: 0.3;
+        }
+
+        .special-piece {
+            animation: pulse 1.5s infinite;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 95%;
+            margin: 10px auto 5px;
+        }
+
+        .game-header-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .game-header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes slideDown {
+            0% { transform: translate(-50%, -100%); }
+            100% { transform: translate(-50%, 0); }
+        }
+
+        @keyframes fadeInUp {
+            0% { transform: translate(-50%, 100%); opacity: 0; }
+            100% { transform: translate(-50%, 0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        @keyframes flash {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0; }
+        }
+
+        @media (min-width: 768px) {
+            .game-container {
+                flex-direction: row;
+                padding: 10px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            .game-area {
+                width: 70%;
+                height: 90%;
+                margin: 0;
+            }
+            
+            .info-panel, .game-header, .controls {
+                width: 25%;
+                position: static;
+                flex-direction: column;
+                margin: 10px 0;
+            }
+            
+            .controls {
+                margin-top: auto;
+            }
+            
+            .next-piece-cell {
+                width: 15px;
+                height: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="instructions" class="instructions">
+        Desliza ← → para mover • Toca para rotar • Desliza ↓ para caída rápida • Doble toque para caída instantánea
+    </div>
+
+    <div id="time-notification" class="time-notification">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span id="time-display">00:00</span>
+    </div>
+
+    <div class="game-container">
+        <div class="game-header">
+            <div class="game-header-left">
+                <h1>Tetris Touch</h1>
+            </div>
+            <div class="game-header-right">
+                <div id="next-piece" class="next-piece">
+                    <div class="next-piece-title">Siguiente</div>
+                    <div id="next-piece-grid" class="next-piece-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <div id="score" class="score">Puntuación: 0</div>
+            <div id="level" class="level">Nivel: 1</div>
+        </div>
+
+        <div class="game-area">
+            <div id="board" class="board"></div>
+            
+            <div id="difficulty-selector" class="difficulty-selector">
+                <div class="difficulty-title">Selecciona la dificultad</div>
+                <div class="difficulty-buttons">
+                    <button id="easy-btn" class="difficulty-btn easy-btn">
+                        Fácil
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5v14"></path>
+                        </svg>
+                    </button>
+                    <button id="medium-btn" class="difficulty-btn medium-btn">
+                        Medio
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5v14"></path>
+                        </svg>
+                    </button>
+                    <button id="hard-btn" class="difficulty-btn hard-btn">
+                        Difícil
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5v14"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="game-over" class="game-over">
+                <div>¡Juego Terminado!</div>
+                <div id="final-score" style="margin-top: 10px; font-size: 1.2rem;">Puntuación: 0</div>
+                <button id="play-again" class="btn">Jugar de Nuevo</button>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="reset" class="btn">Reiniciar</button>
+            <button id="toggle-music" class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18V5l12-2v13"></path>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <audio id="music" loop>
+        <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Tetris-kxnh5j7hpNEcFspAndlU2huV5n6dvk.mp3" type="audio/mp3">
+    </audio>
+    
+    <script>
+        // Constantes del juego
+        const BOARD_WIDTH = 10;
+        const BOARD_HEIGHT = 20;
+        
+        // Configuración de dificultad
+        const DIFFICULTY_SETTINGS = {
+            easy: {
+                initialDropTime: 1000,
+                speedIncreaseFactor: 0.98,
+                timeBasedDifficultyIncrease: 60000, // 60 segundos
+                specialPieceChance: 0.05
+            },
+            medium: {
+                initialDropTime: 800,
+                speedIncreaseFactor: 0.95,
+                timeBasedDifficultyIncrease: 45000, // 45 segundos
+                specialPieceChance: 0.1
+            },
+            hard: {
+                initialDropTime: 600,
+                speedIncreaseFactor: 0.92,
+                timeBasedDifficultyIncrease: 30000, // 30 segundos
+                specialPieceChance: 0.15
+            }
+        };
+        
+        // Tetrominos básicos
+        const BASIC_TETROMINOS = {
+            I: { shape: [[1, 1, 1, 1]], color: '#06b6d4' }, // cyan-500
+            J: { shape: [[1, 0, 0], [1, 1, 1]], color: '#3b82f6' }, // blue-500
+            L: { shape: [[0, 0, 1], [1, 1, 1]], color: '#f97316' }, // orange-500
+            O: { shape: [[1, 1], [1, 1]], color: '#eab308' }, // yellow-500
+            S: { shape: [[0, 1, 1], [1, 1, 0]], color: '#22c55e' }, // green-500
+            T: { shape: [[0, 1, 0], [1, 1, 1]], color: '#a855f7' }, // purple-500
+            Z: { shape: [[1, 1, 0], [0, 1, 1]], color: '#ef4444' }, // red-500
+        };
+        
+        // Tetrominos avanzados
+        const ADVANCED_TETROMINOS = {
+            // Pieza en forma de cruz
+            Plus: { 
+                shape: [[0, 1, 0], [1, 1, 1], [0, 1, 0]], 
+                color: '#ec4899' // pink-500
+            },
+            // Pieza en forma de U
+            U: { 
+                shape: [[1, 0, 1], [1, 1, 1]], 
+                color: '#8b5cf6' // violet-500
+            },
+            // Pieza en forma de W
+            W: { 
+                shape: [[1, 0, 0], [1, 1, 0], [0, 1, 1]], 
+                color: '#14b8a6' // teal-500
+            },
+            // Pieza en forma de H
+            H: { 
+                shape: [[1, 0, 1], [1, 1, 1], [1, 0, 1]], 
+                color: '#f43f5e' // rose-500
+            }
+        };
+        
+        // Variables del juego
+        let board = [];
+        let currentPiece = null;
+        let nextPiece = null;
+        let ghostPiece = null;
+        let score = 0;
+        let gameOver = false;
+        let dropTime = 800;
+        let normalDropTime = 800;
+        let level = 1;
+        let isMusicPlaying = false;
+        let completedRows = [];
+        let dropInterval = null;
+        let cellSize = 0;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let lastTapTime = 0;
+        let isSwipeDown = false;
+        let difficulty = 'medium';
+        let gameStartTime = 0;
+        let gameTime = 0;
+        let timeInterval = null;
+        let difficultyIncreaseInterval = null;
+        let animationFrameId = null;
+        let lastRenderTime = 0;
+        let tetrominos = { ...BASIC_TETROMINOS };
+        let gameStarted = false;
+        
+        // Elementos del DOM
+        const boardElement = document.getElementById('board');
+        const scoreElement = document.getElementById('score');
+        const levelElement = document.getElementById('level');
+        const timeDisplay = document.getElementById('time-display');
+        const timeNotification = document.getElementById('time-notification');
+        const gameOverElement = document.getElementById('game-over');
+        const finalScoreElement = document.getElementById('final-score');
+        const resetButton = document.getElementById('reset');
+        const playAgainButton = document.getElementById('play-again');
+        const toggleMusicButton = document.getElementById('toggle-music');
+        const instructionsElement = document.getElementById('instructions');
+        const difficultySelector = document.getElementById('difficulty-selector');
+        const easyButton = document.getElementById('easy-btn');
+        const mediumButton = document.getElementById('medium-btn');
+        const hardButton = document.getElementById('hard-btn');
+        const nextPieceGrid = document.getElementById('next-piece-grid');
+        
+        // Inicializar el juego
+        function initGame() {
+            // Mostrar selector de dificultad
+            difficultySelector.style.display = 'flex';
+            
+            // Ocultar notificación de tiempo
+            timeNotification.classList.remove('active');
+            
+            // Configurar eventos de botones de dificultad
+            easyButton.addEventListener('click', () => startGame('easy'));
+            mediumButton.addEventListener('click', () => startGame('medium'));
+            hardButton.addEventListener('click', () => startGame('hard'));
+            
+            // Ocultar las instrucciones después de 10 segundos
+            setTimeout(() => {
+                if (instructionsElement) {
+                    instructionsElement.style.display = 'none';
+                }
+            }, 10000);
+            
+            // Eventos de teclado
+            document.addEventListener('keydown', handleKeyPress);
+            
+            // Botones de control
+            resetButton.addEventListener('click', resetGame);
+            playAgainButton.addEventListener('click', resetGame);
+            toggleMusicButton.addEventListener('click', toggleMusic);
+            
+            // Evento de redimensionamiento y orientación
+            window.addEventListener('resize', resizeBoard);
+            window.addEventListener('orientationchange', resizeBoard);
+            
+            // Inicializar el tablero
+            resizeBoard();
+        }
+        
+        // Iniciar el juego con la dificultad seleccionada
+        function startGame(selectedDifficulty) {
+            difficulty = selectedDifficulty;
+            difficultySelector.style.display = 'none';
+            gameStarted = true;
+            
+            // Mostrar notificación de tiempo
+            timeNotification.classList.add('active');
+            
+            // Configurar el juego según la dificultad
+            const settings = DIFFICULTY_SETTINGS[difficulty];
+            dropTime = settings.initialDropTime;
+            normalDropTime = settings.initialDropTime;
+            
+            // Añadir tetrominos avanzados en dificultades media y difícil
+            tetrominos = { ...BASIC_TETROMINOS };
+            if (difficulty === 'medium' || difficulty === 'hard') {
+                tetrominos = { ...BASIC_TETROMINOS, ...ADVANCED_TETROMINOS };
+            }
+            
+            // Inicializar el juego
+            createEmptyBoard();
+            renderBoard();
+            spawnNextPiece();
+            spawnNewPiece();
+            startDropInterval();
+            
+            // Iniciar el tiempo
+            gameStartTime = Date.now();
+            startTimeTracking();
+            
+            // Iniciar aumento de dificultad basado en tiempo
+            startDifficultyIncrease();
+            
+            // Configurar eventos táctiles
+            boardElement.removeEventListener('touchstart', handleTouchStart);
+            boardElement.removeEventListener('touchmove', handleTouchMove);
+            boardElement.removeEventListener('touchend', handleTouchEnd);
+            
+            boardElement.addEventListener('touchstart', handleTouchStart);
+            boardElement.addEventListener('touchmove', handleTouchMove);
+            boardElement.addEventListener('touchend', handleTouchEnd);
+            
+            // Iniciar bucle de renderizado optimizado
+            startRenderLoop();
+        }
+        
+        // Iniciar bucle de renderizado optimizado
+        function startRenderLoop() {
+            lastRenderTime = performance.now();
+            
+            function renderLoop(timestamp) {
+                // Calcular tiempo transcurrido
+                const elapsed = timestamp - lastRenderTime;
+                
+                // Limitar la tasa de renderizado a 60 FPS (aproximadamente 16.7ms)
+                if (elapsed > 16) {
+                    updateGhostPiece();
+                    renderBoard();
+                    lastRenderTime = timestamp;
+                }
+                
+                // Continuar el bucle si el juego no ha terminado
+                if (!gameOver) {
+                    animationFrameId = requestAnimationFrame(renderLoop);
+                }
+            }
+            
+            animationFrameId = requestAnimationFrame(renderLoop);
+        }
+        
+        // Iniciar seguimiento de tiempo
+        function startTimeTracking() {
+            timeInterval = setInterval(() => {
+                if (!gameOver) {
+                    gameTime = Math.floor((Date.now() - gameStartTime) / 1000);
+                    const minutes = Math.floor(gameTime / 60).toString().padStart(2, '0');
+                    const seconds = (gameTime % 60).toString().padStart(2, '0');
+                    timeDisplay.textContent = `${minutes}:${seconds}`;
+                }
+            }, 1000);
+        }
+        
+        // Iniciar aumento de dificultad basado en tiempo
+        function startDifficultyIncrease() {
+            const settings = DIFFICULTY_SETTINGS[difficulty];
+            
+            difficultyIncreaseInterval = setInterval(() => {
+                if (!gameOver) {
+                    // Aumentar la velocidad
+                    normalDropTime *= settings.speedIncreaseFactor;
+                    dropTime = normalDropTime;
+                    
+                    // Reiniciar el intervalo de caída
+                    clearInterval(dropInterval);
+                    startDropInterval();
+                }
+            }, settings.timeBasedDifficultyIncrease);
+        }
+        
+        // Crear tablero vacío
+        function createEmptyBoard() {
+            board = Array.from({ length: BOARD_HEIGHT }, () => Array(BOARD_WIDTH).fill(0));
+        }
+        
+        // Redimensionar el tablero
+        function resizeBoard() {
+            // Obtener dimensiones del contenedor
+            const gameArea = document.querySelector('.game-area');
+            const gameAreaWidth = gameArea.clientWidth;
+            const gameAreaHeight = gameArea.clientHeight;
+            
+            // Calcular el tamaño de celda óptimo para teléfonos modernos
+            cellSize = Math.min(
+                (gameAreaWidth - 10) / BOARD_WIDTH,
+                (gameAreaHeight - 10) / BOARD_HEIGHT
+            );
+            
+            // Establecer dimensiones del tablero
+            const boardWidth = cellSize * BOARD_WIDTH;
+            const boardHeight = cellSize * BOARD_HEIGHT;
+            
+            boardElement.style.width = `${boardWidth}px`;
+            boardElement.style.height = `${boardHeight}px`;
+            boardElement.style.gridTemplateColumns = `repeat(${BOARD_WIDTH}, 1fr)`;
+            boardElement.style.gridTemplateRows = `repeat(${BOARD_HEIGHT}, 1fr)`;
+            
+            // Volver a renderizar el tablero si ya existe
+            if (board.length > 0) {
+                renderBoard();
+            }
+        }
+        
+        // Renderizar el tablero
+        function renderBoard() {
+            // Limpiar el tablero
+            boardElement.innerHTML = '';
+            
+            // Crear celdas
+            for (let y = 0; y < BOARD_HEIGHT; y++) {
+                for (let x = 0; x < BOARD_WIDTH; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    
+                    // Comprobar si hay una pieza fantasma en esta posición
+                    let isGhostCell = false;
+                    if (ghostPiece && 
+                        ghostPiece.tetromino.shape[y - ghostPiece.y] && 
+                        ghostPiece.tetromino.shape[y - ghostPiece.y][x - ghostPiece.x]) {
+                        cell.style.backgroundColor = ghostPiece.tetromino.color;
+                        cell.classList.add('ghost-piece');
+                        isGhostCell = true;
+                    }
+                    
+                    // Comprobar si hay una pieza actual en esta posición (tiene prioridad sobre la fantasma)
+                    if (currentPiece && 
+                        currentPiece.tetromino.shape[y - currentPiece.y] && 
+                        currentPiece.tetromino.shape[y - currentPiece.y][x - currentPiece.x]) {
+                        cell.style.backgroundColor = currentPiece.tetromino.color;
+                        
+                        // Añadir efecto especial si es una pieza especial
+                        if (currentPiece.isSpecial) {
+                            cell.classList.add('special-piece');
+                        }
+                        
+                        // Quitar clase de pieza fantasma si es una pieza real
+                        cell.classList.remove('ghost-piece');
+                    } 
+                    // Si no hay pieza actual y no es una celda fantasma, comprobar el tablero
+                    else if (!isGhostCell) {
+                        const cellValue = board[y][x];
+                        if (cellValue) {
+                            cell.style.backgroundColor = cellValue;
+                        } else {
+                            cell.style.backgroundColor = '#f9fafb'; // gray-50
+                        }
+                    }
+                    
+                    // Comprobar si la fila está completada
+                    if (completedRows.includes(y)) {
+                        cell.classList.add('completed-row');
+                    }
+                    
+                    boardElement.appendChild(cell);
+                }
+            }
+            
+            // Renderizar la siguiente pieza
+            renderNextPiece();
+        }
+        
+        // Renderizar la siguiente pieza
+        function renderNextPiece() {
+            if (!nextPiece) return;
+            
+            // Limpiar la cuadrícula de la siguiente pieza
+            nextPieceGrid.innerHTML = '';
+            
+            // Crear una matriz 4x4 para mostrar la siguiente pieza
+            for (let y = 0; y < 4; y++) {
+                for (let x = 0; x < 4; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'next-piece-cell';
+                    
+                    // Calcular la posición centrada de la pieza
+                    const offsetY = Math.floor((4 - nextPiece.tetromino.shape.length) / 2);
+                    const offsetX = Math.floor((4 - nextPiece.tetromino.shape[0].length) / 2);
+                    
+                    // Comprobar si hay una parte de la pieza en esta posición
+                    if (y >= offsetY && y < offsetY + nextPiece.tetromino.shape.length &&
+                        x >= offsetX && x < offsetX + nextPiece.tetromino.shape[0].length &&
+                        nextPiece.tetromino.shape[y - offsetY][x - offsetX]) {
+                        cell.style.backgroundColor = nextPiece.tetromino.color;
+                        
+                        // Añadir efecto especial si es una pieza especial
+                        if (nextPiece.isSpecial) {
+                            cell.classList.add('special-piece');
+                        }
+                    } else {
+                        cell.style.backgroundColor = 'transparent';
+                    }
+                    
+                    nextPieceGrid.appendChild(cell);
+                }
+            }
+        }
+        
+        // Actualizar la pieza fantasma
+        function updateGhostPiece() {
+            if (!currentPiece || gameOver) {
+                ghostPiece = null;
+                return;
+            }
+            
+            // Crear una copia de la pieza actual
+            ghostPiece = {
+                x: currentPiece.x,
+                y: currentPiece.y,
+                tetromino: {
+                    shape: [...currentPiece.tetromino.shape],
+                    color: currentPiece.tetromino.color
+                }
+            };
+            
+            // Mover la pieza fantasma hacia abajo hasta que colisione
+            while (isValidMove(ghostPiece.x, ghostPiece.y + 1, ghostPiece.tetromino.shape)) {
+                ghostPiece.y += 1;
+            }
+        }
+        
+        // Generar una pieza aleatoria
+        function randomTetromino() {
+            const keys = Object.keys(tetrominos);
+            const randKey = keys[Math.floor(Math.random() * keys.length)];
+            
+            // Determinar si es una pieza especial basada en la dificultad
+            const isSpecial = Math.random() < DIFFICULTY_SETTINGS[difficulty].specialPieceChance;
+            
+            return {
+                shape: tetrominos[randKey].shape,
+                color: tetrominos[randKey].color,
+                isSpecial: isSpecial
+            };
+        }
+        
+        // Comprobar colisión
+        function checkCollision(x, y, shape) {
+            for (let row = 0; row < shape.length; row++) {
+                for (let col = 0; col < shape[row].length; col++) {
+                    if (shape[row][col] !== 0) {
+                        const newX = x + col;
+                        const newY = y + row;
+                        if (
+                            newX < 0 || 
+                            newX >= BOARD_WIDTH || 
+                            newY >= BOARD_HEIGHT || 
+                            (newY >= 0 && board[newY][newX] !== 0)
+                        ) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        
+        // Comprobar si un movimiento es válido
+        function isValidMove(x, y, shape) {
+            return !checkCollision(x, y, shape);
+        }
+        
+        // Mover a la izquierda
+        function moveLeft() {
+            if (gameOver) return;
+            if (currentPiece && isValidMove(currentPiece.x - 1, currentPiece.y, currentPiece.tetromino.shape)) {
+                currentPiece.x -= 1;
+                updateGhostPiece();
+            }
+        }
+        
+        // Mover a la derecha
+        function moveRight() {
+            if (gameOver) return;
+            if (currentPiece && isValidMove(currentPiece.x + 1, currentPiece.y, currentPiece.tetromino.shape)) {
+                currentPiece.x += 1;
+                updateGhostPiece();
+            }
+        }
+        
+        // Mover hacia abajo
+        function moveDown() {
+            if (gameOver || !currentPiece) return;
+            if (isValidMove(currentPiece.x, currentPiece.y + 1, currentPiece.tetromino.shape)) {
+                currentPiece.y += 1;
+                updateGhostPiece();
+                return true;
+            } else {
+                placePiece();
+                return false;
+            }
+        }
+        
+        // Activar caída rápida
+        function activateFastDrop() {
+            if (gameOver || !currentPiece) return;
+            
+            // Guardar la velocidad normal
+            normalDropTime = dropTime;
+            
+            // Establecer velocidad rápida
+            dropTime = 50;
+            
+            // Reiniciar el intervalo con la nueva velocidad
+            clearInterval(dropInterval);
+            dropInterval = setInterval(moveDown, dropTime);
+        }
+        
+        // Desactivar caída rápida
+        function deactivateFastDrop() {
+            if (gameOver) return;
+            
+            // Restaurar la velocidad normal
+            dropTime = normalDropTime;
+            
+            // Reiniciar el intervalo con la velocidad normal
+            clearInterval(dropInterval);
+            dropInterval = setInterval(moveDown, dropTime);
+        }
+        
+        // Caída instantánea
+        function hardDrop() {
+            if (gameOver || !currentPiece) return;
+            
+            while (isValidMove(currentPiece.x, currentPiece.y + 1, currentPiece.tetromino.shape)) {
+                currentPiece.y += 1;
+            }
+            
+            placePiece();
+        }
+        
+        // Rotar la pieza
+        function rotate() {
+            if (gameOver || !currentPiece) return;
+            
+            // Rotar la matriz
+            const rotated = currentPiece.tetromino.shape[0].map((_, i) =>
+                currentPiece.tetromino.shape.map(row => row[i]).reverse()
+            );
+            
+            let newX = currentPiece.x;
+            let newY = currentPiece.y;
+            
+            // Intentar rotar, si no es posible, ajustar la posición
+            if (!isValidMove(newX, newY, rotated)) {
+                // Intentar mover a la izquierda
+                if (isValidMove(newX - 1, newY, rotated)) {
+                    newX -= 1;
+                }
+                // Intentar mover a la derecha
+                else if (isValidMove(newX + 1, newY, rotated)) {
+                    newX += 1;
+                }
+                // Intentar mover hacia arriba
+                else if (isValidMove(newX, newY - 1, rotated)) {
+                    newY -= 1;
+                }
+                // Si sigue sin ser posible, no rotar
+                else {
+                    return;
+                }
+            }
+            
+            currentPiece.x = newX;
+            currentPiece.y = newY;
+            currentPiece.tetromino.shape = rotated;
+            
+            updateGhostPiece();
+        }
+        
+        // Generar la siguiente pieza
+        function spawnNextPiece() {
+            nextPiece = {
+                tetromino: randomTetromino(),
+                isSpecial: Math.random() < DIFFICULTY_SETTINGS[difficulty].specialPieceChance
+            };
+            renderNextPiece();
+        }
+        
+        // Colocar la pieza en el tablero
+        function placePiece() {
+            if (!currentPiece) return;
+            
+            // Añadir la pieza al tablero
+            currentPiece.tetromino.shape.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        const boardY = y + currentPiece.y;
+                        const boardX = x + currentPiece.x;
+                        if (boardY >= 0 && boardY < BOARD_HEIGHT && boardX >= 0 && boardX < BOARD_WIDTH) {
+                            board[boardY][boardX] = currentPiece.tetromino.color;
+                        }
+                    }
+                });
+            });
+            
+            // Comprobar líneas completas
+            clearLines();
+            
+            // Generar nueva pieza
+            currentPiece = nextPiece;
+            currentPiece.x = Math.floor(BOARD_WIDTH / 2) - Math.floor(currentPiece.tetromino.shape[0].length / 2);
+            currentPiece.y = 0;
+            
+            // Generar la siguiente pieza
+            spawnNextPiece();
+            
+            // Comprobar si hay espacio para la nueva pieza
+            if (checkCollision(currentPiece.x, currentPiece.y, currentPiece.tetromino.shape)) {
+                endGame();
+            }
+            
+            // Actualizar la pieza fantasma
+            updateGhostPiece();
+            
+            // Asegurarse de que la velocidad vuelve a la normal
+            deactivateFastDrop();
+        }
+        
+        // Generar nueva pieza
+        function spawnNewPiece() {
+            if (!nextPiece) {
+                spawnNextPiece();
+            }
+            
+            currentPiece = nextPiece;
+            currentPiece.x = Math.floor(BOARD_WIDTH / 2) - Math.floor(currentPiece.tetromino.shape[0].length / 2);
+            currentPiece.y = 0;
+            
+            // Generar la siguiente pieza
+            spawnNextPiece();
+            
+            // Actualizar la pieza fantasma
+            updateGhostPiece();
+        }
+        
+        // Limpiar líneas completas
+        function clearLines() {
+            completedRows = [];
+            
+            // Encontrar filas completas
+            board.forEach((row, index) => {
+                if (row.every(cell => cell !== 0)) {
+                    completedRows.push(index);
+                }
+            });
+            
+            if (completedRows.length > 0) {
+                // Renderizar el efecto de flash
+                renderBoard();
+                
+                // Eliminar las filas completas después de un retraso
+                setTimeout(() => {
+                    // Eliminar filas completas
+                    completedRows.forEach(rowIndex => {
+                        board.splice(rowIndex, 1);
+                        board.unshift(Array(BOARD_WIDTH).fill(0));
+                    });
+                    
+                    // Calcular puntuación basada en dificultad
+                    let multiplier = 1;
+                    if (difficulty === 'medium') multiplier = 1.5;
+                    if (difficulty === 'hard') multiplier = 2;
+                    
+                    // Bonificación por líneas múltiples
+                    let lineBonus = 1;
+                    if (completedRows.length === 2) lineBonus = 1.2;
+                    if (completedRows.length === 3) lineBonus = 1.5;
+                    if (completedRows.length === 4) lineBonus = 2;
+                    
+                    // Actualizar puntuación
+                    const pointsGained = Math.floor(completedRows.length * 100 * multiplier * lineBonus);
+                    score += pointsGained;
+                    scoreElement.textContent = `Puntuación: ${score}`;
+                    
+                    // Actualizar nivel
+                    if (Math.floor(score / 1000) > level - 1) {
+                        level += 1;
+                        levelElement.textContent = `Nivel: ${level}`;
+                        normalDropTime *= DIFFICULTY_SETTINGS[difficulty].speedIncreaseFactor;
+                        dropTime = normalDropTime;
+                        clearInterval(dropInterval);
+                        startDropInterval();
+                    }
+                    
+                    // Limpiar filas completadas
+                    completedRows = [];
+                    renderBoard();
+                }, 500);
+            }
+        }
+        
+        // Iniciar intervalo de caída
+        function startDropInterval() {
+            dropInterval = setInterval(moveDown, dropTime);
+        }
+        
+        // Finalizar el juego
+        function endGame() {
+            gameOver = true;
+            clearInterval(dropInterval);
+            clearInterval(timeInterval);
+            clearInterval(difficultyIncreaseInterval);
+            cancelAnimationFrame(animationFrameId);
+            
+            finalScoreElement.textContent = `Puntuación: ${score}`;
+            gameOverElement.classList.add('active');
+            timeNotification.classList.remove('active');
+        }
+        
+        // Reiniciar el juego
+        function resetGame() {
+            // Limpiar intervalos y animaciones
+            clearInterval(dropInterval);
+            clearInterval(timeInterval);
+            clearInterval(difficultyIncreaseInterval);
+            cancelAnimationFrame(animationFrameId);
+            
+            // Reiniciar variables
+            gameOver = false;
+            score = 0;
+            level = 1;
+            gameStarted = false;
+            
+            // Ocultar game over y tiempo
+            gameOverElement.classList.remove('active');
+            timeNotification.classList.remove('active');
+            
+            // Actualizar elementos de la interfaz
+            scoreElement.textContent = `Puntuación: 0`;
+            levelElement.textContent = `Nivel: 1`;
+            
+            // Mostrar selector de dificultad
+            difficultySelector.style.display = 'flex';
+        }
+        
+        // Alternar música
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                musicElement.pause();
+                toggleMusicButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18V5l12-2v13"></path>
+                        <circle cx="6" cy="18" r="3"></circle>
+                        <circle cx="18" cy="16" r="3"></circle>
+                    </svg>
+                `;
+            } else {
+                musicElement.volume = 0.5;
+                musicElement.play().catch(error => console.error("Error al reproducir audio:", error));
+                toggleMusicButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="3" x2="21" y2="21"></line>
+                        <path d="M9 18V5l12-2v13"></path>
+                        <circle cx="6" cy="18" r="3"></circle>
+                        <circle cx="18" cy="16" r="3"></circle>
+                    </svg>
+                `;
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+        
+        // Manejar eventos de teclado
+        function handleKeyPress(e) {
+            if (gameOver || !gameStarted) return;
+            
+            switch (e.key) {
+                case 'ArrowLeft':
+                    moveLeft();
+                    break;
+                case 'ArrowRight':
+                    moveRight();
+                    break;
+                case 'ArrowDown':
+                    moveDown();
+                    break;
+                case 'ArrowUp':
+                    rotate();
+                    break;
+                case ' ':
+                    hardDrop();
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        // Manejar eventos táctiles - VERSIÓN SIMPLIFICADA Y MEJORADA
+        function handleTouchStart(e) {
+            if (gameOver || !gameStarted) return;
+            
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            isSwipeDown = false;
+            
+            // Detectar doble toque para caída instantánea
+            const now = new Date().getTime();
+            const timeSince = now - lastTapTime;
+            
+            if (timeSince < 300 && timeSince > 0) {
+                hardDrop();
+                e.preventDefault(); // Prevenir zoom u otras acciones
+            }
+            
+            lastTapTime = now;
+        }
+        
+        function handleTouchMove(e) {
+            if (gameOver || !gameStarted || !touchStartX || !touchStartY) return;
+            
+            const touchX = e.touches[0].clientX;
+            const touchY = e.touches[0].clientY;
+            
+            const diffX = touchX - touchStartX;
+            const diffY = touchY - touchStartY;
+            
+            // Umbral más pequeño para mayor sensibilidad
+            const swipeThreshold = Math.max(20, cellSize * 0.2);
+            
+            // Determinar la dirección del deslizamiento
+            if (Math.abs(diffX) > swipeThreshold && Math.abs(diffX) > Math.abs(diffY)) {
+                // Deslizamiento horizontal
+                if (diffX > 0) {
+                    moveRight();
+                } else {
+                    moveLeft();
+                }
+                
+                // Actualizar posición de inicio para permitir múltiples movimientos
+                touchStartX = touchX;
+                touchStartY = touchY;
+                
+                e.preventDefault(); // Prevenir desplazamiento de página
+            } 
+            else if (diffY > swipeThreshold && Math.abs(diffY) > Math.abs(diffX)) {
+                // Deslizamiento hacia abajo
+                if (!isSwipeDown) {
+                    activateFastDrop();
+                    isSwipeDown = true;
+                    e.preventDefault();
+                }
+            }
+        }
+        
+        function handleTouchEnd(e) {
+            if (gameOver || !gameStarted) return;
+            
+            const touchX = e.changedTouches[0].clientX;
+            const touchY = e.changedTouches[0].clientY;
+            
+            const diffX = touchX - touchStartX;
+            const diffY = touchY - touchStartY;
+            
+            // Si fue un toque simple (no un deslizamiento)
+            if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
+                rotate();
+                e.preventDefault();
+            }
+            
+            // Restaurar intervalo normal si estaba en modo de caída rápida
+            if (isSwipeDown) {
+                deactivateFastDrop();
+                isSwipeDown = false;
+            }
+            
+            touchStartX = 0;
+            touchStartY = 0;
+        }
+        
+        // Solicitar pantalla completa
+        function requestFullscreen() {
+            const element = document.documentElement;
+            
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+        }
+        
+        // Iniciar el juego cuando se carga la página
+        window.addEventListener('load', function() {
+            initGame();
+            
+            // Intentar entrar en pantalla completa al tocar el tablero por primera vez
+            document.body.addEventListener('touchstart', function() {
+                requestFullscreen();
+            }, { once: true });
+        });
+    </script>
+</body>
+</html>

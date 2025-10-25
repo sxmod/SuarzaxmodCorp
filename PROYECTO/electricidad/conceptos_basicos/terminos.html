@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos Claves - Conceptos Básicos</title>
+    <style>
+        /* Variables globales */
+        :root {
+            --color-primary: #4caf50;
+            --color-secondary: #2e7d32;
+            --color-accent: #ff9800;
+            --color-text: #333;
+            --color-bg: #f8f9fa;
+            --color-card: #fff;
+            --color-border: #ddd;
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --radius: 0.375rem;
+            --transition: all 0.3s ease;
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Encabezado */
+        .header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1581093196277-9f608bb3b1a1');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Contenido */
+        .content {
+            background-color: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 2rem;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            border: 1px solid var(--color-border);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Acordeón */
+        .accordion {
+            margin: 20px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid var(--color-border);
+            margin-bottom: 5px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 15px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background-color: #e0e0e0;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+        }
+
+        .accordion-item.active .accordion-header::after {
+            content: '-';
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 15px;
+            max-height: 1000px;
+        }
+
+        /* Elementos comunes */
+        .info-box {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--color-primary);
+            padding: 15px;
+            margin: 20px 0;
+            transition: var(--transition);
+        }
+
+        .info-box:hover {
+            transform: translateX(5px);
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .flex-col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 250px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid var(--color-border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            color: var(--color-secondary);
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Definiciones */
+        dl {
+            margin: 0 0 20px 0;
+        }
+
+        dt {
+            font-weight: bold;
+            color: var(--color-secondary);
+            margin-top: 15px;
+        }
+
+        dd {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+        }
+
+        /* Navegación */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .nav-btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background-color: var(--color-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                margin-bottom: 5px;
+                border-radius: 5px;
+                border: 1px solid var(--color-border);
+            }
+
+            .flex-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>Términos Claves</h1>
+                <p class="subtitle">Conceptos fundamentales en electricidad y electrónica</p>
+            </div>
+        </header>
+
+        <div class="nav-buttons">
+            <a href="resistencias.html" class="nav-btn">← Anterior: Resistencias</a>
+            <a href="arduino.html" class="nav-btn">Siguiente: Arduino →</a>
+        </div>
+
+        <div class="content">
+            <img src="https://images.unsplash.com/photo-1581093196277-9f608bb3b1a1" alt="Conceptos de electricidad y electrónica" class="banner-image">
+            
+            <p>Esta sección recopila los términos y conceptos fundamentales en electricidad y electrónica, proporcionando definiciones claras y concisas para facilitar la comprensión de estos campos.</p>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="changeTab('terminos-tab1', this)">Electricidad</div>
+                <div class="tab" onclick="changeTab('terminos-tab2', this)">Electrónica</div>
+                <div class="tab" onclick="changeTab('terminos-tab3', this)">Medidas</div>
+                <div class="tab" onclick="changeTab('terminos-tab4', this)">Componentes</div>
+            </div>
+            
+            <div id="terminos-tab1" class="tab-content active">
+                <h3>Términos de Electricidad</h3>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Conceptos Fundamentales</div>
+                        <div class="accordion-content">
+                            <dl>
+                                <dt>Carga Eléctrica</dt>
+                                <dd>Propiedad física de la materia que causa que ejerza y experimente fuerzas electromagnéticas. Se mide en culombios (C).</dd>
+                                
+                                <dt>Corriente Eléctrica</dt>
+                                <dd>Flujo de carga eléctrica a través de un conductor. Se mide en amperios (A).</dd>
+                                
+                                <dt>Voltaje</dt>
+                                <dd>Diferencia de potencial eléctrico entre dos puntos. Se mide en voltios (V).</dd>
+                                
+                                <dt>Resistencia</dt>
+                                <dd>Oposición que presenta un material al paso de la corriente eléctrica. Se mide en ohmios (Ω).</dd>
+                                
+                                <dt>Potencia</dt>
+                                <dd>Cantidad de energía transferida o transformada por unidad de tiempo. Se mide en vatios (W).</dd>
+                                
+                                <dt>Energía Eléctrica</dt>
+                                <dd>Capacidad de realizar un trabajo mediante electricidad. Se mide en julios (J) o kilovatios-hora (kWh).</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Leyes Fundamentales</div>
+                        <div class="accordion-content">
+                            <dl>
+                                <dt>Ley de Ohm</dt>
+                                <dd>La corriente que circula por un conductor es directamente proporcional a la tensión e inversamente proporcional a la resistencia. I = V / R</dd>
+                                
+                                <dt>Leyes de Kirchhoff</dt>
+                                <dd>
+                                    <ul>
+                                        <li><strong>Ley de Corrientes:</strong> La suma de las corrientes que entran a un nodo es igual a la suma de las corrientes que salen.</li>
+                                        <li><strong>Ley de Tensiones:</strong> La suma algebraica de las tensiones en un lazo cerrado es igual a cero.</li>
+                                    </ul>
+                                </dd>
+                                
+                                <dt>Ley de Joule</dt>
+                                <dd>La energía disipada en forma de calor por un conductor es proporcional al cuadrado de la corriente, a la resistencia y al tiempo. E = I² × R × t</dd>
+                                
+                                <dt>Ley de Coulomb</dt>
+                                <dd>La fuerza entre dos cargas eléctricas es directamente proporcional al producto de las cargas e inversamente proporcional al cuadrado de la distancia entre ellas.</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Circuitos Eléctricos</div>
+                        <div class="accordion-content">
+                            <dl>
+                                <dt>Circuito Eléctrico</dt>
+                                <dd>Conjunto de elementos conectados entre sí por los que puede circular una corriente eléctrica.</dd>
+                                
+                                <dt>Circuito Serie</dt>
+                                <dd>Circuito en el que los componentes están conectados uno a continuación del otro, formando un único camino para la corriente.</dd>
+                                
+                                <dt>Circuito Paralelo</dt>
+                                <dd>Circuito en el que los componentes están conectados entre los mismos dos puntos, formando múltiples caminos para la corriente.</dd>
+                                
+                                <dt>Cortocircuito</dt>
+                                <dd>Conexión de baja impedancia entre dos puntos de un circuito que normalmente están a diferentes potenciales.</dd>
+                                
+                                <dt>Circuito Abierto</dt>
+                                <dd>Circuito en el que se ha interrumpido el camino para la corriente, impidiendo su circulación.</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="terminos-tab2" class="tab-content">
+                <h3>Términos de Electrónica</h3>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Semiconductores</div>
+                        <div class="accordion-content">
+                            <dl>
+                                <dt>Semiconductor</dt>
+                                <dd>Material cuya conductividad eléctrica se encuentra entre la de un conductor y un aislante, y puede ser controlada.</dd>
+                                
+                                <dt>Dopaje</dt>
+                                <dd>Proceso de añadir impurezas a un semiconductor para modificar sus propiedades eléctricas.</dd>
+                                
+                                <dt>Semiconductor Tipo N</dt>
+                                <dd>Semiconductor dopado con impurezas que aportan electrones libres.</dd>
+                                
+                                <dt>Semiconductor Tipo P</dt>
+                                <dd>Semiconductor dopado con impurezas que crean "huecos" (ausencia de electrones).</dd>
+                                
+                                <dt>Unión P-N</dt>
+                                <dd>Interfaz entre dos tipos de material semiconductor, uno tipo P y otro tipo N.</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Señales Electrónicas</div>
+                        <div class="accordion-content">
+                            <dl>
+                                <dt>Señal Analógica</dt>
+                                <dd>Señal continua que puede tomar cualquier valor dentro de un rango.</dd>
+                                
+                                <dt>Señal Digital</dt>
+                                <dd>Señal discreta que solo puede tomar valores específicos, típicamente dos (binaria).</dd>
+                                
+                                <dt>Amplitud</dt>
+                                <dd>Valor máximo que alcanza una señal respecto a su valor medio o de reposo.</dd>
+                                
+                                <dt>Frecuencia</dt>
+                                <dd>Número de ciclos completos de una señal periódica por unidad de tiempo. Se mide en hercios (Hz).</dd>
+                                
+                                <dt>Fase</dt>
+                                <dd>Desplazamiento relativo de una señal respecto a otra o a una referencia.</dd>
+                                
+                                <dt>Ancho de Banda</dt>
+                                <dd>Rango de frecuencias en el que opera un sistema o señal.</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Procesamiento de Señales</div>
+                        <div class="accordion-content">
+                            <dl>
+                                <dt>Amplificación</dt>
+                                <dd>Proceso de aumentar la amplitud de una señal.</dd>
+                                
+                                <dt>Atenuación</dt>
+                                <dd>Proceso de reducir la amplitud de una señal.</dd>
+                                
+                                <dt>Filtrado</dt>
+                                <dd>Proceso de eliminar o atenuar componentes específicas de frecuencia de una señal.</dd>
+                                
+                                <dt>Modulación</dt>
+                                <dd>Proceso de modificar una señal portadora con una señal moduladora para transmitir información.</dd>
+                                
+                                <dt>Demodulación</dt>
+                                <dd>Proceso de extraer la señal moduladora original de una señal modulada.</dd>
+                                
+                                <dt>Conversión A/D</dt>
+                                <dd>Proceso de convertir una señal analógica en digital.</dd>
+                                
+                                <dt>Conversión D/A</dt>
+                                <dd>Proceso de convertir una señal digital en analógica.</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="terminos-tab3" class="tab-content">
+                <h3>Unidades de Medida</h3>
+                
+                <table class="table">
+                    <tr>
+                        <th>Magnitud</th>
+                        <th>Unidad</th>
+                        <th>Símbolo</th>
+                        <th>Definición</th>
+                    </tr>
+                    <tr>
+                        <td>Corriente Eléctrica</td>
+                        <td>Amperio</td>
+                        <td>A</td>
+                        <td>Flujo de carga eléctrica por unidad de tiempo</td>
+                    </tr>
+                    <tr>
+                        <td>Tensión Eléctrica</td>
+                        <td>Voltio</td>
+                        <td>V</td>
+                        <td>Diferencia de potencial eléctrico</td>
+                    </tr>
+                    <tr>
+                        <td>Resistencia</td>
+                        <td>Ohmio</td>
+                        <td>Ω</td>
+                        <td>Oposición al flujo de corriente eléctrica</td>
+                    </tr>
+                    <tr>
+                        <td>Potencia</td>
+                        <td>Vatio</td>
+                        <td>W</td>
+                        <td>Energía transferida por unidad de tiempo</td>
+                    </tr>
+                    <tr>
+                        <td>Carga Eléctrica</td>
+                        <td>Culombio</td>
+                        <td>C</td>
+                        <td>Cantidad de carga eléctrica</td>
+                    </tr>
+                    <tr>
+                        <td>Capacitancia</td>
+                        <td>Faradio</td>
+                        <td>F</td>
+                        <td>Capacidad de almacenar carga eléctrica</td>
+                    </tr>
+                    <tr>
+                        <td>Inductancia</td>
+                        <td>Henrio</td>
+                        <td>H</td>
+                        <td>Capacidad de inducir fuerza electromotriz</td>
+                    </tr>
+                    <tr>
+                        <td>Frecuencia</td>
+                        <td>Hercio</td>
+                        <td>Hz</td>
+                        <td>Ciclos por segundo</td>
+                    </tr>
+                    <tr>
+                        <td>Energía</td>
+                        <td>Julio</td>
+                        <td>J</td>
+                        <td>Trabajo realizado o energía transferida</td>
+                    </tr>
+                    <tr>
+                        <td>Energía Eléctrica</td>
+                        <td>Kilovatio-hora</td>
+                        <td>kWh</td>
+                        <td>Energía consumida (1 kWh = 3.6 MJ)</td>
+                    </tr>
+                </table>
+                
+                <h4>Prefijos del Sistema Internacional</h4>
+                
+                <table class="table">
+                    <tr>
+                        <th>Prefijo</th>
+                        <th>Símbolo</th>
+                        <th>Factor</th>
+                        <th>Ejemplo</th>
+                    </tr>
+                    <tr>
+                        <td>Pico</td>
+                        <td>p</td>
+                        <td>10⁻¹²</td>
+                        <td>pF (picofaradio)</td>
+                    </tr>
+                    <tr>
+                        <td>Nano</td>
+                        <td>n</td>
+                        <td>10⁻⁹</td>
+                        <td>nF (nanofaradio)</td>
+                    </tr>
+                    <tr>
+                        <td>Micro</td>
+                        <td>μ</td>
+                        <td>10⁻⁶</td>
+                        <td>μA (microamperio)</td>
+                    </tr>
+                    <tr>
+                        <td>Mili</td>
+                        <td>m</td>
+                        <td>10⁻³</td>
+                        <td>mV (milivoltio)</td>
+                    </tr>
+                    <tr>
+                        <td>Kilo</td>
+                        <td>k</td>
+                        <td>10³</td>
+                        <td>kΩ (kiloohmio)</td>
+                    </tr>
+                    <tr>
+                        <td>Mega</td>
+                        <td>M</td>
+                        <td>10⁶</td>
+                        <td>MHz (megahercio)</td>
+                    </tr>
+                    <tr>
+                        <td>Giga</td>
+                        <td>G</td>
+                        <td>10⁹</td>
+                        <td>GHz (gigahercio)</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div id="terminos-tab4" class="tab-content">
+                <h3>Componentes Electrónicos</h3>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Componentes Pasivos</div>
+                        <div class="accordion-content">
+                            <dl>
+                                <dt>Resistencia</dt>
+                                <dd>Componente que limita el flujo de corriente eléctrica. Se mide en ohmios (Ω).</dd>
+                                
+                                <dt>Condensador</dt>
+                                <dd>Componente que almacena energía en forma de campo eléctrico. Se mide en faradios (F).</dd>
+                                
+                                <dt>Inductor</dt>
+                                <dd>Componente que almacena energía en forma de campo magnético. Se mide en henrios (H).</dd>
+                                
+                                <dt>Transformador</dt>
+                                <dd>Dispositivo que transfiere energía eléctrica de un circuito a otro mediante inducción electromagnética.</dd>
+                                
+                                <dt>Diodo</dt>
+                                <dd>Componente semiconductor que permite el flujo de corriente en una sola dirección.</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Componentes Activos</div>
+                        <div class="accordion-content">
+                            <dl>
+                                <dt>Transistor</dt>
+                                <dd>Dispositivo semiconductor que puede amplificar o conmutar señales electrónicas.</dd>
+                                
+                                <dt>Circuito Integrado</dt>
+                                <dd>Conjunto de componentes electrónicos fabricados en un único sustrato semiconductor.</dd>
+                                
+                                <dt>Amplificador Operacional</dt>
+                                <dd>Circuito integrado que amplifica la diferencia de voltaje entre sus entradas.</dd>
+                                
+                                <dt>Microcontrolador</dt>
+                                <dd>Circuito integrado programable que incluye CPU, memoria y periféricos de entrada/salida.</dd>
+                                
+                                <dt>FPGA</dt>
+                                <dd>Dispositivo semiconductor que contiene bloques lógicos programables.</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Componentes Optoelectrónicos</div>
+                        <div class="accordion-content">
+                            <dl>
+                                <dt>LED (Diodo Emisor de Luz)</dt>
+                                <dd>Diodo semiconductor que emite luz cuando se polariza directamente.</dd>
+                                
+                                <dt>Fotodiodo</dt>
+                                <dd>Diodo semiconductor que genera corriente cuando recibe luz.</dd>
+                                
+                                <dt>Fototransistor</dt>
+                                <dd>Transistor sensible a la luz que amplifica la corriente generada por la luz incidente.</dd>
+                                
+                                <dt>Optoacoplador</dt>
+                                <dd>Dispositivo que transfiere señales eléctricas mediante luz, proporcionando aislamiento galvánico.</dd>
+                                
+                                <dt>Display</dt>
+                                <dd>Dispositivo de salida que muestra información visual.</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="resistencias.html" class="nav-btn">← Anterior: Resistencias</a>
+            <a href="arduino.html" class="nav-btn">Siguiente: Arduino →</a>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2025 - Conceptos Básicos de Electricidad y Electrónica</p>
+        </footer>
+    </div>
+
+    <script>
+        // Función para cambiar entre pestañas
+        function changeTab(tabId, tabElement) {
+            // Ocultar todos los contenidos de pestañas
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Desactivar todas las pestañas
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activar la pestaña seleccionada y su contenido
+            document.getElementById(tabId).classList.add('active');
+            tabElement.classList.add('active');
+        }
+        
+        // Función para alternar acordeones
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Cerrar todos los acordeones
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(accordionItem => {
+                accordionItem.classList.remove('active');
+            });
+            
+            // Si el acordeón no estaba activo, abrirlo
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Activar el primer acordeón en cada sección
+            const firstAccordions = document.querySelectorAll('.accordion:not(.accordion-item) > .accordion-item:first-child');
+            firstAccordions.forEach(accordion => {
+                accordion.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

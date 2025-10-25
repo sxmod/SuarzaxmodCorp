@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Descarga e instala ArcGIS PRO con Suarzaxmod Corporation - La herramienta profesional para análisis geoespacial y cartografía avanzada">
+    <meta name="keywords" content="ArcGIS PRO, Suarzaxmod, IPTV, software, descarga, análisis geoespacial, cartografía">
+    <meta name="author" content="Dairo Suarez, Suarzaxmod S.A">
+    <meta property="og:title" content="Descarga ArcGIS PRO">
+    <meta property="og:description" content="La herramienta profesional para análisis geoespacial y cartografía avanzada. Descarga ahora.">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630">
+    <meta property="og:url" content="https://suarzaxmod.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#271A4F">
+    <title>ArcGIS PRO</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://via.placeholder.com/32x32">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Lightbox CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #271A4F;
+            --secondary-color: #FF4B2B;
+            --accent-color: #00FF41;
+            --text-color: #F3F3F3;
+            --dark-overlay: rgba(0, 0, 0, 0.3);
+            --light-overlay: rgba(255, 255, 255, 0.1);
+            --gradient-primary: linear-gradient(90deg, #FF416C, #FF4B2B);
+            --bs-primary: #FF4B2B;
+            --bs-primary-rgb: 255, 75, 43;
+            --transition-speed: 0.3s;
+        }
+        
+        /* Custom styles to maintain the look and feel */
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            scroll-behavior: smooth;
+        }
+        
+        body.light-mode {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--secondary-color);
+            animation: spin 1s ease-in-out infinite;
+            position: relative;
+        }
+        
+        .loader::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 0.8s ease-in-out infinite reverse;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Binary background */
+        .binary-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.1;
+            transition: opacity var(--transition-speed) ease;
+        }
+        
+        .binary-column {
+            position: absolute;
+            top: -1000px;
+            color: var(--accent-color);
+            font-family: monospace;
+            font-size: 16px;
+            text-shadow: 0 0 5px var(--accent-color);
+            animation-name: binary-fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            white-space: nowrap;
+        }
+        
+        @keyframes binary-fall {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(calc(100vh + 1000px));
+            }
+        }
+        
+        /* Custom navbar styling */
+        .navbar {
+            background-color: rgba(39, 26, 79, 0.8) !important;
+            backdrop-filter: blur(10px);
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .navbar.scrolled {
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+            background-color: rgba(39, 26, 79, 0.95) !important;
+        }
+        
+        .navbar-brand {
+            color: var(--text-color) !important;
+            font-weight: bold;
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--text-color) !important;
+            position: relative;
+            transition: color var(--transition-speed) ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+        
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            transition: width var(--transition-speed) ease;
+        }
+        
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Watermark */
+        .watermark {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.8;
+            animation: rainbow-text 6s linear infinite;
+            font-weight: bold;
+            font-size: 24px;
+            text-shadow: 
+                0 0 5px rgba(0, 0, 0, 0.5),
+                0 0 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #0000ff, #ff00ff, #ff0000);
+            background-size: 400% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 5px;
+        }
+        
+        @keyframes rainbow-text {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
+        }
+        
+        /* Custom button styling */
+        .btn-gradient {
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            border: none;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 75, 43, 0.5);
+            color: white;
+        }
+        
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+        
+        .btn-gradient:active {
+            transform: translateY(1px);
+        }
+        
+        /* Custom card styling */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition-speed) ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3) !important;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        /* Light mode adjustments */
+        body.light-mode .navbar {
+            background-color: rgba(245, 245, 245, 0.8) !important;
+        }
+        
+        body.light-mode .navbar.scrolled {
+            background-color: rgba(245, 245, 245, 0.95) !important;
+        }
+        
+        body.light-mode .navbar-brand,
+        body.light-mode .navbar-nav .nav-link {
+            color: #333 !important;
+        }
+        
+        body.light-mode .card {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        body.light-mode .card:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+        
+        body.light-mode .text-light {
+            color: #333 !important;
+        }
+        
+        body.light-mode .bg-dark {
+            background-color: rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        body.light-mode .binary-bg {
+            opacity: 0.05;
+        }
+        
+        /* Support button */
+        .support-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 5px 20px rgba(255, 75, 43, 0.4);
+            cursor: pointer;
+            z-index: 100;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .support-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 100px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+        
+        /* Notification */
+        .custom-notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transform: translateX(150%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1000;
+            max-width: 350px;
+        }
+        
+        .custom-notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Custom title styling */
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            border-radius: 3px;
+        }
+        
+        /* Company name styling */
+        .company-name {
+            font-weight: bold;
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            padding: 0 10px;
+        }
+        
+        /* Social links */
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            font-size: 18px;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .social-link:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Video container */
+        .video-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform var(--transition-speed) ease;
+        }
+        
+        .video-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Countdown timer */
+        .countdown-container {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .countdown-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 65, 108, 0.1), rgba(255, 75, 43, 0.1));
+            z-index: -1;
+        }
+        
+        .countdown-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .countdown-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .countdown-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+        }
+        
+        /* Progress bar */
+        .scroll-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 9999;
+        }
+        
+        .scroll-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        /* Gallery */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+            height: 200px;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-speed) ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease;
+        }
+        
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+        
+        /* Chatbot */
+        .chatbot-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 500px;
+            transform: translateY(120%);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .chatbot-container.show {
+            transform: translateY(0);
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbot-title {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 300px;
+            background: #f5f5f5;
+        }
+        
+        .chatbot-message {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-break: break-word;
+        }
+        
+        .chatbot-message.bot {
+            background: #e6e6e6;
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chatbot-message.user {
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+        
+        .chatbot-input input {
+            flex-grow: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 15px;
+            outline: none;
+        }
+        
+        .chatbot-input button {
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* FAQ Section */
+        .accordion-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .accordion-button {
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: var(--text-color) !important;
+            box-shadow: none !important;
+            padding: 15px 20px;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            color: var(--secondary-color) !important;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .accordion-button::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+        }
+        
+        .accordion-body {
+            background: rgba(0, 0, 0, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 15px 20px;
+        }
+        
+        body.light-mode .accordion-item {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        body.light-mode .accordion-button {
+            background: rgba(0, 0, 0, 0.03) !important;
+            color: #333 !important;
+        }
+        
+        body.light-mode .accordion-button:not(.collapsed) {
+            color: var(--secondary-color) !important;
+        }
+        
+        body.light-mode .accordion-button::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23333'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+        }
+        
+        body.light-mode .accordion-body {
+            background: rgba(0, 0, 0, 0.02);
+            color: #555;
+        }
+        
+        /* Contact form */
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 12px 15px;
+        }
+        
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--secondary-color);
+            color: var(--text-color);
+            box-shadow: 0 0 0 0.25rem rgba(255, 75, 43, 0.25);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        body.light-mode .form-control {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+        
+        body.light-mode .form-control:focus {
+            background: rgba(0, 0, 0, 0.07);
+            color: #333;
+        }
+        
+        body.light-mode .form-control::placeholder {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Share buttons */
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .share-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .share-button.facebook {
+            background: #3b5998;
+        }
+        
+        .share-button.twitter {
+            background: #1da1f2;
+        }
+        
+        .share-button.linkedin {
+            background: #0077b5;
+        }
+        
+        .share-button.whatsapp {
+            background: #25d366;
+        }
+        
+        .share-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--secondary-color);
+            color: white;
+            padding: 8px 15px;
+            z-index: 10000;
+            transition: top 0.3s ease;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        /* Cookie consent */
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px;
+            z-index: 9999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .cookie-consent.show {
+            transform: translateY(0);
+        }
+        
+        /* Push notifications */
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--secondary-color);
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="scrollProgress"></div>
+    </div>
+    
+    <!-- Binary background -->
+    <div class="binary-bg" id="binary-bg"></div>
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="navbar" aria-label="Navegación principal">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fas fa-code me-2 text-primary"></i>
+                <span>Suarzaxmod</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars text-light"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#hero">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Características</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Galería</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contacto</a>
+                    </li>
+                    <li class="nav-item ms-2 position-relative">
+                        <button class="btn btn-sm rounded-circle" id="notifications-btn" aria-label="Notificaciones">
+                            <i class="fas fa-bell text-light"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <button class="btn btn-sm rounded-circle" id="theme-toggle" aria-label="Cambiar tema">
+                            <i class="fas fa-moon text-light"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="container py-5 mt-5" id="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="mb-5">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-8" data-aos="fade-up">
+                    <h1 class="display-5 fw-bold section-title">Descarga e Instala ArcGIS PRO</h1>
+                    <p class="lead text-light-emphasis mb-5">La herramienta profesional para análisis geoespacial y cartografía avanzada by Mundogis.pro & Suarzaxmod S.A</p>
+                </div>
+            </div>
+            
+            <!-- Video Section -->
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-10" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="video-container">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://player.vimeo.com/video/881077580?color&autopause=0&loop=0&muted=0&title=1&portrait=1&byline=1&h=78f1a1ac0c#t=" 
+                                    allowfullscreen 
+                                    allow="clipboard-write" 
+                                    title="Reproductor de vídeo vimeo">
+                            </iframe>
+                        </div>
+                        <div class="watermark">Suarzaxmod Corporation</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Download Section -->
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <p class="text-light-emphasis mb-3">Versión 3.0.0 | Actualizado: 14/03/2025 | 4.4 GB</p>
+                    <a href="https://drive.google.com/drive/folders/1FeqdBCpBhiH88dEAYDXPAYvfFcPUkEyu?usp=drive_link" class="btn btn-gradient btn-lg px-5 py-3 rounded-pill">
+                        <i class="fas fa-download me-2"></i>
+                        DESCARGAR AHORA
+                    </a>
+                    <div class="d-flex align-items-center justify-content-center mt-3">
+                        <i class="fas fa-users me-2 text-light-emphasis"></i>
+                        <span class="text-light-emphasis">10,542 descargas este mes</span>
+                    </div>
+                    
+                    <!-- Share buttons -->
+                    <div class="share-buttons d-flex justify-content-center">
+                        <a href="https://web.facebook.com/?locale=es_LA&_rdc=1&_rdr#" class="share-button facebook" aria-label="Compartir en Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://x.com/?lang=es" class="share-button twitter" aria-label="Compartir en Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://co.linkedin.com/" class="share-button linkedin" aria-label="Compartir en LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://www.whatsapp.com/?lang=es_LA" class="share-button whatsapp" aria-label="Compartir en WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Countdown timer -->
+                    <div class="countdown-container mt-4" data-aos="fade-up">
+                        <h3 class="countdown-title">Oferta especial termina en:</h3>
+                        <div class="countdown" id="countdown">
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="days">00</div>
+                                <div class="countdown-label">Días</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="hours">00</div>
+                                <div class="countdown-label">Horas</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="minutes">00</div>
+                                <div class="countdown-label">Minutos</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" id="seconds">00</div>
+                                <div class="countdown-label">Segundos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Services Section -->
+        <section id="services" class="mb-5">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title" data-aos="fade-up">Nuestros Servicios</h2>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center mb-5">
+                <!-- Admin Card -->
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100 text-light shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="display-4 text-primary mb-3">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h3 class="card-title text-primary">PAGINA DE SUARZAXMOD S.A</h3>
+                            <p class="card-text mb-4">Acceso a herramientas administrativas y panel de control para gestionar todos los aspectos del sistema con seguridad avanzada.</p>
+                            <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/inicios/inicio1.html" class="btn btn-gradient rounded-pill px-4">Acceder <i class="fas fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- IPTV Card -->
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100 text-light shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="display-4 text-primary mb-3">
+                                <i class="fas fa-tv"></i>
+                            </div>
+                            <h3 class="card-title text-primary">CUENTAS PREMIUM</h3>
+                            <p class="card-text mb-4">Disfruta de canales de televisión en vivo y contenido bajo demanda a través de nuestra plataforma IPTV de alta definición.</p>
+                            <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/iptv/m3ulistas.html" class="btn btn-gradient rounded-pill px-4">Ver canales <i class="fas fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Accounts Card -->
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card h-100 text-light shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="display-4 text-primary mb-3">
+                                <i class="fas fa-users-cog"></i>
+                            </div>
+                            <h3 class="card-title text-primary">LIBROS BIBLIOTECA</h3>
+                            <p class="card-text mb-4">Gestiona tus cuentas de usuario, permisos y accesos a diferentes servicios de la plataforma de manera segura.</p>
+                            <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/libros/Librov4.html" class="btn btn-gradient rounded-pill px-4">Gestionar <i class="fas fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Features Section -->
+        <section id="features" class="mb-5">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title" data-aos="fade-up">Características Principales</h2>
+                </div>
+            </div>
+            
+            <div class="row mb-5">
+                <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100 text-light shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="display-5 text-primary mb-3">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <h4 class="card-title">Mapeo Avanzado</h4>
+                            <p class="card-text">Crea mapas profesionales con herramientas de cartografía de última generación.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100 text-light shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="display-5 text-primary mb-3">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4 class="card-title">Análisis de Datos</h4>
+                            <p class="card-text">Analiza grandes conjuntos de datos geoespaciales con algoritmos optimizados.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card h-100 text-light shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="display-5 text-primary mb-3">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <h4 class="card-title">Modelado 3D</h4>
+                            <p class="card-text">Visualiza y modela terrenos y estructuras en tres dimensiones.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card h-100 text-light shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="display-5 text-primary mb-3">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <h4 class="card-title">Integración en la Nube</h4>
+                            <p class="card-text">Sincroniza y comparte tus proyectos en la nube de forma segura.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Gallery Section -->
+        <section id="gallery" class="mb-5">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title" data-aos="fade-up">Galería de Imágenes</h2>
+                </div>
+            </div>
+            
+            <div class="gallery-container" data-aos="fade-up">
+                <a href="https://i30.servimg.com/u/f30/20/30/93/75/image12.png" data-lightbox="gallery" data-title="Interfaz de ArcGIS PRO" class="gallery-item">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/image12.png" alt="Interfaz de ArcGIS PRO" loading="lazy">
+                </a>
+                <a href="https://i30.servimg.com/u/f30/20/30/93/75/image13.png" data-lightbox="gallery" data-title="Análisis de datos geoespaciales" class="gallery-item">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/image13.png" alt="Análisis de datos geoespaciales" loading="lazy">
+                </a>
+                <a href="https://i30.servimg.com/u/f30/20/30/93/75/image14.png" data-lightbox="gallery" data-title="Modelado 3D de terrenos" class="gallery-item">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/image14.png" alt="Modelado 3D de terrenos" loading="lazy">
+                </a>
+                <a href="https://i30.servimg.com/u/f30/20/30/93/75/image15.png" data-lightbox="gallery" data-title="Visualización de datos" class="gallery-item">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/image15.png" alt="Visualización de datos" loading="lazy">
+                </a>
+                <a href="https://i30.servimg.com/u/f30/20/30/93/75/image16.png" data-lightbox="gallery" data-title="Herramientas de cartografía" class="gallery-item">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/image16.png" alt="Herramientas de cartografía" loading="lazy">
+                </a>
+                <a href="https://i30.servimg.com/u/f30/20/30/93/75/image17.png" data-lightbox="gallery" data-title="Análisis de redes" class="gallery-item">
+                    <img src="https://i30.servimg.com/u/f30/20/30/93/75/image17.png" alt="Análisis de redes" loading="lazy">
+                </a>
+            </div>
+        </section>
+        
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="mb-5">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title" data-aos="fade-up">Lo que dicen nuestros usuarios</h2>
+                </div>
+            </div>
+            
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="d-flex overflow-auto pb-4" style="scroll-snap-type: x mandatory;">
+                        <div class="card text-light shadow me-4" style="min-width: 300px; scroll-snap-align: start;" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card-body p-4">
+                                <p class="card-text fst-italic position-relative mb-4">
+                                    ArcGIS PRO ha revolucionado la forma en que analizamos datos geoespaciales en nuestra empresa. La interfaz es intuitiva y las herramientas son potentes.
+                                </p>
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-gradient text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; background: linear-gradient(90deg, #FF416C, #FF4B2B);">
+                                        <span class="fw-bold">JR</span>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Juan Rodríguez</h6>
+                                        <small class="text-light-emphasis">Analista GIS Senior</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card text-light shadow me-4" style="min-width: 300px; scroll-snap-align: start;" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card-body p-4">
+                                <p class="card-text fst-italic position-relative mb-4">
+                                    El soporte técnico de Suarzaxmod es excepcional. Siempre están disponibles para resolver cualquier duda o problema que surja.
+                                </p>
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-gradient text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; background: linear-gradient(90deg, #FF416C, #FF4B2B);">
+                                        <span class="fw-bold">ML</span>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">María López</h6>
+                                        <small class="text-light-emphasis">Directora de Proyectos</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card text-light shadow" style="min-width: 300px; scroll-snap-align: start;" data-aos="fade-up" data-aos-delay="300">
+                            <div class="card-body p-4">
+                                <p class="card-text fst-italic position-relative mb-4">
+                                    La capacidad de procesamiento y análisis de datos es impresionante. Hemos reducido nuestros tiempos de trabajo en un 40% gracias a esta herramienta.
+                                </p>
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-gradient text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; background: linear-gradient(90deg, #FF416C, #FF4B2B);">
+                                        <span class="fw-bold">CP</span>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Carlos Pérez</h6>
+                                        <small class="text-light-emphasis">Ingeniero Geomático</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Stats Section -->
+        <section id="stats" class="mb-5">
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="bg-dark rounded-4 p-5" data-aos="fade-up">
+                        <div class="row text-center">
+                            <div class="col-md-3 col-6 mb-4 mb-md-0">
+                                <h2 class="text-primary fw-bold" id="users-count">50,000+</h2>
+                                <p class="text-light-emphasis">Usuarios Activos</p>
+                            </div>
+                            
+                            <div class="col-md-3 col-6 mb-4 mb-md-0">
+                                <h2 class="text-primary fw-bold" id="countries-count">120+</h2>
+                                <p class="text-light-emphasis">Países</p>
+                            </div>
+                            
+                            <div class="col-md-3 col-6">
+                                <h2 class="text-primary fw-bold" id="projects-count">1M+</h2>
+                                <p class="text-light-emphasis">Proyectos Creados</p>
+                            </div>
+                            
+                            <div class="col-md-3 col-6">
+                                <h2 class="text-primary fw-bold" id="satisfaction-rate">99%</h2>
+                                <p class="text-light-emphasis">Satisfacción</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FAQ Section -->
+        <section id="faq" class="mb-5">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title" data-aos="fade-up">Preguntas Frecuentes</h2>
+                </div>
+            </div>
+            
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto" data-aos="fade-up">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    ¿Cuáles son los requisitos del sistema para ArcGIS PRO?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    ArcGIS PRO requiere Windows 10 o superior, procesador de 4 núcleos, 8GB de RAM (16GB recomendado), 4GB de espacio en disco y una tarjeta gráfica compatible con DirectX 11 con 2GB de memoria dedicada.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    ¿Cómo puedo activar mi licencia de ArcGIS PRO?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Después de la instalación, inicie ArcGIS PRO y se le pedirá que inicie sesión con su cuenta de Suarzaxmod. Si ha adquirido una licencia, esta se activará automáticamente. También puede activar manualmente desde el menú "Configuración > Licencias".
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    ¿Ofrecen soporte técnico para la instalación?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sí, ofrecemos soporte técnico completo para la instalación y configuración de ArcGIS PRO. Puede contactar a nuestro equipo de soporte a través del chat en vivo, correo electrónico o teléfono durante horario laboral.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    ¿Hay descuentos para instituciones educativas?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sí, ofrecemos descuentos especiales para instituciones educativas, estudiantes y profesores. Contáctenos para obtener más información sobre nuestro programa educativo y las opciones de licencias disponibles.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    ¿Con qué frecuencia se actualiza el software?
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Lanzamos actualizaciones importantes trimestralmente y parches de seguridad mensualmente. Todas las actualizaciones están incluidas en su licencia y se pueden descargar automáticamente desde la aplicación o manualmente desde nuestro portal de clientes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="mb-5">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title" data-aos="fade-up">Contacto</h2>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100 text-light shadow">
+                        <div class="card-body p-4">
+                            <h3 class="card-title text-primary mb-4">Envíanos un mensaje</h3>
+                            <form id="contactForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nombre completo</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Tu nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Correo electrónico</label>
+                                    <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Asunto</label>
+                                    <input type="text" class="form-control" id="subject" placeholder="Asunto del mensaje" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Mensaje</label>
+                                    <textarea class="form-control" id="message" rows="4" placeholder="Tu mensaje" required></textarea>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="privacy" required>
+                                    <label class="form-check-label" for="privacy">Acepto la política de privacidad</label>
+                                </div>
+                                <button type="submit" class="btn btn-gradient">Enviar mensaje</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100 text-light shadow">
+                        <div class="card-body p-4">
+                            <h3 class="card-title text-primary mb-4">Información de contacto</h3>
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="text-primary me-3">
+                                    <i class="fas fa-map-marker-alt fa-fw fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Dirección</h5>
+                                    <p class="mb-0">Av. Principal 12, Edificio Suarzaxmod, Piso 3<br>Ciudad de MONTELIBANO, COLOMBIA</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="text-primary me-3">
+                                    <i class="fas fa-phone-alt fa-fw fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Teléfono</h5>
+                                    <p class="mb-0">+52 (55) 1234-5678</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="text-primary me-3">
+                                    <i class="fas fa-envelope fa-fw fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Email</h5>
+                                    <p class="mb-0">info@suarzaxmod.com</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="text-primary me-3">
+                                    <i class="fas fa-clock fa-fw fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">Horario de atención</h5>
+                                    <p class="mb-0">Lunes a Viernes: 9:00 AM - 6:00 PM<br>Sábados: 10:00 AM - 2:00 PM</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h5 class="mb-3">Síguenos en redes sociales</h5>
+                                <div class="d-flex gap-3">
+                                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="row rounded-4 bg-dark p-5 mt-5">
+            <div class="col-12 text-center">
+                <div class="mb-4">
+                    <span class="company-name mx-2">Suarzaxmod Corporation</span>
+                    <span class="company-name mx-2">Suarzaxmod S.A</span>
+                    <span class="company-name mx-2">Dairo Suarez</span>
+                </div>
+                
+                <div class="d-flex justify-content-center flex-wrap mb-4">
+                    <a href="#" class="social-link mx-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link mx-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link mx-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link mx-2"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link mx-2"><i class="fab fa-youtube"></i></a>
+                </div>
+                
+                <div class="mb-4">
+                    <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/tyc.notificaciones/T%26C.html" class="text-decoration-none text-light-emphasis mx-3">Términos y Condiciones</a>
+                    <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/tyc.notificaciones/T%26C.html" class="text-decoration-none text-light-emphasis mx-3">Política de Privacidad</a>
+                    <a href="https://pro.arcgis.com/es/pro-app/latest/get-started/licensing-arcgis-pro.htm" class="text-decoration-none text-light-emphasis mx-3">Licencias</a>
+                    <a href="https://g.co/kgs/Wi7UyyN" class="text-decoration-none text-light-emphasis mx-3">Contacto</a>
+                    <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/inicios/inicio1.html" class="text-decoration-none text-light-emphasis mx-3">Soporte</a>
+                    <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/misitios/suarzaxmodS.A.html" class="text-decoration-none text-light-emphasis mx-3">Blog</a>
+                </div>
+                
+                <div class="text-light-emphasis">
+                    © 2025-2050 Todos los derechos reservados. Suarzaxmod S.A y Dairo Suarez.<br>
+                    Tecnología patentada y registrada internacionalmente.
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Support Button -->
+    <div class="support-btn" id="support-btn" aria-label="Soporte">
+        <i class="fas fa-headset"></i>
+    </div>
+    
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop" aria-label="Volver arriba">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <!-- Notification -->
+    <div class="custom-notification p-3 d-flex align-items-center" id="notification">
+        <div class="text-primary fs-4 me-3">
+            <i class="fas fa-bell"></i>
+        </div>
+        <div class="flex-grow-1">
+            <div class="fw-bold">¡Nueva versión disponible!</div>
+            <div class="small">Descarga la última actualización con nuevas funcionalidades.</div>
+        </div>
+        <button class="btn btn-sm text-secondary border-0" id="notification-close" aria-label="Cerrar notificación">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <!-- Chatbot -->
+    <div class="chatbot-container" id="chatbot">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <span>Asistente Virtual</span>
+            </div>
+            <button class="chatbot-close" id="chatbot-close" aria-label="Cerrar chat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <div class="chatbot-message bot">
+                ¡Hola! Soy el asistente virtual de Suarzaxmod. ¿En qué puedo ayudarte hoy?
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Escribe tu mensaje..." aria-label="Mensaje">
+            <button id="chatbot-send" aria-label="Enviar mensaje">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Cookie Consent -->
+    <div class="cookie-consent" id="cookieConsent">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="mb-3 mb-md-0">
+                <p class="mb-0">Utilizamos cookies para mejorar su experiencia en nuestro sitio web. Al continuar navegando, acepta nuestra <a href="https://serveronlineservices-by.on.drv.tw/www.suarzaxmod.sites/tyc.notificaciones/T%26C.html" class="text-primary">política de cookies</a>.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-light btn-sm" id="cookieReject">Rechazar</button>
+                <button class="btn btn-gradient btn-sm" id="cookieAccept">Aceptar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Lightbox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script>
+        // Initialize AOS
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // Show cookie consent after a delay
+            setTimeout(function() {
+                document.getElementById('cookieConsent').classList.add('show');
+            }, 2000);
+        });
+        
+        // Preloader
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            setTimeout(function() {
+                preloader.classList.add('fade-out');
+                setTimeout(function() {
+                    preloader.style.display = 'none';
+                }, 500);
+                
+                // Show notification after page load
+                setTimeout(function() {
+                    document.getElementById('notification').classList.add('show');
+                }, 3000);
+            }, 1000);
+        });
+        
+        // Close notification
+        document.getElementById('notification-close').addEventListener('click', function() {
+            document.getElementById('notification').classList.remove('show');
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const backToTop = document.getElementById('backToTop');
+            const scrollProgress = document.getElementById('scrollProgress');
+            
+            // Update scroll progress bar
+            const totalHeight = document.body.scrollHeight - window.innerHeight;
+            const progress = (window.pageYOffset / totalHeight) * 100;
+            scrollProgress.style.width = progress + '%';
+            
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+                backToTop.classList.add('show');
+            } else {
+                navbar.classList.remove('scrolled');
+                backToTop.classList.remove('show');
+            }
+        });
+        
+        // Theme toggle with localStorage
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            const isDarkMode = document.body.classList.toggle('light-mode');
+            localStorage.setItem('lightMode', isDarkMode ? 'true' : 'false');
+            
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-moon')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+        
+        // Check for saved theme preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const lightMode = localStorage.getItem('lightMode');
+            if (lightMode === 'true') {
+                document.body.classList.add('light-mode');
+                const icon = document.getElementById('theme-toggle').querySelector('i');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        });
+        
+        // Support button click - Open chatbot
+        document.getElementById('support-btn').addEventListener('click', function() {
+            document.getElementById('chatbot').classList.add('show');
+        });
+        
+        // Close chatbot
+        document.getElementById('chatbot-close').addEventListener('click', function() {
+            document.getElementById('chatbot').classList.remove('show');
+        });
+        
+        // Chatbot functionality
+        document.getElementById('chatbot-send').addEventListener('click', sendChatMessage);
+        document.getElementById('chatbot-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+        
+        function sendChatMessage() {
+            const input = document.getElementById('chatbot-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                const chatMessages = document.getElementById('chatbot-messages');
+                
+                // Add user message
+                const userMessage = document.createElement('div');
+                userMessage.className = 'chatbot-message user';
+                userMessage.textContent = message;
+                chatMessages.appendChild(userMessage);
+                
+                // Clear input
+                input.value = '';
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate bot response after a delay
+                setTimeout(function() {
+                    const botResponses = [
+                        "Gracias por tu mensaje. ¿En qué más puedo ayudarte?",
+                        "Entiendo tu consulta. Un representante se pondrá en contacto contigo pronto.",
+                        "Esa es una excelente pregunta. Permíteme buscar la información para ti.",
+                        "Puedes encontrar más detalles sobre eso en nuestra sección de documentación.",
+                        "¿Necesitas ayuda con alguna otra cosa?"
+                    ];
+                    
+                    const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+                    
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'chatbot-message bot';
+                    botMessage.textContent = randomResponse;
+                    chatMessages.appendChild(botMessage);
+                    
+                    // Scroll to bottom again
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        }
+        
+        // Back to top button
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Cookie consent buttons
+        document.getElementById('cookieAccept').addEventListener('click', function() {
+            document.getElementById('cookieConsent').classList.remove('show');
+            localStorage.setItem('cookieConsent', 'accepted');
+        });
+        
+        document.getElementById('cookieReject').addEventListener('click', function() {
+            document.getElementById('cookieConsent').classList.remove('show');
+            localStorage.setItem('cookieConsent', 'rejected');
+        });
+        
+        // Check if user has already responded to cookie consent
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieConsent = localStorage.getItem('cookieConsent');
+            if (cookieConsent) {
+                document.getElementById('cookieConsent').style.display = 'none';
+            }
+        });
+        
+        // Create binary background
+        document.addEventListener('DOMContentLoaded', function() {
+            const binaryBg = document.getElementById('binary-bg');
+            const screenWidth = window.innerWidth;
+            const columnCount = Math.floor(screenWidth / 30); // Approximate column width
+            
+            for (let i = 0; i < columnCount; i++) {
+                const column = document.createElement('div');
+                column.className = 'binary-column';
+                
+                // Generate random binary string
+                let binaryString = '';
+                for (let j = 0; j < 100; j++) {
+                    binaryString += Math.random() > 0.5 ? '1' : '0';
+                    binaryString += '<br>';
+                }
+                
+                column.innerHTML = binaryString;
+                column.style.left = `${(i / columnCount) * 100}%`;
+                
+                // Random animation duration between 10 and 30 seconds
+                const duration = 10 + Math.random() * 20;
+                column.style.animationDuration = `${duration}s`;
+                
+                // Random animation delay
+                column.style.animationDelay = `${Math.random() * 10}s`;
+                
+                binaryBg.appendChild(column);
+            }
+            
+            // Animate stats counting
+            animateStats();
+            
+            // Initialize countdown timer
+            initCountdown();
+        });
+        
+        // Animate stats counting
+        function animateStats() {
+            const statsElements = [
+                { id: 'users-count', target: '50,000+', prefix: '', suffix: '+' },
+                { id: 'countries-count', target: '120+', prefix: '', suffix: '+' },
+                { id: 'projects-count', target: '1M+', prefix: '', suffix: 'M+' },
+                { id: 'satisfaction-rate', target: '99%', prefix: '', suffix: '%' }
+            ];
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        statsElements.forEach(stat => {
+                            const element = document.getElementById(stat.id);
+                            const targetValue = parseInt(stat.target.replace(/\D/g, ''));
+                            
+                            let currentValue = 0;
+                            const increment = Math.max(1, Math.floor(targetValue / 50));
+                            const duration = 2000; // 2 seconds
+                            const interval = duration / (targetValue / increment);
+                            
+                            const counter = setInterval(() => {
+                                currentValue += increment;
+                                if (currentValue >= targetValue) {
+                                    currentValue = targetValue;
+                                    clearInterval(counter);
+                                }
+                                element.textContent = `${stat.prefix}${currentValue}${stat.suffix}`;
+                            }, interval);
+                        });
+                        
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            observer.observe(document.getElementById('stats'));
+        }
+        
+        // Initialize countdown timer
+        function initCountdown() {
+            // Set the date we're counting down to (7 days from now)
+            const countDownDate = new Date();
+            countDownDate.setDate(countDownDate.getDate() + 7);
+            
+            // Update the countdown every 1 second
+            const countdownTimer = setInterval(function() {
+                // Get current date and time
+                const now = new Date().getTime();
+                
+                // Find the distance between now and the countdown date
+                const distance = countDownDate - now;
+                
+                // Time calculations for days, hours, minutes and seconds
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Display the result
+                document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+                
+                // If the countdown is finished, display expired message
+                if (distance < 0) {
+                    clearInterval(countdownTimer);
+                    document.getElementById("countdown").innerHTML = "OFERTA EXPIRADA";
+                }
+            }, 1000);
+        }
+        
+        // Form validation
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple form validation
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && subject && message) {
+                // Show success message
+                alert('¡Gracias por tu mensaje! Te responderemos a la brevedad.');
+                this.reset();
+            } else {
+                alert('Por favor completa todos los campos requeridos.');
+            }
+        });
+        
+        // Notifications button
+        document.getElementById('notifications-btn').addEventListener('click', function() {
+            alert('Tienes 3 notificaciones nuevas:\n\n1. Nueva actualización disponible\n2. Oferta especial por tiempo limitado\n3. Webinar gratuito mañana');
+            this.querySelector('.notification-badge').style.display = 'none';
+        });
+        
+        // Initialize Lightbox
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'albumLabel': "Imagen %1 de %2"
+        });
+    </script>
+</body>
+</html>

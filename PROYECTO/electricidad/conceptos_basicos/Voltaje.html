@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voltaje - Conceptos Básicos</title>
+    <style>
+        /* Variables globales */
+        :root {
+            --color-primary: #4caf50;
+            --color-secondary: #2e7d32;
+            --color-accent: #ff9800;
+            --color-text: #333;
+            --color-bg: #f8f9fa;
+            --color-card: #fff;
+            --color-border: #ddd;
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --radius: 0.375rem;
+            --transition: all 0.3s ease;
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Encabezado */
+        .header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1620283085439-39620a1e21c4');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Contenido */
+        .content {
+            background-color: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 2rem;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            border: 1px solid var(--color-border);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Acordeón */
+        .accordion {
+            margin: 20px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid var(--color-border);
+            margin-bottom: 5px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 15px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background-color: #e0e0e0;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+        }
+
+        .accordion-item.active .accordion-header::after {
+            content: '-';
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 15px;
+            max-height: 1000px;
+        }
+
+        /* Elementos comunes */
+        .info-box {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--color-primary);
+            padding: 15px;
+            margin: 20px 0;
+            transition: var(--transition);
+        }
+
+        .info-box:hover {
+            transform: translateX(5px);
+        }
+
+        .formula {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: 1.25rem;
+            margin: 15px 0;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .flex-col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 250px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid var(--color-border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            color: var(--color-secondary);
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Elementos interactivos */
+        .interactive-demo {
+            background-color: #f5f5f5;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: var(--color-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+        }
+
+        /* Navegación */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .nav-btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background-color: var(--color-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                margin-bottom: 5px;
+                border-radius: 5px;
+                border: 1px solid var(--color-border);
+            }
+
+            .flex-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>Voltaje</h1>
+                <p class="subtitle">Diferencia de potencial eléctrico y sus aplicaciones</p>
+            </div>
+        </header>
+
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-btn">← Volver al Inicio</a>
+            <a href="corriente.html" class="nav-btn">Siguiente: Corriente →</a>
+        </div>
+
+        <div class="content">
+            <img src="https://images.unsplash.com/photo-1620283085439-39620a1e21c4" alt="Medición de voltaje con multímetro" class="banner-image">
+            
+            <p>El voltaje, también conocido como tensión eléctrica o diferencia de potencial, es una magnitud física que cuantifica la diferencia de potencial eléctrico entre dos puntos. Es la fuerza que impulsa a los electrones a través de un conductor, similar a la presión en un sistema hidráulico.</p>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="changeTab('voltaje-tab1', this)">Definición</div>
+                <div class="tab" onclick="changeTab('voltaje-tab2', this)">Tipos</div>
+                <div class="tab" onclick="changeTab('voltaje-tab3', this)">Medición</div>
+                <div class="tab" onclick="changeTab('voltaje-tab4', this)">Aplicaciones</div>
+            </div>
+            
+            <div id="voltaje-tab1" class="tab-content active">
+                <h3>¿Qué es el Voltaje?</h3>
+                
+                <p>El voltaje es la diferencia de potencial eléctrico entre dos puntos de un circuito. Se mide en voltios (V) y representa la energía por unidad de carga que se necesita para mover una carga eléctrica entre esos dos puntos.</p>
+                
+                <div class="info-box">
+                    <p><strong>Definición formal:</strong> El voltaje entre dos puntos es el trabajo por unidad de carga necesario para mover una carga eléctrica desde un punto a otro, contra el campo eléctrico.</p>
+                </div>
+                
+                <h4>Analogía Hidráulica</h4>
+                <p>Una forma sencilla de entender el voltaje es compararlo con la presión del agua en una tubería:</p>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <img src="/placeholder.svg?height=250&width=400&text=Analogía+Hidráulica" alt="Analogía hidráulica del voltaje" style="max-width:100%;">
+                    </div>
+                    <div class="flex-col">
+                        <ul>
+                            <li>El voltaje es como la presión del agua</li>
+                            <li>La corriente es como el flujo de agua</li>
+                            <li>Una batería es como una bomba de agua</li>
+                            <li>Mayor voltaje = mayor presión = mayor capacidad para realizar trabajo</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h4>Fórmula Básica</h4>
+                <div class="formula">
+                    V = W / Q
+                </div>
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>V</strong>: Voltaje (voltios, V)</li>
+                    <li><strong>W</strong>: Trabajo o energía (julios, J)</li>
+                    <li><strong>Q</strong>: Carga eléctrica (culombios, C)</li>
+                </ul>
+            </div>
+            
+            <div id="voltaje-tab2" class="tab-content">
+                <h3>Tipos de Voltaje</h3>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Voltaje de Corriente Continua (DC)</div>
+                        <div class="accordion-content">
+                            <div class="flex-row">
+                                <div class="flex-col">
+                                    <img src="/placeholder.svg?height=200&width=200&text=Voltaje+DC" alt="Gráfica de voltaje DC" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col">
+                                    <p>El voltaje de corriente continua (DC) mantiene una polaridad constante a lo largo del tiempo. La dirección del flujo de corriente no cambia.</p>
+                                    
+                                    <h5>Características:</h5>
+                                    <ul>
+                                        <li>Valor constante en el tiempo</li>
+                                        <li>Polaridad fija (positivo y negativo)</li>
+                                        <li>Representado por una línea recta en un osciloscopio</li>
+                                    </ul>
+                                    
+                                    <h5>Fuentes comunes:</h5>
+                                    <ul>
+                                        <li>Baterías y pilas</li>
+                                        <li>Paneles solares</li>
+                                        <li>Fuentes de alimentación DC</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Voltaje de Corriente Alterna (AC)</div>
+                        <div class="accordion-content">
+                            <div class="flex-row">
+                                <div class="flex-col">
+                                    <img src="/placeholder.svg?height=200&width=200&text=Voltaje+AC" alt="Gráfica de voltaje AC" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col">
+                                    <p>El voltaje de corriente alterna (AC) cambia su polaridad periódicamente con el tiempo, siguiendo generalmente una forma de onda senoidal.</p>
+                                    
+                                    <h5>Características:</h5>
+                                    <ul>
+                                        <li>Valor y polaridad variables en el tiempo</li>
+                                        <li>Frecuencia medida en hercios (Hz)</li>
+                                        <li>Forma de onda típicamente senoidal</li>
+                                    </ul>
+                                    
+                                    <h5>Parámetros importantes:</h5>
+                                    <ul>
+                                        <li><strong>Valor pico (Vp):</strong> Amplitud máxima</li>
+                                        <li><strong>Valor pico a pico (Vpp):</strong> Diferencia entre el valor máximo positivo y negativo</li>
+                                        <li><strong>Valor eficaz o RMS (Vrms):</strong> Equivalente DC que produciría la misma potencia (Vrms = Vp/√2 para onda senoidal)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Voltaje Pulsante</div>
+                        <div class="accordion-content">
+                            <div class="flex-row">
+                                <div class="flex-col">
+                                    <img src="/placeholder.svg?height=200&width=200&text=Voltaje+Pulsante" alt="Gráfica de voltaje pulsante" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col">
+                                    <p>El voltaje pulsante alterna entre un valor fijo y cero (o entre dos valores fijos) a intervalos regulares o irregulares.</p>
+                                    
+                                    <h5>Tipos comunes:</h5>
+                                    <ul>
+                                        <li><strong>Onda cuadrada:</strong> Alterna entre dos niveles con transiciones rápidas</li>
+                                        <li><strong>PWM (Modulación por Ancho de Pulso):</strong> Onda cuadrada con ciclo de trabajo variable</li>
+                                        <li><strong>Pulsos únicos:</strong> Señales transitorias de corta duración</li>
+                                    </ul>
+                                    
+                                    <h5>Aplicaciones:</h5>
+                                    <ul>
+                                        <li>Control de motores</li>
+                                        <li>Comunicaciones digitales</li>
+                                        <li>Sistemas de control</li>
+                                        <li>Convertidores DC-DC</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="table">
+                    <tr>
+                        <th>Tipo de Voltaje</th>
+                        <th>Características</th>
+                        <th>Aplicaciones Típicas</th>
+                        <th>Ejemplos</th>
+                    </tr>
+                    <tr>
+                        <td>DC (Continua)</td>
+                        <td>Polaridad constante, valor fijo</td>
+                        <td>Electrónica, dispositivos portátiles</td>
+                        <td>1.5V, 3.3V, 5V, 12V, 24V</td>
+                    </tr>
+                    <tr>
+                        <td>AC (Alterna)</td>
+                        <td>Polaridad variable, forma senoidal</td>
+                        <td>Distribución eléctrica, electrodomésticos</td>
+                        <td>120V/60Hz, 230V/50Hz</td>
+                    </tr>
+                    <tr>
+                        <td>Pulsante</td>
+                        <td>Cambios discretos entre niveles</td>
+                        <td>Control, comunicaciones, potencia</td>
+                        <td>Señales digitales, PWM</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div id="voltaje-tab3" class="tab-content">
+                <h3>Medición del Voltaje</h3>
+                
+                <p>La medición del voltaje es una de las operaciones más comunes en electricidad y electrónica. Se realiza con un instrumento llamado voltímetro, que actualmente suele formar parte de un multímetro.</p>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <h4>Instrumentos de Medición</h4>
+                        <ul>
+                            <li><strong>Multímetro Digital:</strong> El instrumento más común para medir voltaje, corriente y resistencia.</li>
+                            <li><strong>Osciloscopio:</strong> Muestra gráficamente la forma de onda del voltaje en función del tiempo.</li>
+                            <li><strong>Probador de Voltaje:</strong> Dispositivo simple que indica la presencia de voltaje.</li>
+                            <li><strong>Analizador de Potencia:</strong> Mide voltaje, corriente y otros parámetros en sistemas eléctricos.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="flex-col">
+                        <h4>Procedimiento para Medir Voltaje</h4>
+                        <ol>
+                            <li><strong>Seleccionar la función:</strong> Gire el selector del multímetro a la posición de voltaje (V).</li>
+                            <li><strong>Seleccionar AC o DC:</strong> Elija el tipo de voltaje que va a medir (⎓ para DC, ∼ para AC).</li>
+                            <li><strong>Seleccionar el rango:</strong> Si el multímetro no es autorangos, seleccione un rango superior al voltaje esperado.</li>
+                            <li><strong>Conectar las puntas:</strong> Conecte la punta negra al terminal COM y la roja al terminal V.</li>
+                            <li><strong>Medir en paralelo:</strong> Conecte las puntas en paralelo con el componente o circuito a medir.</li>
+                            <li><strong>Leer el valor:</strong> Observe la lectura en la pantalla del multímetro.</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <p><strong>Importante:</strong> Al medir voltaje, el multímetro debe conectarse siempre en paralelo con el componente o circuito. Nunca conecte un voltímetro en serie, ya que puede dañar el instrumento o el circuito.</p>
+                </div>
+                
+                <h4>Consideraciones de Seguridad</h4>
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <h5>Precauciones</h5>
+                        <ul>
+                            <li>Verifique que el multímetro esté configurado para el tipo correcto de voltaje (AC o DC)</li>
+                            <li>Utilice el rango adecuado para evitar daños al instrumento</li>
+                            <li>Mantenga las manos detrás de las protecciones de las puntas de prueba</li>
+                            <li>No mida voltajes superiores a los especificados para el multímetro</li>
+                            <li>Tenga especial cuidado al medir voltajes superiores a 30V AC o 60V DC</li>
+                        </ul>
+                    </div>
+                    <div class="flex-col">
+                        <h5>Buenas Prácticas</h5>
+                        <ul>
+                            <li>Utilice una sola mano cuando sea posible para evitar que la corriente atraviese el corazón</li>
+                            <li>Trabaje sobre superficies secas y aisladas</li>
+                            <li>Verifique que las puntas de prueba estén en buen estado</li>
+                            <li>Desconecte la alimentación antes de realizar conexiones en circuitos de alta tensión</li>
+                            <li>Utilice equipo de protección personal cuando sea necesario</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="voltaje-tab4" class="tab-content">
+                <h3>Aplicaciones del Voltaje</h3>
+                
+                <p>El voltaje es un concepto fundamental en electricidad y electrónica, con innumerables aplicaciones en la vida cotidiana y en la industria.</p>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="card">
+                            <img src="/placeholder.svg?height=150&width=300&text=Suministro+Eléctrico" alt="Suministro eléctrico" style="width:100%">
+                            <div class="card-body">
+                                <h4>Suministro Eléctrico</h4>
+                                <p>El voltaje es fundamental en la generación, transmisión y distribución de energía eléctrica. Los diferentes niveles de voltaje permiten transportar la electricidad de manera eficiente.</p>
+                                <ul>
+                                    <li>Alta tensión: 110kV-800kV (transmisión)</li>
+                                    <li>Media tensión: 1kV-36kV (distribución)</li>
+                                    <li>Baja tensión: 120V-480V (consumo)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-col">
+                        <div class="card">
+                            <img src="/placeholder.svg?height=150&width=300&text=Electrónica" alt="Electrónica" style="width:100%">
+                            <div class="card-body">
+                                <h4>Electrónica</h4>
+                                <p>Los dispositivos electrónicos funcionan con diferentes niveles de voltaje, desde microvoltios hasta cientos de voltios.</p>
+                                <ul>
+                                    <li>Microprocesadores: 1.2V-3.3V</li>
+                                    <li>Lógica digital: 3.3V, 5V</li>
+                                    <li>Circuitos analógicos: ±12V, ±15V</li>
+                                    <li>Pantallas: 5V-30V</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Aplicaciones Específicas</h4>
+                
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Control y Automatización</div>
+                        <div class="accordion-content">
+                            <p>El voltaje se utiliza como señal de control en sistemas automáticos:</p>
+                            <ul>
+                                <li><strong>Señales de control:</strong> 0-10V, 4-20mA (convertida a voltaje)</li>
+                                <li><strong>Control de velocidad:</strong> Variadores de frecuencia con señales de 0-10V</li>
+                                <li><strong>Posicionamiento:</strong> Servomotores controlados por voltaje</li>
+                                <li><strong>PLC:</strong> Entradas y salidas analógicas de voltaje</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Comunicaciones</div>
+                        <div class="accordion-content">
+                            <p>Las señales de comunicación utilizan diferentes niveles de voltaje:</p>
+                            <ul>
+                                <li><strong>RS-232:</strong> ±3V a ±15V</li>
+                                <li><strong>RS-485:</strong> ±1.5V a ±6V</li>
+                                <li><strong>USB:</strong> 5V, con señales diferenciales de ±0.2V</li>
+                                <li><strong>Ethernet:</strong> Señales diferenciales de bajo voltaje</li>
+                                <li><strong>Fibra óptica:</strong> Señales ópticas convertidas a/desde voltaje</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Demostración: Efecto del Voltaje en un Circuito</h4>
+                    <p>Ajuste el voltaje para ver cómo afecta a la intensidad de la luz en un circuito simple con una resistencia fija.</p>
+                    
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <div class="form-group">
+                                <label for="voltage-slider">Voltaje: <span id="voltage-value">5</span>V</label>
+                                <input type="range" class="form-control" min="0" max="12" step="0.1" value="5" id="voltage-slider" oninput="updateVoltageDemo()">
+                            </div>
+                            <div class="form-group">
+                                <label for="resistance-select">Resistencia:</label>
+                                <select class="form-control" id="resistance-select" onchange="updateVoltageDemo()">
+                                    <option value="100">100 Ω</option>
+                                    <option value="220">220 Ω</option>
+                                    <option value="470">470 Ω</option>
+                                    <option value="1000" selected>1000 Ω</option>
+                                    <option value="2200">2200 Ω</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex-col">
+                            <div id="voltage-demo-result" style="background-color:#e9ecef; padding:20px; border-radius:5px; text-align:center;">
+                                <div style="font-size:3rem; color:#ffc107;">💡</div>
+                                <div id="demo-current">Corriente: 5 mA</div>
+                                <div id="demo-power">Potencia: 25 mW</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-btn">← Volver al Inicio</a>
+            <a href="corriente.html" class="nav-btn">Siguiente: Corriente →</a>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2025 - Conceptos Básicos de Electricidad y Electrónica</p>
+        </footer>
+    </div>
+
+    <script>
+        // Función para cambiar entre pestañas
+        function changeTab(tabId, tabElement) {
+            // Ocultar todos los contenidos de pestañas
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Desactivar todas las pestañas
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activar la pestaña seleccionada y su contenido
+            document.getElementById(tabId).classList.add('active');
+            tabElement.classList.add('active');
+        }
+        
+        // Función para alternar acordeones
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Cerrar todos los acordeones
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(accordionItem => {
+                accordionItem.classList.remove('active');
+            });
+            
+            // Si el acordeón no estaba activo, abrirlo
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+        
+        // Función para actualizar la demostración de voltaje
+        function updateVoltageDemo() {
+            const voltage = parseFloat(document.getElementById('voltage-slider').value);
+            const resistance = parseFloat(document.getElementById('resistance-select').value);
+            
+            // Actualizar el valor mostrado del voltaje
+            document.getElementById('voltage-value').textContent = voltage;
+            
+            // Calcular la corriente (I = V / R) en miliamperios
+            const current = (voltage / resistance) * 1000;
+            
+            // Calcular la potencia (P = V * I) en milivatios
+            const power = voltage * current;
+            
+            // Actualizar los valores mostrados
+            document.getElementById('demo-current').textContent = `Corriente: ${current.toFixed(2)} mA`;
+            document.getElementById('demo-power').textContent = `Potencia: ${power.toFixed(2)} mW`;
+            
+            // Ajustar el brillo de la bombilla según la potencia
+            const maxPower = 12 * 12 / 100; // Potencia máxima con 12V y 100 ohmios
+            const brightness = Math.min(1, power / (maxPower * 1000));
+            const bulb = document.querySelector('#voltage-demo-result div:first-child');
+            bulb.style.opacity = 0.2 + (brightness * 0.8);
+        }
+        
+        // Inicializar la demostración de voltaje
+        document.addEventListener('DOMContentLoaded', function() {
+            updateVoltageDemo();
+            
+            // Activar el primer acordeón en cada sección
+            const firstAccordions = document.querySelectorAll('.accordion:not(.accordion-item) > .accordion-item:first-child');
+            firstAccordions.forEach(accordion => {
+                accordion.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

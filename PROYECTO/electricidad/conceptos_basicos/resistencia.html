@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resistencias - Conceptos Básicos</title>
+    <style>
+        /* Variables globales */
+        :root {
+            --color-primary: #4caf50;
+            --color-secondary: #2e7d32;
+            --color-accent: #ff9800;
+            --color-text: #333;
+            --color-bg: #f8f9fa;
+            --color-card: #fff;
+            --color-border: #ddd;
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --radius: 0.375rem;
+            --transition: all 0.3s ease;
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Encabezado */
+        .header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1601612628452-9e99ced43524');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Contenido */
+        .content {
+            background-color: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 2rem;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            border: 1px solid var(--color-border);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Acordeón */
+        .accordion {
+            margin: 20px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid var(--color-border);
+            margin-bottom: 5px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 15px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background-color: #e0e0e0;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+        }
+
+        .accordion-item.active .accordion-header::after {
+            content: '-';
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 15px;
+            max-height: 1000px;
+        }
+
+        /* Elementos comunes */
+        .info-box {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--color-primary);
+            padding: 15px;
+            margin: 20px 0;
+            transition: var(--transition);
+        }
+
+        .info-box:hover {
+            transform: translateX(5px);
+        }
+
+        .formula {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: 1.25rem;
+            margin: 15px 0;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .flex-col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 250px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid var(--color-border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            color: var(--color-secondary);
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Card */
+        .card {
+            background-color: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        /* Elementos interactivos */
+        .interactive-demo {
+            background-color: #f5f5f5;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: var(--color-secondary);
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--color-primary);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+        }
+
+        /* Navegación */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .nav-btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background-color: var(--color-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                margin-bottom: 5px;
+                border-radius: 5px;
+                border: 1px solid var(--color-border);
+            }
+
+            .flex-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>Resistencias</h1>
+                <p class="subtitle">Tipos, códigos de colores y aplicaciones</p>
+            </div>
+        </header>
+
+        <div class="nav-buttons">
+            <a href="potencia.html" class="nav-btn">← Anterior: Potencia</a>
+            <a href="terminos.html" class="nav-btn">Siguiente: Términos Claves →</a>
+        </div>
+
+        <div class="content">
+            <img src="https://images.unsplash.com/photo-1601612628452-9e99ced43524" alt="Resistencias electrónicas de diferentes valores" class="banner-image">
+            
+            <p>Las resistencias son componentes electrónicos pasivos que limitan o regulan el flujo de corriente eléctrica en un circuito. Son uno de los componentes más fundamentales y ampliamente utilizados en electrónica.</p>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="changeTab('resistencias-tab1', this)">Fundamentos</div>
+                <div class="tab" onclick="changeTab('resistencias-tab2', this)">Tipos</div>
+                <div class="tab" onclick="changeTab('resistencias-tab3', this)">Código de Colores</div>
+                <div class="tab" onclick="changeTab('resistencias-tab4', this)">Aplicaciones</div>
+            </div>
+            
+            <div id="resistencias-tab1" class="tab-content active">
+                <h3>Fundamentos de las Resistencias</h3>
+                
+                <p>La resistencia eléctrica es la oposición que presenta un material al paso de la corriente eléctrica. Se mide en ohmios (Ω) y está definida por la Ley de Ohm.</p>
+                
+                <div class="info-box">
+                    <p><strong>Ley de Ohm:</strong> La corriente que circula por un conductor es directamente proporcional a la tensión aplicada e inversamente proporcional a la resistencia.</p>
+                    <div class="formula">
+                        R = V / I
+                    </div>
+                    <p>Donde R es la resistencia (Ω), V es la tensión (V) e I es la corriente (A).</p>
+                </div>
+                
+                <h4>Factores que Afectan la Resistencia</h4>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <h5>Propiedades del Material</h5>
+                        <ul>
+                            <li><strong>Resistividad (ρ):</strong> Propiedad intrínseca del material que indica su oposición al flujo de corriente</li>
+                            <li><strong>Temperatura:</strong> La mayoría de los materiales aumentan su resistencia con la temperatura (coeficiente térmico positivo)</li>
+                            <li><strong>Composición:</strong> Aleaciones y dopajes modifican la resistividad</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="flex-col">
+                        <h5>Geometría del Conductor</h5>
+                        <ul>
+                            <li><strong>Longitud (L):</strong> La resistencia es directamente proporcional a la longitud</li>
+                            <li><strong>Sección transversal (A):</strong> La resistencia es inversamente proporcional al área de la sección</li>
+                        </ul>
+                        <div class="formula">
+                            R = ρ × L / A
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Parámetros Importantes</h4>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Tolerancia</div>
+                        <div class="accordion-content">
+                            <p>La tolerancia indica la desviación máxima permitida del valor nominal de la resistencia:</p>
+                            <ul>
+                                <li><strong>±1%:</strong> Resistencias de precisión (banda marrón)</li>
+                                <li><strong>±2%:</strong> Resistencias de alta precisión (banda roja)</li>
+                                <li><strong>±5%:</strong> Resistencias estándar (banda dorada)</li>
+                                <li><strong>±10%:</strong> Resistencias de baja precisión (banda plateada)</li>
+                                <li><strong>±20%:</strong> Resistencias de muy baja precisión (sin banda)</li>
+                            </ul>
+                            <p>Ejemplo: Una resistencia de 1000 Ω con tolerancia del 5% puede tener un valor real entre 950 Ω y 1050 Ω.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Potencia Nominal</div>
+                        <div class="accordion-content">
+                            <p>La potencia nominal indica la máxima potencia que puede disipar la resistencia sin dañarse:</p>
+                            <ul>
+                                <li><strong>1/8 W:</strong> Resistencias miniatura para circuitos de baja potencia</li>
+                                <li><strong>1/4 W:</strong> Tamaño estándar para electrónica general</li>
+                                <li><strong>1/2 W:</strong> Aplicaciones de potencia media</li>
+                                <li><strong>1 W, 2 W, 5 W:</strong> Aplicaciones de potencia</li>
+                                <li><strong>10 W y superiores:</strong> Resistencias de potencia con disipador</li>
+                            </ul>
+                            <p>La potencia disipada se calcula como:</p>
+                            <div class="formula">
+                                P = I² × R = V² / R
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="resistencias-tab2" class="tab-content">
+                <h3>Tipos de Resistencias</h3>
+                
+                <p>Existen diversos tipos de resistencias que se clasifican según su construcción, materiales y aplicaciones específicas.</p>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Resistencias de Composición de Carbón</h4>
+                                <div class="flex-row">
+                                    <div class="flex-col" style="flex: 0 0 30%;">
+                                        <img src="/placeholder.svg?height=100&width=100&text=Resistencia+de+Carbón" alt="Resistencia de carbón" style="max-width:100%;">
+                                    </div>
+                                    <div class="flex-col" style="flex: 0 0 70%;">
+                                        <h5>Características:</h5>
+                                        <ul>
+                                            <li>Fabricadas con polvo de carbón y aglutinante</li>
+                                            <li>Económicas y versátiles</li>
+                                            <li>Tolerancia típica: ±5% a ±20%</li>
+                                            <li>Rango: 1 Ω a 22 MΩ</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Resistencias de Película Metálica</h4>
+                                <div class="flex-row">
+                                    <div class="flex-col" style="flex: 0 0 30%;">
+                                        <img src="/placeholder.svg?height=100&width=100&text=Resistencia+Película+Metálica" alt="Resistencia de película metálica" style="max-width:100%;">
+                                    </div>
+                                    <div class="flex-col" style="flex: 0 0 70%;">
+                                        <h5>Características:</h5>
+                                        <ul>
+                                            <li>Película delgada de metal sobre cerámica</li>
+                                            <li>Alta precisión y estabilidad</li>
+                                            <li>Tolerancia típica: ±0.1% a ±2%</li>
+                                            <li>Rango: 0.1 Ω a 10 MΩ</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Resistencias Variables y Especiales</h4>
+                
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Potenciómetros y Reóstatos</div>
+                        <div class="accordion-content">
+                            <div class="flex-row">
+                                <div class="flex-col" style="flex: 0 0 30%;">
+                                    <img src="/placeholder.svg?height=150&width=150&text=Potenciómetros" alt="Potenciómetros" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col" style="flex: 0 0 70%;">
+                                    <p>Los potenciómetros son resistencias variables con tres terminales que funcionan como divisores de tensión ajustables.</p>
+                                    
+                                    <h5>Tipos principales:</h5>
+                                    <ul>
+                                        <li><strong>Rotatorios:</strong> Control mediante giro (volumen, tono)</li>
+                                        <li><strong>Deslizantes:</strong> Control lineal (ecualizadores, mezcladores)</li>
+                                        <li><strong>Presets/Trimmers:</strong> Ajuste ocasional con destornillador</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Termistores</div>
+                        <div class="accordion-content">
+                            <div class="flex-row">
+                                <div class="flex-col" style="flex: 0 0 30%;">
+                                    <img src="/placeholder.svg?height=150&width=150&text=Termistores" alt="Termistores" style="max-width:100%;">
+                                </div>
+                                <div class="flex-col" style="flex: 0 0 70%;">
+                                    <p>Los termistores son resistencias cuyo valor cambia significativamente con la temperatura, utilizados para medición y control térmico.</p>
+                                    
+                                    <h5>Tipos principales:</h5>
+                                    <ul>
+                                        <li><strong>NTC (Negative Temperature Coefficient):</strong> La resistencia disminuye al aumentar la temperatura</li>
+                                        <li><strong>PTC (Positive Temperature Coefficient):</strong> La resistencia aumenta al aumentar la temperatura</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="resistencias-tab3" class="tab-content">
+                <h3>Código de Colores de Resistencias</h3>
+                
+                <p>El código de colores es un sistema estandarizado para identificar el valor de las resistencias mediante bandas de colores impresas en su cuerpo. Este sistema permite una rápida identificación visual sin necesidad de instrumentos de medición.</p>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <img src="/placeholder.svg?height=200&width=400&text=Código+de+Colores+de+Resistencias" alt="Código de colores de resistencias" style="max-width:100%;">
+                    </div>
+                    <div class="flex-col">
+                        <h4>Interpretación de las Bandas</h4>
+                        <ul>
+                            <li><strong>Resistencias de 4 bandas:</strong> 1ª y 2ª bandas (valor), 3ª banda (multiplicador), 4ª banda (tolerancia)</li>
+                            <li><strong>Resistencias de 5 bandas:</strong> 1ª, 2ª y 3ª bandas (valor), 4ª banda (multiplicador), 5ª banda (tolerancia)</li>
+                            <li><strong>Resistencias de 6 bandas:</strong> Como las de 5 bandas, más 6ª banda (coeficiente de temperatura)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h4>Tabla de Colores</h4>
+                
+                <table class="table">
+                    <tr>
+                        <th>Color</th>
+                        <th>1ª, 2ª, 3ª Banda (Valor)</th>
+                        <th>4ª Banda (Multiplicador)</th>
+                        <th>5ª Banda (Tolerancia)</th>
+                    </tr>
+                    <tr>
+                        <td>Negro</td>
+                        <td>0</td>
+                        <td>×10⁰ (1)</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Marrón</td>
+                        <td>1</td>
+                        <td>×10¹ (10)</td>
+                        <td>±1%</td>
+                    </tr>
+                    <tr>
+                        <td>Rojo</td>
+                        <td>2</td>
+                        <td>×10² (100)</td>
+                        <td>±2%</td>
+                    </tr>
+                    <tr>
+                        <td>Naranja</td>
+                        <td>3</td>
+                        <td>×10³ (1,000)</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Amarillo</td>
+                        <td>4</td>
+                        <td>×10⁴ (10,000)</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Verde</td>
+                        <td>5</td>
+                        <td>×10⁵ (100,000)</td>
+                        <td>±0.5%</td>
+                    </tr>
+                    <tr>
+                        <td>Azul</td>
+                        <td>6</td>
+                        <td>×10⁶ (1,000,000)</td>
+                        <td>±0.25%</td>
+                    </tr>
+                    <tr>
+                        <td>Violeta</td>
+                        <td>7</td>
+                        <td>×10⁷ (10,000,000)</td>
+                        <td>±0.1%</td>
+                    </tr>
+                    <tr>
+                        <td>Gris</td>
+                        <td>8</td>
+                        <td>×10⁸ (100,000,000)</td>
+                        <td>±0.05%</td>
+                    </tr>
+                    <tr>
+                        <td>Blanco</td>
+                        <td>9</td>
+                        <td>×10⁹ (1,000,000,000)</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Dorado</td>
+                        <td>-</td>
+                        <td>×10⁻¹ (0.1)</td>
+                        <td>±5%</td>
+                    </tr>
+                    <tr>
+                        <td>Plateado</td>
+                        <td>-</td>
+                        <td>×10⁻² (0.01)</td>
+                        <td>±10%</td>
+                    </tr>
+                </table>
+                
+                <h4>Ejemplos de Lectura</h4>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Resistencia de 4 Bandas</h4>
+                                <div class="flex-row">
+                                    <div class="flex-col" style="flex: 0 0 40%;">
+                                        <img src="/placeholder.svg?height=100&width=200&text=Resistencia+4+Bandas" alt="Resistencia de 4 bandas" style="max-width:100%;">
+                                    </div>
+                                    <div class="flex-col" style="flex: 0 0 60%;">
+                                        <p><strong>Bandas:</strong> Rojo, Violeta, Naranja, Dorado</p>
+                                        <p><strong>Cálculo:</strong></p>
+                                        <ul>
+                                            <li>1ª banda (Rojo) = 2</li>
+                                            <li>2ª banda (Violeta) = 7</li>
+                                            <li>3ª banda (Naranja) = ×1,000</li>
+                                            <li>4ª banda (Dorado) = ±5%</li>
+                                        </ul>
+                                        <p><strong>Valor:</strong> 27,000 Ω = 27 kΩ ±5%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>Calculadora de Código de Colores</h4>
+                    <p>Seleccione los colores para calcular el valor de la resistencia, o introduzca un valor para obtener los colores correspondientes.</p>
+                    
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <div class="form-group">
+                                <label for="band1">1ª Banda:</label>
+                                <select class="form-control" id="band1" onchange="calculateResistorValue()">
+                                    <option value="0">Negro (0)</option>
+                                    <option value="1">Marrón (1)</option>
+                                    <option value="2">Rojo (2)</option>
+                                    <option value="3">Naranja (3)</option>
+                                    <option value="4">Amarillo (4)</option>
+                                    <option value="5">Verde (5)</option>
+                                    <option value="6">Azul (6)</option>
+                                    <option value="7">Violeta (7)</option>
+                                    <option value="8">Gris (8)</option>
+                                    <option value="9">Blanco (9)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="band2">2ª Banda:</label>
+                                <select class="form-control" id="band2" onchange="calculateResistorValue()">
+                                    <option value="0">Negro (0)</option>
+                                    <option value="1">Marrón (1)</option>
+                                    <option value="2">Rojo (2)</option>
+                                    <option value="3">Naranja (3)</option>
+                                    <option value="4">Amarillo (4)</option>
+                                    <option value="5">Verde (5)</option>
+                                    <option value="6">Azul (6)</option>
+                                    <option value="7">Violeta (7)</option>
+                                    <option value="8">Gris (8)</option>
+                                    <option value="9">Blanco (9)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="band3">3ª Banda (Multiplicador):</label>
+                                <select class="form-control" id="band3" onchange="calculateResistorValue()">
+                                    <option value="0">Negro (×1)</option>
+                                    <option value="1">Marrón (×10)</option>
+                                    <option value="2">Rojo (×100)</option>
+                                    <option value="3">Naranja (×1k)</option>
+                                    <option value="4">Amarillo (×10k)</option>
+                                    <option value="5">Verde (×100k)</option>
+                                    <option value="6">Azul (×1M)</option>
+                                    <option value="-1">Dorado (×0.1)</option>
+                                    <option value="-2">Plateado (×0.01)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="band4">4ª Banda (Tolerancia):</label>
+                                <select class="form-control" id="band4" onchange="calculateResistorValue()">
+                                    <option value="5">Dorado (±5%)</option>
+                                    <option value="10">Plateado (±10%)</option>
+                                    <option value="1">Marrón (±1%)</option>
+                                    <option value="2">Rojo (±2%)</option>
+                                    <option value="0.5">Verde (±0.5%)</option>
+                                    <option value="0.25">Azul (±0.25%)</option>
+                                </select>
+                            </div>
+                            <div id="resistor-value-result" class="result active">
+                                Valor: 0 Ω ±5%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="resistencias-tab4" class="tab-content">
+                <h3>Aplicaciones de las Resistencias</h3>
+                
+                <p>Las resistencias son componentes fundamentales en electrónica y se utilizan en una amplia variedad de aplicaciones.</p>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Limitación de Corriente</div>
+                        <div class="accordion-content">
+                            <p>Una de las aplicaciones más comunes de las resistencias es limitar la corriente en un circuito:</p>
+                            <ul>
+                                <li>Protección de LEDs y otros componentes sensibles</li>
+                                <li>Establecimiento de corrientes de polarización en transistores</li>
+                                <li>Limitación de corriente de carga en condensadores</li>
+                                <li>Protección contra cortocircuitos</li>
+                            </ul>
+                            <div class="info-box">
+                                <p><strong>Ejemplo:</strong> Para un LED que requiere 20mA y tiene una caída de tensión de 2V, con una fuente de 5V, la resistencia necesaria sería:</p>
+                                <p>R = (5V - 2V) / 0.02A = 150Ω</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Divisores de Tensión</div>
+                        <div class="accordion-content">
+                            <p>Los divisores de tensión permiten obtener una tensión de salida proporcional a la tensión de entrada:</p>
+                            <div class="formula">
+                                Vout = Vin × (R2 / (R1 + R2))
+                            </div>
+                            <p>Aplicaciones:</p>
+                            <ul>
+                                <li>Acondicionamiento de señales</li>
+                                <li>Polarización de transistores</li>
+                                <li>Referencia de tensión</li>
+                                <li>Medición de tensiones elevadas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">Redes de Resistencias</div>
+                        <div class="accordion-content">
+                            <p>Las redes de resistencias se utilizan para crear circuitos más complejos:</p>
+                            <ul>
+                                <li><strong>Redes en serie:</strong> Rtotal = R1 + R2 + R3 + ...</li>
+                                <li><strong>Redes en paralelo:</strong> 1/Rtotal = 1/R1 + 1/R2 + 1/R3 + ...</li>
+                                <li><strong>Redes en escalera:</strong> Utilizadas en conversores D/A</li>
+                                <li><strong>Puentes de Wheatstone:</strong> Para mediciones precisas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <p><strong>Consejo práctico:</strong> Al diseñar circuitos, es recomendable utilizar valores de resistencias de la serie E12 (10, 12, 15, 18, 22, 27, 33, 39, 47, 56, 68, 82) o E24, ya que son los más comunes y fáciles de conseguir.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="potencia.html" class="nav-btn">← Anterior: Potencia</a>
+            <a href="terminos.html" class="nav-btn">Siguiente: Términos Claves →</a>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2025 - Conceptos Básicos de Electricidad y Electrónica</p>
+        </footer>
+    </div>
+
+    <script>
+        // Función para cambiar entre pestañas
+        function changeTab(tabId, tabElement) {
+            // Ocultar todos los contenidos de pestañas
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Desactivar todas las pestañas
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activar la pestaña seleccionada y su contenido
+            document.getElementById(tabId).classList.add('active');
+            tabElement.classList.add('active');
+        }
+        
+        // Función para alternar acordeones
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Cerrar todos los acordeones
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(accordionItem => {
+                accordionItem.classList.remove('active');
+            });
+            
+            // Si el acordeón no estaba activo, abrirlo
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+        
+        // Función para calcular el valor de la resistencia
+        function calculateResistorValue() {
+            const band1 = parseInt(document.getElementById('band1').value);
+            const band2 = parseInt(document.getElementById('band2').value);
+            const band3 = parseInt(document.getElementById('band3').value);
+            const band4 = parseFloat(document.getElementById('band4').value);
+            
+            let value = (band1 * 10 + band2) * Math.pow(10, band3);
+            let unit = 'Ω';
+            
+            // Convertir a unidades más legibles
+            if (value >= 1000000) {
+                value = (value / 1000000).toFixed(2);
+                unit = 'MΩ';
+            } else if (value >= 1000) {
+                value = (value / 1000).toFixed(2);
+                unit = 'kΩ';
+            }
+            
+            // Mostrar el resultado
+            document.getElementById('resistor-value-result').textContent = `Valor: ${value} ${unit} ±${band4}%`;
+            document.getElementById('resistor-value-result').classList.add('active');
+        }
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Activar el primer acordeón en cada sección
+            const firstAccordions = document.querySelectorAll('.accordion:not(.accordion-item) > .accordion-item:first-child');
+            firstAccordions.forEach(accordion => {
+                accordion.classList.add('active');
+            });
+            
+            // Calcular el valor inicial de la resistencia
+            calculateResistorValue();
+        });
+    </script>
+</body>
+</html>
